@@ -31,3 +31,8 @@ Python (Flask), PHP, MySQL/MariaDB (XAMPP), Tesseract OCR, Groq API, HTML/CSS/JS
 ## Notes
 - Never commit your API key. Use the environment variable only.
 - Question papers are the college's material and are not included in this repository.
+
+## Author and license
+Copyright (c) 2026 Anshu Dharsimkar. BCA project, Seshadripuram First Grade College, Bengaluru.
+Released under the MIT License (see `LICENSE`): you may use and modify the code, but the copyright
+notice and author name must be kept.
