@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QueryBuddy – BCA Question Paper Assistant</title>
+<style>
+:root{
+  --bg:#f6f3ec; --card:#ffffff; --ink:#1b1b1f; --mute:#6b6b76; --line:#e6e1d6;
+  --accent:#4f46e5; --accent-2:#eef0ff; --accent-ink:#ffffff; --warm:#f59e0b;
+  --bot:#ffffff; --me:#4f46e5; --me-ink:#fff; --shadow:0 6px 24px rgba(30,30,60,.08);
+  --fs:18px;
+}
+[data-theme="dark"]{
+  --bg:#0f1117; --card:#171a23; --ink:#eceef5; --mute:#9aa0b4; --line:#272b38;
+  --accent:#8b8cff; --accent-2:#1e2140; --accent-ink:#0f1117; --bot:#171a23; --me:#6366f1; --me-ink:#fff;
+  --shadow:0 6px 24px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:var(--fs)/1.6 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;display:flex;flex-direction:column}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* top bar */
+header{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15em;letter-spacing:-.3px}
+.logo i{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--warm));display:grid;place-items:center;color:#fff;font-style:normal;font-size:1em}
+.tabs{display:flex;gap:4px;margin-left:12px;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
+.tab{border:0;background:none;padding:7px 18px;border-radius:999px;font-weight:600;color:var(--mute)}
+.tab.on{background:var(--accent);color:var(--accent-ink)}
+.tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.ic{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 12px;font-weight:700}
+.ic:hover{border-color:var(--accent)}
+
+main{flex:1;min-height:0;display:flex;flex-direction:column}
+.page{display:none;flex:1;min-height:0}
+.page.on{display:flex;flex-direction:column}
+
+/* chat */
+#log{flex:1;overflow-y:auto;padding:28px 16px 12px}
+.wrap{max-width:860px;margin:0 auto}
+.hero{text-align:center;padding:30px 0 10px}
+.hero h1{font-size:2em;letter-spacing:-.8px;line-height:1.2}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--mute);margin:10px auto 0;max-width:560px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 6px}
+.sug{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;text-align:left;box-shadow:var(--shadow);max-width:270px;font-size:.92em}
+.sug b{display:block;color:var(--accent);font-size:.8em;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.sug:hover{border-color:var(--accent);transform:translateY(-1px)}
+.msg{display:flex;gap:12px;margin:18px 0}
+.msg.me{flex-direction:row-reverse}
+.av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.7em;background:var(--accent-2);color:var(--accent)}
+.msg.me .av{background:var(--me);color:var(--me-ink)}
+.bub{max-width:calc(100% - 52px);padding:14px 18px;border-radius:18px;background:var(--bot);border:1px solid var(--line);box-shadow:var(--shadow);overflow-wrap:anywhere}
+.msg.me .bub{background:var(--me);color:var(--me-ink);border-color:transparent}
+.bub h2,.bub h3{font-size:1.05em;margin:14px 0 6px;color:var(--accent)}
+.bub h2:first-child,.bub h3:first-child{margin-top:0}
+.bub p{margin:6px 0}
+.bub ul,.bub ol{margin:6px 0 6px 24px}
+.bub li{margin:4px 0}
+.bub table{border-collapse:collapse;margin:8px 0;font-size:.92em}
+.bub td,.bub th{border:1px solid var(--line);padding:5px 10px}
+.src{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:.78em;color:var(--mute)}
+.tag{display:inline-block;background:var(--accent-2);color:var(--accent);padding:2px 10px;border-radius:999px;margin:3px 4px 0 0;text-decoration:none}
+.acts{margin-top:10px;display:flex;gap:8px}
+.mini{border:1px solid var(--line);background:none;border-radius:8px;padding:3px 12px;font-size:.78em;color:var(--mute)}
+.mini:hover{border-color:var(--accent);color:var(--accent)}
+.typing span{display:inline-block;width:8px;height:8px;margin:0 3px;border-radius:50%;background:var(--accent);animation:b 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+
+/* composer */
+.composer{padding:10px 16px 18px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
+.cbox{max-width:860px;margin:0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:10px 12px}
+.cbox:focus-within{border-color:var(--accent)}
+.cbox textarea{width:100%;border:0;outline:0;resize:none;background:none;max-height:140px;padding:6px 8px}
+.crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.crow select{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.8em}
+.attach{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 12px;font-size:.8em}
+.fname{font-size:.78em;color:var(--accent)}
+.sw{font-size:.8em;color:var(--mute);display:flex;align-items:center;gap:5px}
+.send{margin-left:auto;border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:8px 22px;font-weight:700}
+.send:disabled{opacity:.5}
+.hint{max-width:860px;margin:6px auto 0;text-align:center;font-size:.72em;color:var(--mute)}
+
+/* browse */
+#browse{overflow-y:auto;padding:26px 16px 40px;flex:1}
+.bhead{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.bhead h2{font-size:1.5em;letter-spacing:-.4px}
+.bhead input{flex:1;min-width:200px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:9px 18px;outline:0}
+.bhead input:focus{border-color:var(--accent)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 16px;font-weight:600;color:var(--mute)}
+.pill.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.sem{margin-bottom:26px}
+.sem h3{font-size:1.1em;margin-bottom:10px;display:flex;align-items:baseline;gap:8px}
+.sem h3 small{color:var(--mute);font-weight:400;font-size:.75em}
+.yr{margin:10px 0 4px;font-size:.78em;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:left;font-size:.9em;line-height:1.35}
+.pc:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.empty{text-align:center;color:var(--mute);padding:40px}
+
+/* analytics */
+#stats{overflow-y:auto;padding:26px 16px 40px;flex:1}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi b{display:block;font-size:1.9em;color:var(--accent);line-height:1.1}
+.kpi span{color:var(--mute);font-size:.82em}
+.sel{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px}
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:10px}
+.qrow .bar{height:8px;border-radius:99px;background:var(--accent-2);margin:8px 0 6px;overflow:hidden}
+.qrow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:99px}
+.qrow small{color:var(--mute)}
+.qrow .n{float:right;font-weight:800;color:var(--accent);margin-left:12px}
+.hb{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.9em}
+.hb span{width:70px;color:var(--mute)}
+.hb div{flex:1;background:var(--accent-2);border-radius:99px;height:14px;overflow:hidden}
+.hb i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.hb em{width:36px;font-style:normal;font-weight:700}
+
+/* modal */
+#modal{position:fixed;inset:0;background:rgba(10,10,20,.55);display:none;z-index:20;padding:20px}
+.mbox{max-width:820px;height:100%;max-height:90vh;margin:0 auto;background:var(--card);border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
+.mtop{display:flex;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.mtop h3{flex:1;font-size:1em}
+#mb{flex:1;overflow:auto;padding:18px 22px;white-space:pre-wrap;font-size:.92em}
+.mfoot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 18px;font-weight:600}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+@media(max-width:640px){header{padding:10px 12px}.tabs{margin-left:0;order:3;width:100%;justify-content:center}.hero h1{font-size:1.6em}}
+@media print{header,.composer,.acts{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i>Q</i> QueryBuddy</div>
+  <div class="tabs">
+    <button class="tab on" id="t-chat" onclick="go('chat')">Ask AI</button>
+    <button class="tab" id="t-browse" onclick="go('browse')">Browse papers</button>
+    <button class="tab" id="t-stats" onclick="go('stats')">Analytics</button>
+  </div>
+  <div class="tools">
+    <button class="ic" onclick="fs(-1)" title="Smaller text">A−</button>
+    <button class="ic" onclick="fs(1)" title="Bigger text">A+</button>
+    <button class="ic" id="dm" onclick="theme()">Dark</button>
+  </div>
+</header>
+
+<main>
+  <section class="page on" id="p-chat">
+    <div id="log"><div class="wrap" id="wrapmsgs">
+      <div class="hero" id="hero">
+        <h1>Find what's <span>important</span> for your exam</h1>
+        <p>Ask about any BCA subject. I search real previous question papers and tell you which questions come up again and again.</p>
+        <div class="chips">
+          <button class="sug" data-q="Important questions in Operating System"><b>Important</b>Important questions in Operating System</button>
+          <button class="sug" data-q="Show the latest Data Structures paper"><b>Paper</b>Show the latest Data Structures paper</button>
+          <button class="sug" data-q="Important questions in DBMS 4th sem"><b>By semester</b>Important questions in DBMS 4th sem</button>
+          <button class="sug" data-q="Most repeated questions in Computer Networks"><b>Repeated</b>Most repeated questions in Computer Networks</button>
+        </div>
+      </div>
+    </div></div>
+    <div class="composer">
+      <div class="cbox">
+        <textarea id="q" rows="1" placeholder="Ask e.g. Important questions in Java 5th sem…"></textarea>
+        <div class="crow">
+          <select id="sem" title="Semester">
+            <option value="">Any semester</option>
+            <option>1st sem</option><option>2nd sem</option><option>3rd sem</option>
+            <option>4th sem</option><option>5th sem</option><option>6th sem</option>
+          </select>
+          <button class="attach" onclick="document.getElementById('file').click()">📎 Attach PDF / TXT</button>
+          <input type="file" id="file" accept=".pdf,.txt" hidden>
+          <span class="fname" id="fname"></span>
+          <label class="sw"><input type="checkbox" id="web"> Include web</label>
+          <button class="send" id="send">Send ➤</button>
+        </div>
+      </div>
+      <div class="hint">Answers come from your college's past papers. Always check with your syllabus.</div>
+    </div>
+  </section>
+
+  <section class="page" id="p-browse">
+    <div id="browse"><div class="wrap">
+      <div class="bhead"><h2>Question papers</h2><input id="s" placeholder="Search subject…"></div>
+      <div class="pills" id="pills"></div>
+      <div id="tree"><div class="empty">Loading…</div></div>
+    </div></div>
+  </section>
+  <section class="page" id="p-stats">
+    <div id="stats"><div class="wrap">
+      <div class="bhead"><h2>Question analytics</h2></div>
+      <p style="color:var(--mute);margin-bottom:16px">Counted by a program from every previous paper: which topics were asked in the most different years.</p>
+      <div class="kpis" id="kpis"></div>
+      <div class="bhead" style="margin-top:22px">
+        <select id="asem" class="sel"><option value="">All semesters</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select>
+        <input id="asub" placeholder="Subject, e.g. operating system">
+        <button class="btn pri" id="ago">Show</button>
+      </div>
+      <div class="pills" id="amode"><button class="pill on" data-m="topics">Important topics</button><button class="pill" data-m="questions">Repeated questions</button></div>
+      <div id="atop"></div>
+      <h3 style="margin:26px 0 10px">Important topics per semester</h3>
+      <div id="asemchart"></div>
+    </div></div>
+  </section>
+</main>
+
+<div id="modal"><div class="mbox">
+  <div class="mtop"><h3 id="mt"></h3><button class="btn" onclick="closeM()">✕ Close</button></div>
+  <div id="mb"></div>
+  <div class="mfoot">
+    <button class="btn pri" id="mimp">⭐ Important questions from this subject</button>
+    <button class="btn" onclick="copyPaper()">Copy</button>
+    <button class="btn" onclick="printPaper()">Print</button>
+  </div>
+</div></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+};
+
+/* theme + font */
+let size = parseInt(store.get("qb_fs", "18"), 10) || 18;
+function applyFs(){ document.documentElement.style.setProperty("--fs", size + "px"); }
+function fs(d){ size = Math.max(14, Math.min(28, size + d * 2)); store.set("qb_fs", size); applyFs(); }
+function theme(){
+  const dark = document.documentElement.dataset.theme !== "dark";
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  $("dm").textContent = dark ? "Light" : "Dark"; store.set("qb_theme", dark ? "dark" : "light");
+}
+applyFs();
+if (store.get("qb_theme", "light") === "dark") { document.documentElement.dataset.theme = "dark"; $("dm").textContent = "Light"; }
+
+/* tabs */
+function go(p){
+  ["chat","browse","stats"].forEach(n => { $("p-" + n).classList.toggle("on", n === p); $("t-" + n).classList.toggle("on", n === p); });
+  if (p === "browse") loadTree();
+  if (p === "stats") loadStats();
+}
+
+/* safe mini-markdown (escape first) */
+function inline(s){
+  return s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+function md(src){
+  const lines = esc(src).split("\n"); let out = "", list = null;
+  const close = () => { if (list) { out += "</" + list + ">"; list = null; } };
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (/^\s*\|.*\|\s*$/.test(l)) {
+      close(); const rows = [];
+      while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) { rows.push(lines[i]); i++; } i--;
+      out += "<table>"; let head = true;
+      rows.forEach(r => {
+        if (/^\s*\|[\s:|-]+\|\s*$/.test(r)) return;
+        const cells = r.trim().replace(/^\||\|$/g, "").split("|").map(c => inline(c.trim()));
+        out += "<tr>" + cells.map(c => head ? "<th>" + c + "</th>" : "<td>" + c + "</td>").join("") + "</tr>"; head = false;
+      });
+      out += "</table>"; continue;
+    }
+    let m;
+    if ((m = l.match(/^\s*#{1,2}\s+(.*)/))) { close(); out += "<h2>" + inline(m[1]) + "</h2>"; }
+    else if ((m = l.match(/^\s*#{3,6}\s+(.*)/))) { close(); out += "<h3>" + inline(m[1]) + "</h3>"; }
+    else if ((m = l.match(/^\s*[-*•]\s+(.*)/))) { if (list !== "ul") { close(); out += "<ul>"; list = "ul"; } out += "<li>" + inline(m[1]) + "</li>"; }
+    else if ((m = l.match(/^\s*\d+[.)]\s+(.*)/))) { if (list !== "ol") { close(); out += "<ol>"; list = "ol"; } out += "<li>" + inline(m[1]) + "</li>"; }
+    else if (!l.trim()) { close(); }
+    else { close(); out += "<p>" + inline(l) + "</p>"; }
+  }
+  close(); return out;
+}
+
+/* chat */
+const log = $("log"), wrapm = $("wrapmsgs"), qbox = $("q");
+function addMsg(role, content, o){
+  o = o || {};
+  const hero = $("hero"); if (hero) hero.remove();
+  const row = document.createElement("div"); row.className = "msg " + role;
+  const av = document.createElement("div"); av.className = "av"; av.textContent = role === "me" ? "You" : "AI";
+  const b = document.createElement("div"); b.className = "bub";
+  if (o.md) b.innerHTML = md(content); else if (o.html) b.innerHTML = content; else b.textContent = content;
+  const hasS = o.sources && o.sources.length, hasW = o.web && o.web.length;
+  if (hasS || hasW) {
+    const box = document.createElement("div"); box.className = "src";
+    if (hasS) { box.append("From college papers: "); o.sources.forEach(s => { const t = document.createElement("span"); t.className = "tag"; t.textContent = s; box.appendChild(t); }); }
+    if (hasW) {
+      const br = document.createElement("div"); br.style.marginTop = "6px"; br.textContent = "From the web: "; box.appendChild(br);
+      o.web.forEach(w => {
+        if (!/^https?:\/\//.test(w.url)) return;
+        const a = document.createElement("a"); a.className = "tag"; a.href = w.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        a.textContent = (w.title || w.url).slice(0, 60); br.appendChild(a);
+      });
+    }
+    b.appendChild(box);
+  }
+  if (o.copy) {
+    const acts = document.createElement("div"); acts.className = "acts";
+    const c = document.createElement("button"); c.className = "mini"; c.textContent = "Copy";
+    c.onclick = () => { try { navigator.clipboard.writeText(o.copy); } catch(e){} c.textContent = "Copied"; setTimeout(() => c.textContent = "Copy", 1500); };
+    const p = document.createElement("button"); p.className = "mini"; p.textContent = "Print"; p.onclick = () => window.print();
+    acts.append(c, p); b.appendChild(acts);
+  }
+  row.append(av, b); wrapm.appendChild(row); log.scrollTop = log.scrollHeight; return row;
+}
+
+let busy = false;
+async function ask(text){
+  text = (text || qbox.value).trim(); if (!text || busy) return;
+  go("chat");
+  const sem = $("sem").value;
+  let full = text;
+  if (sem && !/\b[1-6]\s*(st|nd|rd|th)?\s*sem/i.test(text)) full += " " + sem;
+  busy = true; $("send").disabled = true; qbox.value = ""; autosize();
+  addMsg("me", text);
+  const typing = addMsg("bot", '<span class="typing"><span></span><span></span><span></span></span>', {html: true});
+  const fd = new FormData(); fd.append("question", full); fd.append("web", $("web").checked ? "1" : "0");
+  const f = $("file").files[0]; if (f) fd.append("file", f);
+  try {
+    const r = await fetch("/ask", { method: "POST", body: fd });
+    const d = await r.json(); typing.remove();
+    if (d.answer) addMsg("bot", d.answer, { md: true, sources: d.sources, web: d.web, copy: d.answer });
+    else addMsg("bot", d.error || "Something went wrong.");
+  } catch (e) { typing.remove(); addMsg("bot", "Cannot reach the server. Is app.py running?"); }
+  busy = false; $("send").disabled = false; qbox.focus();
+}
+function autosize(){ qbox.style.height = "auto"; qbox.style.height = Math.min(qbox.scrollHeight, 140) + "px"; }
+qbox.addEventListener("input", autosize);
+qbox.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); } });
+$("send").onclick = () => ask();
+document.querySelectorAll(".sug").forEach(b => b.onclick = () => ask(b.dataset.q));
+$("file").onchange = e => { $("fname").textContent = e.target.files[0] ? "📄 " + e.target.files[0].name : ""; };
+
+/* analytics */
+let statsLoaded = false;
+async function loadStats(){
+  if (statsLoaded) return;
+  try {
+    const r = await fetch("/api/stats"); const d = await r.json();
+    if (!d.totals) { $("kpis").textContent = d.error || "Analytics not ready."; return; }
+    statsLoaded = true;
+    const t = d.totals, k = $("kpis"); k.textContent = "";
+    [["papers", "Papers analysed"], ["questions", "Questions found"], ["topics", "Important topics"], ["repeated", "Exact repeated questions"]].forEach(([key, lab]) => {
+      const box = document.createElement("div"); box.className = "kpi";
+      const b = document.createElement("b"); b.textContent = t[key]; const sp = document.createElement("span"); sp.textContent = lab;
+      box.append(b, sp); k.appendChild(box);
+    });
+    const ch = $("asemchart"); ch.textContent = ""; const max = Math.max(1, ...d.per_sem.map(x => x.n));
+    d.per_sem.forEach(x => {
+      const row = document.createElement("div"); row.className = "hb";
+      const l = document.createElement("span"); l.textContent = x.sem ? x.sem + " sem" : "Other";
+      const bar = document.createElement("div"); const f = document.createElement("i"); f.style.width = (100 * x.n / max) + "%"; bar.appendChild(f);
+      const n = document.createElement("em"); n.textContent = x.n; row.append(l, bar, n); ch.appendChild(row);
+    });
+    topList();
+  } catch (e) { $("kpis").textContent = "Could not reach the server. Is app.py running?"; }
+}
+let amode = "topics";
+async function topList(){
+  const box = $("atop"); box.textContent = "Loading…";
+  const qs = new URLSearchParams({ sem: $("asem").value, subject: $("asub").value.trim(), limit: amode === "topics" ? 25 : 15 });
+  try {
+    const r = await fetch("/api/" + (amode === "topics" ? "topics" : "top") + "?" + qs); const d = await r.json(); box.textContent = "";
+    if (!d.results || !d.results.length) { box.textContent = d.error || "Nothing found for that. Try another subject or semester."; return; }
+    if (amode === "topics") {
+      const max = Math.max(...d.results.map(x => x.years_count));
+      d.results.forEach((x, i) => {
+        const row = document.createElement("div"); row.className = "qrow"; row.style.cursor = "pointer";
+        const n = document.createElement("span"); n.className = "n"; n.textContent = x.years_count + " yrs";
+        const t = document.createElement("div"); t.style.fontWeight = "700"; t.textContent = (i + 1) + ". " + x.topic;
+        const bar = document.createElement("div"); bar.className = "bar"; const f = document.createElement("i"); f.style.width = (100 * x.years_count / max) + "%"; bar.appendChild(f);
+        const sm = document.createElement("small"); sm.textContent = (x.sem ? x.sem + " sem · " : "") + x.subject + " · in " + x.q_count + " questions · years: " + x.years;
+        const ex = document.createElement("div"); ex.style.display = "none"; ex.style.marginTop = "8px"; ex.style.fontSize = ".88em";
+        x.examples.forEach(e => { const p = document.createElement("div"); p.style.margin = "3px 0"; p.textContent = "• " + e; ex.appendChild(p); });
+        row.onclick = () => { ex.style.display = ex.style.display === "none" ? "block" : "none"; };
+        row.append(n, t, bar, sm, ex); box.appendChild(row);
+      });
+      const tip = document.createElement("small"); tip.style.color = "var(--mute)"; tip.textContent = "Click a topic to see example questions."; box.appendChild(tip);
+      return;
+    }
+    const max = Math.max(...d.results.map(x => x.freq));
+    d.results.forEach((x, i) => {
+      const row = document.createElement("div"); row.className = "qrow";
+      const n = document.createElement("span"); n.className = "n"; n.textContent = x.freq + "×";
+      const t = document.createElement("div"); t.textContent = (i + 1) + ". " + x.text;
+      const bar = document.createElement("div"); bar.className = "bar"; const f = document.createElement("i"); f.style.width = (100 * x.freq / max) + "%"; bar.appendChild(f);
+      const sm = document.createElement("small"); sm.textContent = (x.sem ? x.sem + " sem · " : "") + x.subject + " · asked in " + x.years;
+      row.append(n, t, bar, sm); box.appendChild(row);
+    });
+  } catch (e) { box.textContent = "Could not load."; }
+}
+document.querySelectorAll("#amode .pill").forEach(b => b.onclick = () => {
+  amode = b.dataset.m; document.querySelectorAll("#amode .pill").forEach(x => x.classList.toggle("on", x === b)); topList();
+});
+$("ago").onclick = topList;
+$("asub").addEventListener("keydown", e => { if (e.key === "Enter") topList(); });
+
+/* browse */
+let DATA = null, semFilter = "all";
+async function loadTree(){
+  if (DATA) return; const tree = $("tree");
+  try {
+    const r = await fetch("/api/papers"); const d = await r.json();
+    if (!d.semesters) { tree.textContent = d.error || "Could not load papers"; return; }
+    DATA = d.semesters; pills(); render();
+  } catch (e) { tree.textContent = "Could not reach the server. Is app.py running?"; }
+}
+function pills(){
+  const box = $("pills"); box.textContent = "";
+  ["all"].concat(DATA.map(s => s.label)).forEach(l => {
+    const c = document.createElement("button"); c.className = "pill" + (l === semFilter ? " on" : "");
+    c.textContent = l === "all" ? "All" : l.replace(" Semester", " sem");
+    c.onclick = () => { semFilter = l; pills(); render(); }; box.appendChild(c);
+  });
+}
+function render(){
+  const tree = $("tree"), text = $("s").value.trim().toLowerCase(); tree.textContent = ""; let shown = 0;
+  DATA.forEach(sem => {
+    if (semFilter !== "all" && sem.label !== semFilter) return;
+    const sec = document.createElement("div"); sec.className = "sem"; let n = 0;
+    sem.years.forEach(y => {
+      const list = y.papers.filter(p => !text || p.subject.toLowerCase().includes(text)); if (!list.length) return;
+      n += list.length;
+      const yl = document.createElement("div"); yl.className = "yr"; yl.textContent = y.year; sec.appendChild(yl);
+      const g = document.createElement("div"); g.className = "grid";
+      list.forEach(p => { const b = document.createElement("button"); b.className = "pc"; b.textContent = p.subject; b.onclick = () => openPaper(p.id, p.subject); g.appendChild(b); });
+      sec.appendChild(g);
+    });
+    if (!n) return;
+    const h = document.createElement("h3"); h.textContent = sem.label + " "; const sm = document.createElement("small"); sm.textContent = n + " papers"; h.appendChild(sm);
+    sec.prepend(h); tree.appendChild(sec); shown += n;
+  });
+  if (!shown) { const e = document.createElement("div"); e.className = "empty"; e.textContent = "No papers found."; tree.appendChild(e); }
+}
+$("s").addEventListener("input", () => { if (DATA) render(); });
+
+async function openPaper(id, subject){
+  $("mt").textContent = subject; $("mb").textContent = "Loading…"; $("modal").style.display = "block";
+  $("mimp").onclick = () => { closeM(); ask("Important questions in " + subject); };
+  try {
+    const r = await fetch("/api/paper/" + id); const p = await r.json();
+    $("mt").textContent = p.title || subject; $("mb").textContent = p.content || p.error || "Not found";
+  } catch (e) { $("mb").textContent = "Could not load the paper."; }
+}
+function closeM(){ $("modal").style.display = "none"; }
+$("modal").addEventListener("click", e => { if (e.target.id === "modal") closeM(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeM(); });
+function copyPaper(){ try { navigator.clipboard.writeText($("mb").textContent); } catch(e){} }
+function printPaper(){
+  const w = window.open("", "_blank"); if (!w) return;
+  w.document.write("<pre style='font-family:Arial;font-size:14px;white-space:pre-wrap'>" + esc($("mb").textContent) + "</pre>"); w.document.close(); w.print();
+}
+</script>
+</body>
+</html>

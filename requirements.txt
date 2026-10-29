@@ -1,0 +1,8 @@
+flask
+requests
+groq
+mysql-connector-python
+pdfplumber
+pytesseract
+pypdfium2
+ddgs

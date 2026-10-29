@@ -1,0 +1,8 @@
+# secrets and local data - never upload these
+.env
+*.pdf
+*.sql
+evaluation_results.csv
+reimported.txt
+__pycache__/
+*.pyc
