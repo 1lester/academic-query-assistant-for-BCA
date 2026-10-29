@@ -33,6 +33,8 @@ Python (Flask), PHP, MySQL/MariaDB (XAMPP), Tesseract OCR, Groq API, HTML/CSS/JS
 - Question papers are the college's material and are not included in this repository.
 
 ## Author and license
-Copyright (c) 2026 Anshu Dharsimkar. BCA project, Seshadripuram First Grade College, Bengaluru.
-Released under the MIT License (see `LICENSE`): you may use and modify the code, but the copyright
-notice and author name must be kept.
+Copyright 2026 Anshu Dharsimkar. BCA project, Seshadripuram First Grade College, Bengaluru.
+
+Licensed under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0):
+free for learning, research, college and personal use. Commercial use (selling it, or using it in a business
+or organisation for profit) needs written permission from the author.
