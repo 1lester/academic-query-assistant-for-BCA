@@ -1,0 +1,1078 @@
+{
+ "source": "https://www.bcu.ac.in/documents/Syllabus-all/UG/Science/BCA-Syllabus.pdf",
+ "title": "Bengaluru City University BCA syllabus (revised w.e.f. 2019-20)",
+ "note": "Unit titles and topics are summarised from the university PDF. Check the PDF for exact wording and for your own batch.",
+ "papers": [
+  {
+   "code": "BCA103T",
+   "sem": 1,
+   "name": "Problem Solving Techniques using C",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction to Programming Concepts and Overview of C",
+     "hours": 12,
+     "topics": [
+      "Software and its classification, modular and structured programming, algorithms and flowcharts",
+      "C history, character set, tokens, identifiers, keywords, data types, variables, constants",
+      "Operators and hierarchy, expressions, type conversions, library functions"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Input/Output, Decision Making, Looping and Functions",
+     "hours": 10,
+     "topics": [
+      "Formatted and unformatted I/O",
+      "Decision making: if, if-else, nested if-else, else-if ladder, switch, ?:",
+      "Loops: while, do-while, for, nested loops, break, continue, goto",
+      "Functions: definition, prototype, types, argument passing, nested and recursive functions"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Arrays, Strings and Storage Classes",
+     "hours": 10,
+     "topics": [
+      "One, two and multi-dimensional arrays, passing arrays to functions",
+      "Strings: declaring, initialising, string operations, arrays of strings",
+      "Storage classes: automatic, external, static, register"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Structures, Unions, Pointers and Memory Allocation",
+     "hours": 10,
+     "topics": [
+      "Structures, nesting, arrays of structures, unions, typedef, enum, bit fields",
+      "Pointers: declaration, arithmetic, call by value and call by reference, arrays of pointers",
+      "Static and dynamic memory allocation"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Files, Preprocessor and Macros",
+     "hours": 10,
+     "topics": [
+      "File modes, file functions, text and binary files, command line arguments",
+      "Preprocessor directives, macros, user-defined header files"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA104T",
+   "sem": 1,
+   "name": "Computer Organizations",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Digital Logic",
+     "hours": 12,
+     "topics": [
+      "Basic and universal gates",
+      "Half adder and full adder",
+      "Flip-flops: SR, D, JK, T",
+      "Boolean algebra, simplification, K-maps (2, 3, 4 variables) for SOP and POS"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Number System",
+     "hours": 10,
+     "topics": [
+      "Binary, octal, hexadecimal and conversions",
+      "Binary arithmetic, 1's, 2's, 9's, 10's complements",
+      "Weighted and non-weighted codes, Gray code, Excess-3"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Computer Organization",
+     "hours": 10,
+     "topics": [
+      "Instruction formats and types, instruction cycle, basic computer",
+      "Interrupts and the interrupt cycle"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "CPU Organization",
+     "hours": 10,
+     "topics": [
+      "ALU",
+      "One, two and three address instruction formats",
+      "Data transfer, arithmetic, logical and shift instructions"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Memory",
+     "hours": 10,
+     "topics": [
+      "Input, output and storage devices",
+      "Memory types, DMA, auxiliary memory",
+      "Associative memory and cache memory"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA105T",
+   "sem": 1,
+   "name": "Discrete Mathematics",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Sets, Relations, Functions and Mathematical Logic",
+     "hours": 13,
+     "topics": [
+      "Sets, subsets, operations, Cartesian product, De Morgan's laws",
+      "Relations, equivalence relations",
+      "Functions: onto, into, one-to-one, composite and inverse",
+      "Propositions, connectives, truth tables, tautologies, switching circuits"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Matrices and Determinants",
+     "hours": 13,
+     "topics": [
+      "Matrix types, determinants, minors, cofactors, adjoint, inverse",
+      "Cramer's rule and matrix method",
+      "Eigenvalues, eigenvectors, Cayley-Hamilton theorem"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Logarithms, Permutations and Combinations",
+     "hours": 13,
+     "topics": [
+      "Logarithms and laws, log tables",
+      "Counting principle, factorials, permutations, combinations"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Groups and Vectors",
+     "hours": 13,
+     "topics": [
+      "Binary operations, groups, subgroups",
+      "Vectors: addition, dot and cross products, triple products, coplanarity"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Analytical Geometry in Two Dimensions",
+     "hours": 13,
+     "topics": [
+      "Coordinates, distance and section formulas, area of triangle, loci",
+      "Straight lines: slope, angle, forms of equations",
+      "Distance of a point from a line"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA203T",
+   "sem": 2,
+   "name": "Data Structures",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction, Preliminaries and String Processing",
+     "hours": 12,
+     "topics": [
+      "Data organisation, operations, ADT, algorithm complexity, time-space tradeoff",
+      "Control structures, asymptotic notation",
+      "Strings as ADT, string operations, pattern matching"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Arrays",
+     "hours": 10,
+     "topics": [
+      "Linear arrays, memory representation",
+      "Traversing, inserting, deleting",
+      "Sorting: bubble, insertion, selection; searching: linear, binary",
+      "Multidimensional arrays, matrices, sparse matrices"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Linked Lists",
+     "hours": 10,
+     "topics": [
+      "Singly linked lists: traversal, searching, insertion, deletion",
+      "Memory allocation, garbage collection",
+      "Doubly linked, header and circular lists"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Stacks, Queues and Recursion",
+     "hours": 10,
+     "topics": [
+      "Stacks: array and linked representation, polish notation, applications",
+      "Recursion, Towers of Hanoi",
+      "Queues: simple, circular, double-ended, priority queues and applications"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Graphs and Trees",
+     "hours": 10,
+     "topics": [
+      "Graph terminology, adjacency matrix, traversal",
+      "Binary trees: representation and traversal",
+      "Binary search trees: search, insert, delete"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA204T",
+   "sem": 2,
+   "name": "Database Management System",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and DBMS Concepts",
+     "hours": 12,
+     "topics": [
+      "Database users, advantages of the database approach",
+      "Data models, schemas, instances, DBMS architecture, data independence, database languages"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "ER Modelling and File Organisation",
+     "hours": 10,
+     "topics": [
+      "Entity-Relationship model: entities, attributes, keys, notation, higher-degree relationships",
+      "Secondary storage, buffering, file organisation: heap, sorted, hashed"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Normalisation and Relational Model",
+     "hours": 10,
+     "topics": [
+      "Functional dependencies, 2NF, 3NF, BCNF, design guidelines",
+      "Relational model, constraints, relational algebra, ER-to-relational mapping"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Relational Database Languages",
+     "hours": 10,
+     "topics": [
+      "SQL: DDL, queries, insert/delete/update, views, assertions, indexes, embedded SQL",
+      "Introduction to PL/SQL"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Transaction Processing",
+     "hours": 10,
+     "topics": [
+      "Transaction concepts and properties, schedules, recoverability, serializability",
+      "Locking and timestamp-based concurrency control"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA205T",
+   "sem": 2,
+   "name": "Numerical and Statistical Methods",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Floating-Point Arithmetic and Root Finding",
+     "hours": 13,
+     "topics": [
+      "Floating-point representation, errors, machine epsilon",
+      "Bisection, Newton's and secant methods"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Interpolation, Differentiation and Integration",
+     "hours": 13,
+     "topics": [
+      "Lagrange and Newton interpolation, divided differences",
+      "Numerical differentiation",
+      "Trapezoidal, Simpson's and adaptive Simpson rules"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Linear Systems, Eigenvalues and Differential Equations",
+     "hours": 13,
+     "topics": [
+      "Gaussian elimination, LU decomposition, Jacobi and Gauss-Seidel",
+      "Power method for eigenvalues",
+      "Picard's, Taylor series and Runge-Kutta methods"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Descriptive Statistics and Probability",
+     "hours": 13,
+     "topics": [
+      "Mean, standard deviation, skewness, kurtosis, correlation",
+      "Probability axioms, conditional probability, Bayes' theorem"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Random Variables and Distributions",
+     "hours": 13,
+     "topics": [
+      "Discrete and continuous random variables, expectation",
+      "Bernoulli, binomial and normal distributions"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA303T",
+   "sem": 3,
+   "name": "Object Oriented Programming using C++",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Functions",
+     "hours": 12,
+     "topics": [
+      "OOP basics: object, class, abstraction, encapsulation, inheritance, polymorphism",
+      "C++ features: iostream, scope resolution operator, new and delete",
+      "Functions: default arguments, overloading, inline functions"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Objects and Classes",
+     "hours": 12,
+     "topics": [
+      "Class declaration, members, visibility",
+      "Constructors and destructors; default, argument, copy, dynamic and overloaded constructors",
+      "Arrays and strings as class members"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Operator Overloading and Inheritance",
+     "hours": 12,
+     "topics": [
+      "Unary and binary operator overloading, data conversion",
+      "Derived and base classes, multilevel, hybrid and multiple inheritance, containership"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Virtual Functions, Templates and Exception Handling",
+     "hours": 12,
+     "topics": [
+      "Virtual and pure virtual functions, dynamic binding, friend functions, this pointer",
+      "Class and function templates, exception handling"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Streams",
+     "hours": 12,
+     "topics": [
+      "Stream class hierarchy, string and character I/O",
+      "Object I/O, fstream, file pointers, disk I/O, error handling, command line arguments"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA304T",
+   "sem": 3,
+   "name": "Financial Accounting and Management",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Accounting Concepts",
+     "hours": 12,
+     "topics": [
+      "Meaning, objectives and functions of accounting; book-keeping vs accounting",
+      "Accounting concepts, conventions, Indian accounting standards"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Financial Accounting Process and Bank Reconciliation",
+     "hours": 10,
+     "topics": [
+      "Classification of accounts, double entry, journal, ledger",
+      "Subsidiary books, cash book, bank reconciliation statement"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Bills of Exchange and Trial Balance",
+     "hours": 10,
+     "topics": [
+      "Bills of exchange: honour, dishonour, endorsement, discounting, renewal",
+      "Trial balance, rectification of errors, journal proper"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Final Accounts",
+     "hours": 10,
+     "topics": [
+      "Manufacturing, trading, profit and loss account and balance sheet for sole traders and partnership firms"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Accounting Package",
+     "hours": 10,
+     "topics": [
+      "Accounting package like Tally"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA305T",
+   "sem": 3,
+   "name": "Operating System",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Process Management",
+     "hours": 13,
+     "topics": [
+      "Batch, multiprogramming, time sharing, parallel, distributed and real-time systems",
+      "OS structure, system calls, virtual machines",
+      "Process concept, scheduling, threads, inter-process communication, CPU scheduling algorithms"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Process Synchronisation and Deadlocks",
+     "hours": 13,
+     "topics": [
+      "Critical section problem, semaphores, classical synchronisation problems, monitors",
+      "Deadlock: characterisation, prevention, avoidance, detection, recovery"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Memory Management",
+     "hours": 13,
+     "topics": [
+      "Logical and physical address space, swapping, contiguous allocation, paging, segmentation",
+      "Virtual memory, demand paging, page replacement, thrashing"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "File and Disk Management",
+     "hours": 13,
+     "topics": [
+      "File concepts, access methods, directory structure, allocation, free-space management",
+      "Disk structure, disk scheduling, swap-space management"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Protection, Security and Case Studies",
+     "hours": 13,
+     "topics": [
+      "Protection goals, domain protection, access matrix",
+      "Security problem, authentication, program and system threats",
+      "Case study: Windows and Linux"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA403T",
+   "sem": 4,
+   "name": "VB.NET Programming",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": ".NET Framework and the VB.NET IDE",
+     "hours": 12,
+     "topics": [
+      ".NET features, CLR, FCL, CLS, CTS, IL and JIT",
+      "Visual Studio .NET IDE and its components"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Building VB.NET Applications",
+     "hours": 10,
+     "topics": [
+      "Variables, constants, decisions, strings, loops, validation",
+      "Procedures, functions, multiple forms, modules, menus, arrays, timers",
+      "File handling, exception handling, ADO.NET database work",
+      "Classes, generics, collections, inheritance, custom controls, Crystal Reports"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "VB.NET Programming Fundamentals",
+     "hours": 10,
+     "topics": [
+      "Data types, operators, scope",
+      "Conditional statements, loops, static and dynamic arrays",
+      "MDI forms, built-in and user-defined functions"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "ASP.NET Web Applications",
+     "hours": 10,
+     "topics": [
+      "Standard, HTML and validation controls, application state",
+      "Themes, skins, master pages, data binding, ADO.NET",
+      "Login, membership, security, caching, XML"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Databases and LINQ",
+     "hours": 10,
+     "topics": [
+      "SQL, ADO.NET architecture, data source controls",
+      "Deploying a website",
+      "LINQ and stored procedures"
+     ]
+    }
+   ],
+   "labels_only": true
+  },
+  {
+   "code": "BCA404T",
+   "sem": 4,
+   "name": "Unix and Shell Programming",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Unix Fundamentals",
+     "hours": 12,
+     "topics": [
+      "History, architecture, command format, internal and external commands",
+      "File system structure: boot block, superblock, inodes",
+      "Process management: states, user and kernel mode, background processes, scheduling"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Storage Management and Tools",
+     "hours": 10,
+     "topics": [
+      "Disk formatting, partitioning, mounting, compression",
+      "Filters, SED and AWK, system calls, signals and interrupts"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Shell Programming Basics",
+     "hours": 10,
+     "topics": [
+      "vi editor, shell types, running scripts",
+      "Variables, expr, read and echo, command substitution, positional parameters",
+      "The test command"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Control Structures",
+     "hours": 10,
+     "topics": [
+      "if and case; while, until, for",
+      "break, continue, exit"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Communication and System Administration",
+     "hours": 10,
+     "topics": [
+      "write, read, wall, mail",
+      "Administrator duties: file system maintenance, user management, backup, daemons, DNS"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA405T",
+   "sem": 4,
+   "name": "Software Engineering",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Process, System Engineering and Requirements",
+     "hours": 13,
+     "topics": [
+      "Software products and processes, waterfall, evolutionary and spiral models, risk management",
+      "System engineering, architecture modelling, reliability",
+      "Requirements engineering, requirements document, data flow and object models, non-functional requirements"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Prototyping and Software Design",
+     "hours": 13,
+     "topics": [
+      "Prototyping techniques, user interface prototyping",
+      "Design process and quality, control models, modular decomposition, domain-specific architecture"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Design Methods and User Interfaces",
+     "hours": 13,
+     "topics": [
+      "Object-oriented and function-oriented design",
+      "Interface design principles, user guidance, interface evaluation"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Reliability and Reuse",
+     "hours": 13,
+     "topics": [
+      "Reliability metrics, specification, statistical testing, fault tolerance",
+      "Defensive programming, development with and for reuse, portability"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Verification, Validation and Management",
+     "hours": 13,
+     "topics": [
+      "Testing process, black-box, structural and interface testing, inspections, static analysis, cleanroom",
+      "Project and quality management, cost estimation, software maintenance"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA501T",
+   "sem": 5,
+   "name": "Data Communication and Networks",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Digital Transmission",
+     "hours": 13,
+     "topics": [
+      "Network services, design approaches, topology",
+      "Message, packet and circuit switching",
+      "OSI and TCP/IP models, Telnet, FTP, IP",
+      "Nyquist rate, Shannon capacity, line coding, modems, digital modulation"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Transmission Systems and Switching",
+     "hours": 13,
+     "topics": [
+      "Twisted pair, coaxial, optical fibre, radio, infrared",
+      "Error detection and correction: parity, checksum, polynomial codes",
+      "FDM, TDM, SONET, WDM",
+      "Telephone network, cellular and satellite networks"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Peer-to-Peer Protocols",
+     "hours": 13,
+     "topics": [
+      "ARQ: stop-and-wait, Go-back-N, selective repeat",
+      "Sliding window flow control",
+      "HDLC, PPP, statistical multiplexing"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "LANs and Medium Access Control",
+     "hours": 13,
+     "topics": [
+      "LAN structure, MAC sublayer, LLC",
+      "ALOHA, slotted ALOHA, CSMA, CSMA/CD",
+      "Reservation, polling, token passing",
+      "FDMA, TDMA, CDMA"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "LAN Standards and Packet Switching",
+     "hours": 13,
+     "topics": [
+      "Ethernet 802.3, Token Ring 802.5, FDDI, wireless LAN 802.11",
+      "LAN bridges",
+      "Datagram and virtual circuits, routers",
+      "Routing algorithms: shortest path, flooding, distance vector, link state; congestion control"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA502T",
+   "sem": 5,
+   "name": "Artificial Intelligence",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction to AI and Search",
+     "hours": 13,
+     "topics": [
+      "Definition, applications, AI representation",
+      "Heuristic search: best-first, means-ends analysis, A*, AO*",
+      "Game playing: minimax, alpha-beta cutoffs"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Knowledge Representation",
+     "hours": 13,
+     "topics": [
+      "Predicate logic",
+      "Non-monotonic logic, truth maintenance, probabilistic reasoning, fuzzy logic",
+      "Semantic nets, frames, scripts, conceptual dependency"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Planning and Perception",
+     "hours": 13,
+     "topics": [
+      "Block world, STRIPS, goal stacks, non-linear and hierarchical planning",
+      "Robot architecture, vision, scene recognition"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Learning and Neural Networks",
+     "hours": 13,
+     "topics": [
+      "Induction, matching algorithms, failure-driven learning, concept learning",
+      "Perceptrons, neural network architecture and applications"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Natural Language Processing and Expert Systems",
+     "hours": 13,
+     "topics": [
+      "Syntactic, semantic and pragmatic analysis, RTN and ATN",
+      "Expert systems: architecture, knowledge representation, case studies"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA503T",
+   "sem": 5,
+   "name": "Java Programming",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Java Fundamentals",
+     "hours": 12,
+     "topics": [
+      "Java evolution and features, differences from C and C++, JVM",
+      "Constants, variables, data types, operators, expressions",
+      "Decision making, branching, looping, labelled loops"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Classes, Arrays, Strings and Vectors",
+     "hours": 10,
+     "topics": [
+      "Classes, objects, methods, constructors, overloading, static members",
+      "Inheritance, overriding, final, abstract classes, visibility control",
+      "Arrays, strings, vectors, wrapper classes"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Interfaces, Packages and Multithreading",
+     "hours": 10,
+     "topics": [
+      "Defining, extending and implementing interfaces",
+      "Packages: Java API, creating and accessing packages",
+      "Threads: creation, life cycle, priority, synchronisation, Runnable interface"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Exception Handling and Applets",
+     "hours": 10,
+     "topics": [
+      "Multiple catch, finally, user-defined exceptions",
+      "Applets: life cycle, applet tag, user input"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Graphics and File I/O",
+     "hours": 10,
+     "topics": [
+      "Graphics class: lines, rectangles, circles, ellipses, arcs, polygons, bar charts",
+      "Byte and character streams, File class, reading and writing files"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA504T",
+   "sem": 5,
+   "name": "Analysis and Design of Algorithm",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction",
+     "hours": 12,
+     "topics": [
+      "Definition and characteristics of algorithms",
+      "Control structures and structured programs",
+      "Analysis of algorithms"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Divide and Conquer",
+     "hours": 10,
+     "topics": [
+      "General method",
+      "Binary search, finding maximum and minimum",
+      "Merge sort and quick sort"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Greedy Method",
+     "hours": 10,
+     "topics": [
+      "General method",
+      "Knapsack problem, job sequencing with deadlines",
+      "Minimum-cost spanning trees, single-source shortest paths"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Dynamic Programming and Graphs",
+     "hours": 10,
+     "topics": [
+      "Graph definitions and types",
+      "Multistage graphs, all-pairs shortest paths, 0/1 knapsack, travelling salesperson, flow shop scheduling"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Traversal, Search and Backtracking",
+     "hours": 10,
+     "topics": [
+      "Tree and graph traversal and search",
+      "Backtracking: 8-queens, sum of subsets, graph colouring"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA601T",
+   "sem": 6,
+   "name": "System Programming",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [
+    {
+     "no": 1,
+     "title": "Background and Machine Structure",
+     "hours": 13,
+     "topics": [
+      "Machine structure",
+      "Assemblers, loaders, macros, compilers",
+      "Machine language and assembly language"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Assemblers and Table Processing",
+     "hours": 13,
+     "topics": [
+      "Design of an assembler: data structures, algorithm",
+      "Searching: linear, binary, hashing",
+      "Sorting: interchange, Shell, bucket, radix exchange, address calculation"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Macro Language and Macro Processor",
+     "hours": 13,
+     "topics": [
+      "Macro instructions, arguments, conditional macro expansion",
+      "Macro calls within macros, two-pass and single-pass algorithms"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Loaders",
+     "hours": 13,
+     "topics": [
+      "Compile-and-go, absolute, relocating and direct linking loaders",
+      "Binders, linking loaders, overlays, dynamic binders",
+      "Design of an absolute loader and a direct linking loader"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Compilers",
+     "hours": 13,
+     "topics": [
+      "Compiler problem statement, storage allocation, code generation",
+      "Machine-independent and machine-dependent optimisation",
+      "Phases of a compiler"
+     ]
+    }
+   ],
+   "labels_only": false
+  },
+  {
+   "code": "BCA602T",
+   "sem": 6,
+   "name": "Professional and Business Communication",
+   "hours": 65,
+   "credits": 3,
+   "marks": "50 internal + 100 exam = 150",
+   "units": [],
+   "labels_only": false
+  },
+  {
+   "code": "BCA603T",
+   "sem": 6,
+   "name": "Web Programming",
+   "hours": 52,
+   "credits": 2,
+   "marks": "30 internal + 70 exam = 100",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of Web and XHTML",
+     "hours": 12,
+     "topics": [
+      "Internet, WWW, browsers and servers, URLs, MIME, HTTP",
+      "XHTML: syntax, document structure, text markup, images, links, lists, tables"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Forms, Frames and CSS",
+     "hours": 10,
+     "topics": [
+      "Forms and frames",
+      "CSS: style sheet levels, selectors, font, list, colour, text, box model, span and div"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "JavaScript Fundamentals",
+     "hours": 10,
+     "topics": [
+      "Overview, object orientation, syntax, primitives, operators, expressions",
+      "Control statements, arrays, functions, constructors, pattern matching"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "JavaScript and HTML Documents",
+     "hours": 10,
+     "topics": [
+      "Execution environment, DOM, element access",
+      "Events and event handling, DOM 2 event model, navigator object"
+     ]
+    },
+    {
+     "no": 5,
+     "title": "Dynamic Documents and XML",
+     "hours": 10,
+     "topics": [
+      "Positioning, moving and hiding elements, dynamic content, drag and drop",
+      "XML: syntax, DTD, namespaces, schemas, XSLT, XML processors, web services"
+     ]
+    }
+   ],
+   "labels_only": false
+  }
+ ]
+}

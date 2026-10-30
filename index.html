@@ -6,73 +6,107 @@
 <title>QueryBuddy – BCA Question Paper Assistant</title>
 <style>
 :root{
-  --bg:#f6f3ec; --card:#ffffff; --ink:#1b1b1f; --mute:#6b6b76; --line:#e6e1d6;
+  --bg:#f5f4ef; --card:#ffffff; --ink:#1c1d24; --mute:#676b7a; --line:#e4e2d9; --soft:#faf9f5;
   --accent:#4f46e5; --accent-2:#eef0ff; --accent-ink:#ffffff; --warm:#f59e0b;
-  --bot:#ffffff; --me:#4f46e5; --me-ink:#fff; --shadow:0 6px 24px rgba(30,30,60,.08);
+  --bot:#ffffff; --me:#4f46e5; --me-ink:#fff; --shadow:0 4px 18px rgba(30,30,60,.07); --shadow-lg:0 14px 40px rgba(30,30,60,.16);
   --fs:18px;
 }
 [data-theme="dark"]{
-  --bg:#0f1117; --card:#171a23; --ink:#eceef5; --mute:#9aa0b4; --line:#272b38;
-  --accent:#8b8cff; --accent-2:#1e2140; --accent-ink:#0f1117; --bot:#171a23; --me:#6366f1; --me-ink:#fff;
-  --shadow:0 6px 24px rgba(0,0,0,.4);
+  --bg:#0e1016; --card:#161922; --ink:#eceef6; --mute:#9aa0b6; --line:#262a38; --soft:#12151d;
+  --accent:#8b8cff; --accent-2:#1d2040; --accent-ink:#0e1016; --bot:#161922; --me:#6366f1; --me-ink:#fff;
+  --shadow:0 4px 18px rgba(0,0,0,.35); --shadow-lg:0 14px 40px rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font:var(--fs)/1.6 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--ink);font:var(--fs)/1.65 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
 
-/* top bar */
-header{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15em;letter-spacing:-.3px}
-.logo i{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--warm));display:grid;place-items:center;color:#fff;font-style:normal;font-size:1em}
-.tabs{display:flex;gap:4px;margin-left:12px;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
-.tab{border:0;background:none;padding:7px 18px;border-radius:999px;font-weight:600;color:var(--mute)}
+/* ---------- top bar ---------- */
+header{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap;z-index:5}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12em;letter-spacing:-.3px}
+.logo i{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--warm));display:grid;place-items:center;color:#fff;font-style:normal}
+.tabs{display:flex;gap:4px;margin-left:10px;background:var(--bg);padding:4px;border-radius:999px;border:1px solid var(--line)}
+.tab{white-space:nowrap;border:0;background:none;padding:7px 18px;border-radius:999px;font-weight:600;color:var(--mute);font-size:.92em}
+.tab:hover{color:var(--ink)}
 .tab.on{background:var(--accent);color:var(--accent-ink)}
 .tools{margin-left:auto;display:flex;gap:6px;align-items:center}
-.ic{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 12px;font-weight:700}
-.ic:hover{border-color:var(--accent)}
+.ic{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:5px 12px;font-weight:700;font-size:.85em;display:flex;align-items:center;gap:6px}
+.ic:hover{border-color:var(--accent);color:var(--accent)}
+.grp{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.grp .ic{border:0;border-radius:0;background:var(--card)}
+.grp .ic+.ic{border-left:1px solid var(--line)}
 
 main{flex:1;min-height:0;display:flex;flex-direction:column}
 .page{display:none;flex:1;min-height:0}
 .page.on{display:flex;flex-direction:column}
+.wrap{max-width:880px;margin:0 auto;width:100%}
 
-/* chat */
-#log{flex:1;overflow-y:auto;padding:28px 16px 12px}
-.wrap{max-width:860px;margin:0 auto}
-.hero{text-align:center;padding:30px 0 10px}
-.hero h1{font-size:2em;letter-spacing:-.8px;line-height:1.2}
+/* ---------- chat ---------- */
+#log{flex:1;overflow-y:auto;padding:24px 16px 12px;scroll-behavior:smooth}
+.hero{text-align:center;padding:26px 0 6px}
+.hero h1{font-size:2.05em;letter-spacing:-.9px;line-height:1.18}
 .hero h1 span{color:var(--accent)}
-.hero p{color:var(--mute);margin:10px auto 0;max-width:560px}
-.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 6px}
-.sug{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;text-align:left;box-shadow:var(--shadow);max-width:270px;font-size:.92em}
-.sug b{display:block;color:var(--accent);font-size:.8em;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
-.sug:hover{border-color:var(--accent);transform:translateY(-1px)}
-.msg{display:flex;gap:12px;margin:18px 0}
+.hero p{color:var(--mute);margin:12px auto 0;max-width:580px;font-size:.95em}
+.semrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0 4px;align-items:center}
+.semrow small{color:var(--mute);font-weight:600;margin-right:2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;text-align:left;box-shadow:var(--shadow);transition:.15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .ico{font-size:1.5em;display:block;margin-bottom:4px}
+.card b{display:block;font-size:.98em}
+.card span{display:block;color:var(--mute);font-size:.82em;line-height:1.4;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px}
+.sug{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:.84em;color:var(--ink)}
+.sug:hover{border-color:var(--accent);color:var(--accent)}
+
+.msg{display:flex;gap:12px;margin:20px 0}
+.msg.fresh{animation:rise .25s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .msg.me{flex-direction:row-reverse}
-.av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.7em;background:var(--accent-2);color:var(--accent)}
+.av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.68em;background:var(--accent-2);color:var(--accent)}
 .msg.me .av{background:var(--me);color:var(--me-ink)}
-.bub{max-width:calc(100% - 52px);padding:14px 18px;border-radius:18px;background:var(--bot);border:1px solid var(--line);box-shadow:var(--shadow);overflow-wrap:anywhere}
-.msg.me .bub{background:var(--me);color:var(--me-ink);border-color:transparent}
-.bub h2,.bub h3{font-size:1.05em;margin:14px 0 6px;color:var(--accent)}
-.bub h2:first-child,.bub h3:first-child{margin-top:0}
-.bub p{margin:6px 0}
-.bub ul,.bub ol{margin:6px 0 6px 24px}
-.bub li{margin:4px 0}
-.bub table{border-collapse:collapse;margin:8px 0;font-size:.92em}
-.bub td,.bub th{border:1px solid var(--line);padding:5px 10px}
-.src{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:.78em;color:var(--mute)}
-.tag{display:inline-block;background:var(--accent-2);color:var(--accent);padding:2px 10px;border-radius:999px;margin:3px 4px 0 0;text-decoration:none}
-.acts{margin-top:10px;display:flex;gap:8px}
-.mini{border:1px solid var(--line);background:none;border-radius:8px;padding:3px 12px;font-size:.78em;color:var(--mute)}
+.bub{max-width:calc(100% - 52px);min-width:0;padding:16px 20px;border-radius:18px;background:var(--bot);border:1px solid var(--line);box-shadow:var(--shadow);overflow-wrap:anywhere}
+.msg.me .bub{background:var(--me);color:var(--me-ink);border-color:transparent;padding:11px 18px}
+.msg:not(.me) .bub{border-top-left-radius:6px}
+.msg.me .bub{border-top-right-radius:6px}
+
+/* rendered text (answers + papers) */
+.rt h2{font-size:1.18em;margin:20px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--accent-2);letter-spacing:-.2px}
+.rt h3{font-size:1.02em;margin:20px 0 6px;padding:7px 12px;background:var(--accent-2);color:var(--accent);border-radius:10px;border-left:4px solid var(--accent)}
+.rt h2:first-child,.rt h3:first-child{margin-top:0}
+.rt p{margin:8px 0}
+.rt em{color:var(--mute);font-style:italic}
+.rt hr{border:0;border-top:1px dashed var(--line);margin:18px 0 10px}
+.rt blockquote{margin:10px 0 4px;padding:10px 14px;background:var(--soft);border:1px solid var(--line);border-radius:12px;font-size:.86em;color:var(--mute);line-height:1.55}
+.rt ul,.rt ol{margin:8px 0 8px 4px;padding-left:26px}
+.rt li{margin:9px 0;padding-left:4px}
+.rt li::marker{color:var(--accent);font-weight:700}
+.rt li ul{margin:4px 0 2px;padding-left:20px;list-style:none}
+.rt li li{margin:3px 0;color:var(--ink);font-size:.95em}
+.rt code{background:var(--accent-2);padding:1px 6px;border-radius:6px;font-size:.88em}
+.rt .tw{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:12px}
+.rt table{border-collapse:collapse;width:100%;font-size:.88em}
+.rt th{background:var(--accent-2);color:var(--accent);text-align:left;font-weight:700;white-space:nowrap}
+.rt th,.rt td{padding:8px 12px;border-bottom:1px solid var(--line)}
+.rt tr:last-child td{border-bottom:0}
+.rt tbody tr:nth-child(even) td{background:var(--soft)}
+.rt tr td:first-child{color:var(--mute);width:1%}
+
+.src{margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:.76em;color:var(--mute)}
+.tag{display:inline-block;background:var(--accent-2);color:var(--accent);padding:2px 10px;border-radius:999px;margin:4px 4px 0 0;text-decoration:none}
+.acts{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.mini{border:1px solid var(--line);background:none;border-radius:8px;padding:3px 12px;font-size:.76em;color:var(--mute)}
 .mini:hover{border-color:var(--accent);color:var(--accent)}
-.typing span{display:inline-block;width:8px;height:8px;margin:0 3px;border-radius:50%;background:var(--accent);animation:b 1s infinite}
-.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+.typing{display:flex;align-items:center;gap:6px;color:var(--mute);font-size:.88em}
+.typing span.d{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:b 1s infinite}
+.typing span.d:nth-child(2){animation-delay:.15s}.typing span.d:nth-child(3){animation-delay:.3s}
 @keyframes b{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
 
-/* composer */
-.composer{padding:10px 16px 18px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
-.cbox{max-width:860px;margin:0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:10px 12px}
+/* ---------- composer ---------- */
+.composer{padding:8px 16px 14px;background:linear-gradient(to top,var(--bg) 72%,transparent)}
+.cbox{max-width:880px;margin:0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:10px 12px}
 .cbox:focus-within{border-color:var(--accent)}
 .cbox textarea{width:100%;border:0;outline:0;resize:none;background:none;max-height:140px;padding:6px 8px}
 .crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -81,29 +115,30 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .fname{font-size:.78em;color:var(--accent)}
 .sw{font-size:.8em;color:var(--mute);display:flex;align-items:center;gap:5px}
 .send{margin-left:auto;border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:8px 22px;font-weight:700}
-.send:disabled{opacity:.5}
-.hint{max-width:860px;margin:6px auto 0;text-align:center;font-size:.72em;color:var(--mute)}
+.send:hover{filter:brightness(1.08)}
+.send:disabled{opacity:.5;cursor:wait}
+.hint{max-width:880px;margin:6px auto 0;text-align:center;font-size:.72em;color:var(--mute)}
 
-/* browse */
-#browse{overflow-y:auto;padding:26px 16px 40px;flex:1}
+/* ---------- browse + analytics ---------- */
+#browse,#stats{overflow-y:auto;padding:24px 16px 40px;flex:1}
 .bhead{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .bhead h2{font-size:1.5em;letter-spacing:-.4px}
 .bhead input{flex:1;min-width:200px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:9px 18px;outline:0}
 .bhead input:focus{border-color:var(--accent)}
+.sub{color:var(--mute);font-size:.9em;margin:-6px 0 16px}
 .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 16px;font-weight:600;color:var(--mute)}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 16px;font-weight:600;color:var(--mute);font-size:.9em}
+.pill:hover{border-color:var(--accent);color:var(--accent)}
 .pill.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .sem{margin-bottom:26px}
-.sem h3{font-size:1.1em;margin-bottom:10px;display:flex;align-items:baseline;gap:8px}
+.sem h3{font-size:1.1em;margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
 .sem h3 small{color:var(--mute);font-weight:400;font-size:.75em}
-.yr{margin:10px 0 4px;font-size:.78em;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.8px}
+.yr{margin:12px 0 6px;font-size:.76em;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.pc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:left;font-size:.9em;line-height:1.35}
-.pc:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 16px;text-align:left;font-size:.9em;line-height:1.35;position:relative}
+.pc::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;background:var(--accent)}
+.pc:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-1px)}
 .empty{text-align:center;color:var(--mute);padding:40px}
-
-/* analytics */
-#stats{overflow-y:auto;padding:26px 16px 40px;flex:1}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
 .kpi b{display:block;font-size:1.9em;color:var(--accent);line-height:1.1}
@@ -120,32 +155,47 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .hb i{display:block;height:100%;background:var(--accent);border-radius:99px}
 .hb em{width:36px;font-style:normal;font-weight:700}
 
-/* modal */
-#modal{position:fixed;inset:0;background:rgba(10,10,20,.55);display:none;z-index:20;padding:20px}
-.mbox{max-width:820px;height:100%;max-height:90vh;margin:0 auto;background:var(--card);border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
+/* ---------- paper viewer ---------- */
+#modal{position:fixed;inset:0;background:rgba(8,9,16,.6);backdrop-filter:blur(3px);display:none;z-index:20;padding:20px}
+.mbox{max-width:860px;height:100%;max-height:92vh;margin:0 auto;background:var(--card);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg)}
 .mtop{display:flex;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
-.mtop h3{flex:1;font-size:1em}
-#mb{flex:1;overflow:auto;padding:18px 22px;white-space:pre-wrap;font-size:.92em}
-.mfoot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 18px;font-weight:600}
+.mtop h3{flex:1;font-size:1em;line-height:1.3}
+.mtabs{display:flex;gap:6px;padding:10px 20px 0}
+#mb{flex:1;overflow:auto;padding:14px 26px 26px}
+#mb.raw{white-space:pre-wrap;font:.82em/1.6 Consolas,monospace;color:var(--mute)}
+.mfoot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;background:var(--soft)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 18px;font-weight:600;font-size:.88em}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
 .btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.pri:hover{filter:brightness(1.08);color:var(--accent-ink)}
 
-@media(max-width:640px){header{padding:10px 12px}.tabs{margin-left:0;order:3;width:100%;justify-content:center}.hero h1{font-size:1.6em}}
-@media print{header,.composer,.acts{display:none}}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:999px;font-size:.84em;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+@media(max-width:720px){
+  header{padding:8px 12px;gap:8px}.logo{font-size:1em}.logo i{width:30px;height:30px}.tabs{margin-left:0;order:3;width:100%;justify-content:space-between}.tab{padding:7px 10px;font-size:.84em;flex:1}
+  .ic{padding:5px 9px}.tools{gap:4px}
+  .hero h1{font-size:1.55em}.bub{padding:14px 15px}#modal{padding:0}.mbox{max-height:100vh;border-radius:0}
+  #mb{padding:12px 16px 20px}.ic .lbl{display:none}
+}
+@media print{header,.composer,.acts,#toast{display:none!important}body{display:block}}
 </style>
 </head>
 <body>
 <header>
   <div class="logo"><i>Q</i> QueryBuddy</div>
-  <div class="tabs">
-    <button class="tab on" id="t-chat" onclick="go('chat')">Ask AI</button>
-    <button class="tab" id="t-browse" onclick="go('browse')">Browse papers</button>
-    <button class="tab" id="t-stats" onclick="go('stats')">Analytics</button>
-  </div>
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab on" id="t-chat" onclick="go('chat')">💬 Ask AI</button>
+    <button class="tab" id="t-browse" onclick="go('browse')">📚 Browse papers</button>
+    <button class="tab" id="t-stats" onclick="go('stats')">📊 Analytics</button>
+  </nav>
   <div class="tools">
-    <button class="ic" onclick="fs(-1)" title="Smaller text">A−</button>
-    <button class="ic" onclick="fs(1)" title="Bigger text">A+</button>
-    <button class="ic" id="dm" onclick="theme()">Dark</button>
+    <button class="ic" onclick="newChat()" title="Start a new chat">＋ <span class="lbl">New chat</span></button>
+    <div class="grp">
+      <button class="ic" onclick="fs(-1)" title="Smaller text" aria-label="Smaller text">A−</button>
+      <button class="ic" onclick="fs(1)" title="Bigger text" aria-label="Bigger text">A+</button>
+    </div>
+    <button class="ic" id="dm" onclick="theme()" title="Switch light / dark">🌙</button>
   </div>
 </header>
 
@@ -154,50 +204,58 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
     <div id="log"><div class="wrap" id="wrapmsgs">
       <div class="hero" id="hero">
         <h1>Find what's <span>important</span> for your exam</h1>
-        <p>Ask about any BCA subject. I search real previous question papers and tell you which questions come up again and again.</p>
+        <p>Pick your semester, then ask about any BCA subject. I search real previous question papers and show which topics keep coming back.</p>
+        <div class="semrow" id="semrow"><small>Your semester:</small></div>
+        <div class="cards">
+          <button class="card" data-fill="Important topics in "><span class="ico">⭐</span><b>Important topics</b><span>Topics asked in the most different years for a subject</span></button>
+          <button class="card" data-fill="Show the latest paper of "><span class="ico">📄</span><b>Show a question paper</b><span>The latest paper, neatly arranged by part and marks</span></button>
+          <button class="card" data-q="How many subjects in the 1st sem"><span class="ico">🗂️</span><b>Subjects in a semester</b><span>See every subject that has papers in the database</span></button>
+        </div>
         <div class="chips">
-          <button class="sug" data-q="Important questions in Operating System"><b>Important</b>Important questions in Operating System</button>
-          <button class="sug" data-q="Show the latest Data Structures paper"><b>Paper</b>Show the latest Data Structures paper</button>
-          <button class="sug" data-q="Important questions in DBMS 4th sem"><b>By semester</b>Important questions in DBMS 4th sem</button>
-          <button class="sug" data-q="Most repeated questions in Computer Networks"><b>Repeated</b>Most repeated questions in Computer Networks</button>
+          <button class="sug" data-q="Important questions in Operating System">Important questions in Operating System</button>
+          <button class="sug" data-q="Show the latest Data Structures paper">Latest Data Structures paper</button>
+          <button class="sug" data-q="Important topics in DBMS 4th sem">Important topics in DBMS</button>
+          <button class="sug" data-q="Most repeated questions in Computer Networks">Repeated questions in Computer Networks</button>
         </div>
       </div>
     </div></div>
     <div class="composer">
       <div class="cbox">
-        <textarea id="q" rows="1" placeholder="Ask e.g. Important questions in Java 5th sem…"></textarea>
+        <textarea id="q" rows="1" placeholder="Ask e.g. Important topics in Java 5th sem…" aria-label="Your question"></textarea>
         <div class="crow">
-          <select id="sem" title="Semester">
+          <select id="sem" title="Semester" aria-label="Semester">
             <option value="">Any semester</option>
             <option>1st sem</option><option>2nd sem</option><option>3rd sem</option>
             <option>4th sem</option><option>5th sem</option><option>6th sem</option>
           </select>
-          <button class="attach" onclick="document.getElementById('file').click()">📎 Attach PDF / TXT</button>
+          <button class="attach" type="button" onclick="document.getElementById('file').click()">📎 Attach PDF / TXT</button>
           <input type="file" id="file" accept=".pdf,.txt" hidden>
           <span class="fname" id="fname"></span>
           <label class="sw"><input type="checkbox" id="web"> Include web</label>
-          <button class="send" id="send">Send ➤</button>
+          <button class="send" id="send" type="button">Send ➤</button>
         </div>
       </div>
-      <div class="hint">Answers come from your college's past papers. Always check with your syllabus.</div>
+      <div class="hint">Enter to send · Shift+Enter for a new line · Answers come from your college's past papers, so always check your syllabus.</div>
     </div>
   </section>
 
   <section class="page" id="p-browse">
     <div id="browse"><div class="wrap">
-      <div class="bhead"><h2>Question papers</h2><input id="s" placeholder="Search subject…"></div>
+      <div class="bhead"><h2>Question papers</h2><input id="s" placeholder="Search subject…" aria-label="Search subject"></div>
+      <p class="sub">Choose a semester, then click a paper to read it in a clean layout.</p>
       <div class="pills" id="pills"></div>
       <div id="tree"><div class="empty">Loading…</div></div>
     </div></div>
   </section>
+
   <section class="page" id="p-stats">
     <div id="stats"><div class="wrap">
       <div class="bhead"><h2>Question analytics</h2></div>
-      <p style="color:var(--mute);margin-bottom:16px">Counted by a program from every previous paper: which topics were asked in the most different years.</p>
+      <p class="sub">Counted by a program from every previous paper: which topics were asked in the most different years.</p>
       <div class="kpis" id="kpis"></div>
       <div class="bhead" style="margin-top:22px">
-        <select id="asem" class="sel"><option value="">All semesters</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select>
-        <input id="asub" placeholder="Subject, e.g. operating system">
+        <select id="asem" class="sel" aria-label="Semester"><option value="">All semesters</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select>
+        <input id="asub" placeholder="Subject, e.g. operating system" aria-label="Subject">
         <button class="btn pri" id="ago">Show</button>
       </div>
       <div class="pills" id="amode"><button class="pill on" data-m="topics">Important topics</button><button class="pill" data-m="questions">Repeated questions</button></div>
@@ -208,15 +266,20 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
   </section>
 </main>
 
-<div id="modal"><div class="mbox">
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mbox">
   <div class="mtop"><h3 id="mt"></h3><button class="btn" onclick="closeM()">✕ Close</button></div>
-  <div id="mb"></div>
+  <div class="mtabs">
+    <button class="pill on" id="mv-clean" onclick="setView('clean')">Clean view</button>
+    <button class="pill" id="mv-raw" onclick="setView('raw')">Original scan text</button>
+  </div>
+  <div id="mb" class="rt"></div>
   <div class="mfoot">
-    <button class="btn pri" id="mimp">⭐ Important questions from this subject</button>
+    <button class="btn pri" id="mimp">⭐ Important topics for this subject</button>
     <button class="btn" onclick="copyPaper()">Copy</button>
     <button class="btn" onclick="printPaper()">Print</button>
   </div>
 </div></div>
+<div id="toast" role="status"></div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -225,70 +288,91 @@ const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
   set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
 };
+let toastT;
+function toast(msg){ const t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); }
 
-/* theme + font */
+/* ---------- theme + font ---------- */
 let size = parseInt(store.get("qb_fs", "18"), 10) || 18;
 function applyFs(){ document.documentElement.style.setProperty("--fs", size + "px"); }
 function fs(d){ size = Math.max(14, Math.min(28, size + d * 2)); store.set("qb_fs", size); applyFs(); }
-function theme(){
-  const dark = document.documentElement.dataset.theme !== "dark";
-  document.documentElement.dataset.theme = dark ? "dark" : "light";
-  $("dm").textContent = dark ? "Light" : "Dark"; store.set("qb_theme", dark ? "dark" : "light");
-}
+function setTheme(dark){ document.documentElement.dataset.theme = dark ? "dark" : "light"; $("dm").textContent = dark ? "☀️" : "🌙"; }
+function theme(){ const dark = document.documentElement.dataset.theme !== "dark"; setTheme(dark); store.set("qb_theme", dark ? "dark" : "light"); }
 applyFs();
-if (store.get("qb_theme", "light") === "dark") { document.documentElement.dataset.theme = "dark"; $("dm").textContent = "Light"; }
+(function(){
+  let t = store.get("qb_theme", "");
+  if (!t) { try { t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } catch(e){ t = "light"; } }
+  setTheme(t === "dark");
+})();
 
-/* tabs */
+/* ---------- tabs ---------- */
 function go(p){
   ["chat","browse","stats"].forEach(n => { $("p-" + n).classList.toggle("on", n === p); $("t-" + n).classList.toggle("on", n === p); });
   if (p === "browse") loadTree();
   if (p === "stats") loadStats();
 }
 
-/* safe mini-markdown (escape first) */
+/* ---------- safe mini-markdown (escape first) ---------- */
 function inline(s){
-  return s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  return s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, "$1<em>$2</em>").replace(/`([^`]+)`/g, "<code>$1</code>");
 }
 function md(src){
   const lines = esc(src).split("\n"); let out = "", list = null;
-  const close = () => { if (list) { out += "</" + list + ">"; list = null; } };
+  const close = () => {
+    if (!list) return;
+    const tag = list.type;
+    out += "<" + tag + (tag === "ol" && list.start > 1 ? ' start="' + list.start + '"' : "") + ">";
+    list.items.forEach(it => {
+      out += "<li>" + it.html;
+      if (it.subs.length) out += "<ul>" + it.subs.map(x => "<li>" + x + "</li>").join("") + "</ul>";
+      out += "</li>";
+    });
+    out += "</" + tag + ">"; list = null;
+  };
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i];
     if (/^\s*\|.*\|\s*$/.test(l)) {
       close(); const rows = [];
       while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) { rows.push(lines[i]); i++; } i--;
-      out += "<table>"; let head = true;
+      out += '<div class="tw"><table>'; let head = true;
       rows.forEach(r => {
         if (/^\s*\|[\s:|-]+\|\s*$/.test(r)) return;
         const cells = r.trim().replace(/^\||\|$/g, "").split("|").map(c => inline(c.trim()));
         out += "<tr>" + cells.map(c => head ? "<th>" + c + "</th>" : "<td>" + c + "</td>").join("") + "</tr>"; head = false;
       });
-      out += "</table>"; continue;
+      out += "</table></div>"; continue;
     }
     let m;
-    if ((m = l.match(/^\s*#{1,2}\s+(.*)/))) { close(); out += "<h2>" + inline(m[1]) + "</h2>"; }
+    if (/^\s*&gt;\s?/.test(l)) {
+      close(); const q = [];
+      while (i < lines.length && /^\s*&gt;\s?/.test(lines[i])) { q.push(inline(lines[i].replace(/^\s*&gt;\s?/, ""))); i++; } i--;
+      out += "<blockquote>" + q.join("<br>") + "</blockquote>"; continue;
+    }
+    if (/^\s*-{3,}\s*$/.test(l)) { close(); out += "<hr>"; }
+    else if ((m = l.match(/^\s*#{1,2}\s+(.*)/))) { close(); out += "<h2>" + inline(m[1]) + "</h2>"; }
     else if ((m = l.match(/^\s*#{3,6}\s+(.*)/))) { close(); out += "<h3>" + inline(m[1]) + "</h3>"; }
-    else if ((m = l.match(/^\s*[-*•]\s+(.*)/))) { if (list !== "ul") { close(); out += "<ul>"; list = "ul"; } out += "<li>" + inline(m[1]) + "</li>"; }
-    else if ((m = l.match(/^\s*\d+[.)]\s+(.*)/))) { if (list !== "ol") { close(); out += "<ol>"; list = "ol"; } out += "<li>" + inline(m[1]) + "</li>"; }
-    else if (!l.trim()) { close(); }
+    else if ((m = l.match(/^(\s{2,})[-*•]\s+(.*)/)) && list && list.items.length) { list.items[list.items.length - 1].subs.push(inline(m[2])); }
+    else if ((m = l.match(/^\s*[-*•]\s+(.*)/))) { if (!list || list.type !== "ul") { close(); list = {type: "ul", items: [], start: 1}; } list.items.push({html: inline(m[1]), subs: []}); }
+    else if ((m = l.match(/^\s*(\d+)[.)]\s+(.*)/))) { if (!list || list.type !== "ol") { close(); list = {type: "ol", items: [], start: parseInt(m[1], 10)}; } list.items.push({html: inline(m[2]), subs: []}); }
+    else if (!l.trim()) { /* blank line keeps an open list together */ if (list && !/^\s*(\d+[.)]|[-*•])\s/.test(lines[i + 1] || "")) close(); }
     else { close(); out += "<p>" + inline(l) + "</p>"; }
   }
   close(); return out;
 }
 
-/* chat */
+/* ---------- chat ---------- */
 const log = $("log"), wrapm = $("wrapmsgs"), qbox = $("q");
 function addMsg(role, content, o){
   o = o || {};
   const hero = $("hero"); if (hero) hero.remove();
-  const row = document.createElement("div"); row.className = "msg " + role;
+  const row = document.createElement("div"); row.className = "msg fresh " + role;
+  row.addEventListener("animationend", () => row.classList.remove("fresh"), {once: true});
   const av = document.createElement("div"); av.className = "av"; av.textContent = role === "me" ? "You" : "AI";
-  const b = document.createElement("div"); b.className = "bub";
+  const b = document.createElement("div"); b.className = "bub" + (role === "bot" ? " rt" : "");
   if (o.md) b.innerHTML = md(content); else if (o.html) b.innerHTML = content; else b.textContent = content;
   const hasS = o.sources && o.sources.length, hasW = o.web && o.web.length;
   if (hasS || hasW) {
     const box = document.createElement("div"); box.className = "src";
-    if (hasS) { box.append("From college papers: "); o.sources.forEach(s => { const t = document.createElement("span"); t.className = "tag"; t.textContent = s; box.appendChild(t); }); }
+    if (hasS) { box.append("Source papers: "); o.sources.forEach(s => { const t = document.createElement("span"); t.className = "tag"; t.textContent = s; box.appendChild(t); }); }
     if (hasW) {
       const br = document.createElement("div"); br.style.marginTop = "6px"; br.textContent = "From the web: "; box.appendChild(br);
       o.web.forEach(w => {
@@ -302,14 +386,19 @@ function addMsg(role, content, o){
   if (o.copy) {
     const acts = document.createElement("div"); acts.className = "acts";
     const c = document.createElement("button"); c.className = "mini"; c.textContent = "Copy";
-    c.onclick = () => { try { navigator.clipboard.writeText(o.copy); } catch(e){} c.textContent = "Copied"; setTimeout(() => c.textContent = "Copy", 1500); };
-    const p = document.createElement("button"); p.className = "mini"; p.textContent = "Print"; p.onclick = () => window.print();
+    c.onclick = () => { try { navigator.clipboard.writeText(o.copy); toast("Copied to clipboard"); } catch(e){} };
+    const p = document.createElement("button"); p.className = "mini"; p.textContent = "Print"; p.onclick = () => printHtml(b.innerHTML);
     acts.append(c, p); b.appendChild(acts);
   }
   row.append(av, b); wrapm.appendChild(row); log.scrollTop = log.scrollHeight; return row;
 }
 
-let busy = false;
+function newChat(){
+  if (busy) return;
+  wrapm.innerHTML = $("heroTpl").innerHTML; bindHero(); qbox.value = ""; autosize(); go("chat"); qbox.focus();
+}
+
+let busy = false, lastTimers = [];
 async function ask(text){
   text = (text || qbox.value).trim(); if (!text || busy) return;
   go("chat");
@@ -318,7 +407,9 @@ async function ask(text){
   if (sem && !/\b[1-6]\s*(st|nd|rd|th)?\s*sem/i.test(text)) full += " " + sem;
   busy = true; $("send").disabled = true; qbox.value = ""; autosize();
   addMsg("me", text);
-  const typing = addMsg("bot", '<span class="typing"><span></span><span></span><span></span></span>', {html: true});
+  const typing = addMsg("bot", '<div class="typing"><span class="d"></span><span class="d"></span><span class="d"></span><span id="tmsg">Searching papers…</span></div>', {html: true});
+  lastTimers = [setTimeout(() => { const t = $("tmsg"); if (t) t.textContent = "Reading the matching papers…"; }, 2500),
+                setTimeout(() => { const t = $("tmsg"); if (t) t.textContent = "Preparing your answer…"; }, 6000)];
   const fd = new FormData(); fd.append("question", full); fd.append("web", $("web").checked ? "1" : "0");
   const f = $("file").files[0]; if (f) fd.append("file", f);
   try {
@@ -327,16 +418,41 @@ async function ask(text){
     if (d.answer) addMsg("bot", d.answer, { md: true, sources: d.sources, web: d.web, copy: d.answer });
     else addMsg("bot", d.error || "Something went wrong.");
   } catch (e) { typing.remove(); addMsg("bot", "Cannot reach the server. Is app.py running?"); }
+  lastTimers.forEach(clearTimeout);
   busy = false; $("send").disabled = false; qbox.focus();
 }
 function autosize(){ qbox.style.height = "auto"; qbox.style.height = Math.min(qbox.scrollHeight, 140) + "px"; }
 qbox.addEventListener("input", autosize);
 qbox.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); } });
 $("send").onclick = () => ask();
-document.querySelectorAll(".sug").forEach(b => b.onclick = () => ask(b.dataset.q));
 $("file").onchange = e => { $("fname").textContent = e.target.files[0] ? "📄 " + e.target.files[0].name : ""; };
 
-/* analytics */
+/* welcome screen helpers (kept in a template so "New chat" can restore it) */
+const heroTpl = document.createElement("template"); heroTpl.id = "heroTpl"; heroTpl.innerHTML = wrapm.innerHTML; document.body.appendChild(heroTpl);
+function bindHero(){
+  const sr = $("semrow");
+  if (sr && sr.children.length === 1) {
+    for (let i = 1; i <= 6; i++) {
+      const b = document.createElement("button"); b.className = "pill"; b.textContent = i + " sem"; b.dataset.s = i;
+      b.onclick = () => { const v = ["", "1st sem", "2nd sem", "3rd sem", "4th sem", "5th sem", "6th sem"][i]; const same = $("sem").value === v; $("sem").value = same ? "" : v; paintSem(); };
+      sr.appendChild(b);
+    }
+  }
+  document.querySelectorAll(".sug").forEach(b => b.onclick = () => ask(b.dataset.q));
+  document.querySelectorAll(".card").forEach(b => b.onclick = () => {
+    if (b.dataset.q) { const s = $("sem").value || "1st sem"; ask(b.dataset.q.replace("1st sem", s)); }
+    else { qbox.value = b.dataset.fill; autosize(); qbox.focus(); qbox.setSelectionRange(qbox.value.length, qbox.value.length); }
+  });
+  paintSem();
+}
+function paintSem(){
+  const v = $("sem").value, n = v ? parseInt(v, 10) : 0;
+  document.querySelectorAll("#semrow .pill").forEach(p => p.classList.toggle("on", parseInt(p.dataset.s, 10) === n));
+}
+$("sem").addEventListener("change", paintSem);
+bindHero();
+
+/* ---------- analytics ---------- */
 let statsLoaded = false;
 async function loadStats(){
   if (statsLoaded) return;
@@ -400,7 +516,7 @@ document.querySelectorAll("#amode .pill").forEach(b => b.onclick = () => {
 $("ago").onclick = topList;
 $("asub").addEventListener("keydown", e => { if (e.key === "Enter") topList(); });
 
-/* browse */
+/* ---------- browse ---------- */
 let DATA = null, semFilter = "all";
 async function loadTree(){
   if (DATA) return; const tree = $("tree");
@@ -439,21 +555,41 @@ function render(){
 }
 $("s").addEventListener("input", () => { if (DATA) render(); });
 
+/* ---------- paper viewer ---------- */
+let paperRaw = "", paperFmt = "", paperView = "clean";
+function setView(v){
+  paperView = v; $("mv-clean").classList.toggle("on", v === "clean"); $("mv-raw").classList.toggle("on", v === "raw");
+  const mb = $("mb");
+  if (v === "clean" && paperFmt) { mb.className = "rt"; mb.innerHTML = md(paperFmt); }
+  else { mb.className = "rt raw"; mb.textContent = paperRaw || "Nothing to show."; }
+  mb.scrollTop = 0;
+}
 async function openPaper(id, subject){
-  $("mt").textContent = subject; $("mb").textContent = "Loading…"; $("modal").style.display = "block";
-  $("mimp").onclick = () => { closeM(); ask("Important questions in " + subject); };
+  $("mt").textContent = subject; $("mb").className = "rt"; $("mb").textContent = "Loading…"; $("modal").style.display = "block";
+  $("mimp").onclick = () => { closeM(); ask("Important topics in " + subject); };
   try {
     const r = await fetch("/api/paper/" + id); const p = await r.json();
-    $("mt").textContent = p.title || subject; $("mb").textContent = p.content || p.error || "Not found";
+    $("mt").textContent = p.title || subject;
+    paperRaw = p.content || p.error || ""; paperFmt = p.formatted || "";
+    setView(paperFmt ? "clean" : "raw");
   } catch (e) { $("mb").textContent = "Could not load the paper."; }
 }
 function closeM(){ $("modal").style.display = "none"; }
 $("modal").addEventListener("click", e => { if (e.target.id === "modal") closeM(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeM(); });
-function copyPaper(){ try { navigator.clipboard.writeText($("mb").textContent); } catch(e){} }
+function copyPaper(){ try { navigator.clipboard.writeText(paperView === "clean" && paperFmt ? paperFmt : paperRaw); toast("Copied to clipboard"); } catch(e){} }
+function printHtml(html){
+  const w = window.open("", "_blank"); if (!w) { toast("Allow pop-ups to print"); return; }
+  w.document.write('<!doctype html><meta charset="utf-8"><title>QueryBuddy</title><style>'
+    + 'body{font:15px/1.6 "Segoe UI",Arial,sans-serif;color:#111;max-width:760px;margin:24px auto;padding:0 18px}'
+    + 'h2{font-size:20px;border-bottom:2px solid #ccc;padding-bottom:6px}h3{font-size:16px;background:#eee;padding:6px 10px;border-left:4px solid #444;margin-top:22px}'
+    + 'li{margin:8px 0}blockquote{background:#f6f6f6;border:1px solid #ddd;padding:8px 12px;font-size:13px;color:#444}'
+    + 'table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:6px 10px;text-align:left}.acts,.src,.typing{display:none}</style>' + html);
+  w.document.close(); setTimeout(() => w.print(), 300);
+}
 function printPaper(){
-  const w = window.open("", "_blank"); if (!w) return;
-  w.document.write("<pre style='font-family:Arial;font-size:14px;white-space:pre-wrap'>" + esc($("mb").textContent) + "</pre>"); w.document.close(); w.print();
+  if (paperView === "clean" && paperFmt) printHtml(md(paperFmt));
+  else printHtml("<pre style='white-space:pre-wrap;font:13px Consolas,monospace'>" + esc(paperRaw) + "</pre>");
 }
 </script>
 </body>

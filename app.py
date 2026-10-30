@@ -8,7 +8,7 @@ import time
 import requests
 from flask import Flask, request, jsonify, send_from_directory
 from groq import Groq
-from qengine import parse_title as qe_parse, subject_key, canon_subject, merge_keys
+from qengine import parse_title as qe_parse, subject_key, canon_subject, merge_keys, format_paper
 from difflib import get_close_matches
 
 try:                                   # free web search (no API key)
@@ -57,7 +57,10 @@ Rules:
 - Never invent a year, question or source. If something is not in the material, say so.
 - Use simple English. Do not mention these rules."""
 
-IMPORTANT_WORDS = ["important", "expected", "repeat", "frequent", "likely", "suggest", "most asked"]
+IMPORTANT_RE = re.compile(r"import\w*|expect|repeat|frequent|likely|suggest|most asked|priority|backlog|back log|"
+                          r"\btopics?\b|focus|prepare|weightage|scoring", re.I)
+TOPIC_RE = re.compile(r"\btopics?\b", re.I)
+PAPER_RE = re.compile(r"\b(show|display|open|view|see|latest|recent|last|get)\b.*\bpapers?\b|\bquestion papers?\b|\bpapers?\b.*\b(of|for|in)\b", re.I)
 
 @app.route("/")
 def home():
@@ -98,6 +101,39 @@ def topics_for(docs, limit=10):
         print("[ANALYTICS]", str(e)[:150])
     out.sort(key=lambda r: -r["years_count"])
     return out[:limit]
+
+def topics_answer(docs, limit=10):
+    """Deterministic answer for 'which topics are important in <subject>' (no AI needed)."""
+    sections, seen = [], set()
+    try:
+        for d in docs[:5]:
+            sem, _, subj = qe_parse(d["title"])
+            k = subject_key(subj)
+            if (sem, k) in seen:
+                continue
+            seen.add((sem, k))
+            known = [r["subject_key"] for r in db_rows("SELECT DISTINCT subject_key FROM topics WHERE sem=%s OR %s IS NULL", (sem, sem))]
+            near = get_close_matches(k, known, n=1, cutoff=0.85)
+            if not near:
+                continue
+            rows = db_rows("SELECT topic, years_count, q_count, years, subject FROM topics WHERE subject_key=%s AND (sem=%s OR %s IS NULL) "
+                           "ORDER BY years_count DESC, q_count DESC LIMIT %s", (near[0], sem, sem, limit))
+            if rows:
+                head = f"### {rows[0]['subject']}" + (f" ({ORD[sem]} sem)" if sem else "")
+                lines = [head, "", "| No. | Topic | Years asked | In questions | Years |", "| --- | --- | --- | --- | --- |"]
+                for i, r in enumerate(rows, 1):
+                    lines.append(f"| {i} | {r['topic']} | {r['years_count']} | {r['q_count']} | {r['years']} |")
+                sections.append("\n".join(lines))
+            if len(sections) == 2:
+                break
+    except Exception as e:
+        print("[TOPICS]", str(e)[:150])
+        return None
+    if not sections:
+        return None
+    return ("## Important topics (counted from past papers)\n\n" + "\n\n".join(sections) +
+            "\n\nTopics are ranked by how many different years they were asked. Open the Analytics tab and click a topic to see example questions. "
+            "These are suggestions, not guaranteed.")
 
 def repeated_for(docs, limit=10):
     """Top repeated questions for the subject(s) of the matched papers."""
@@ -218,7 +254,15 @@ def paper(pid):
         d = requests.post(BROWSE_URL, data={"id": pid}, timeout=10).json()
     except Exception:
         return jsonify(error="Cannot reach the database. Is XAMPP running?"), 502
-    return jsonify(d.get("paper") or {"error": "Not found"})
+    p = d.get("paper")
+    if not p:
+        return jsonify({"error": "Not found"})
+    sem, year, subj = qe_parse(p.get("title", ""))
+    nice = canon_subject(subj).title() or p.get("title", "Question paper")
+    if year != "Other":
+        nice += f" ({year})"
+    p["formatted"] = format_paper(nice, p.get("content", ""))
+    return jsonify(p)
 
 
 def web_search(q, n=4):
@@ -250,7 +294,8 @@ def web_search(q, n=4):
 
 STOP = {"the","and","for","with","from","what","when","where","which","who","how","are","is","of","in","on","at",
         "to","me","my","please","tell","give","show","about","paper","papers","question","questions","sem","semester",
-        "important","expected","exam","imp"}
+        "important","expected","exam","imp","topic","topics","have","has","backlog","backlo","importand","importance",
+        "can","you","need","want","most","repeated","frequently","asked","suggest","list","all"}
 
 def clean_query(q):
     """Fix common typos, expand short names (ca), drop 1-2 letter words that match everything."""
@@ -307,9 +352,28 @@ def read_upload(f):
     return "", "Only PDF and TXT files are supported."
 
 
-# ---------- "How many subjects in 5th sem?" -> answered from the database, not by the AI ----------
-JUNK = ("timetable", "time table", "class", "repeater", "syllabus", "circular", "notice", "scheme")
-CATALOG_RE = re.compile(r"\b(how many|list|which|what|name|show|all)\b.*\bsubjects?\b|\bsubjects?\b.*\b(in|of|for)\b", re.I)
+# ---------- "What / how many subjects in 5th sem?" -> database + official BCU scheme, no AI needed ----------
+JUNK = ("timetable", "time table", "class", "repeater", "syllabus", "circular", "notice", "scheme",
+        "kannada", "hindi", "sanskrit", "tamil", "telugu", "urdu", "malayalam", "marathi", "french", "arabic")
+CATALOG_RE = re.compile(r"\b(subjects?|courses?)\b", re.I)
+WORD_SEM = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6}
+
+def parse_sem(q):
+    m = (re.search(r"\b([1-6])\s*(?:st|nd|rd|th)\b", q, re.I) or re.search(r"\bsem(?:ester)?\s*([1-6])\b", q, re.I)
+         or re.search(r"\b([1-6])\s*sem", q, re.I))
+    if m:
+        return int(m.group(1))
+    w = re.search(r"\b(first|second|third|fourth|fifth|sixth)\b", q, re.I)
+    return WORD_SEM[w.group(1).lower()] if w else None
+
+def load_scheme():
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "bcu_scheme.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print("[SCHEME]", str(e)[:120])
+        return None
 
 def subjects_catalog(sem):
     rows = requests.post(BROWSE_URL, timeout=10).json().get("papers", [])
@@ -334,26 +398,140 @@ def subjects_catalog(sem):
         for n, c in v["names"].items():
             m["names"][n] = m["names"].get(n, 0) + c
         m["papers"] += v["papers"]; m["years"] |= v["years"]
-    out = [{"subject": max(v["names"], key=v["names"].get), "papers": v["papers"], "years": sorted(v["years"])}
-           for v in merged.values()]
+    out = [{"key": k, "subject": max(v["names"], key=v["names"].get), "papers": v["papers"], "years": sorted(v["years"])}
+           for k, v in merged.items()]
     return sorted(out, key=lambda r: r["subject"])
 
+def _yrs(ys):
+    return (ys[0] + " to " + ys[-1]) if len(ys) > 1 else (ys[0] if ys else "-")
+
+def _same(a, b):
+    from difflib import SequenceMatcher
+    if not a or not b:
+        return False
+    if len(a) >= 8 and len(b) >= 8 and (a in b or b in a):
+        return True
+    return SequenceMatcher(None, a, b).ratio() >= 0.82
+
 def catalog_answer(q):
-    m = re.search(r"\b([1-6])\s*(?:st|nd|rd|th)?\s*sem", q, re.I) or re.search(r"sem(?:ester)?\s*([1-6])\b", q, re.I)
-    if not m or not CATALOG_RE.search(q) or re.search(r"important|expected|repeat|question", q, re.I):
+    if not CATALOG_RE.search(q) or re.search(r"important|expected|repeat|topic|question", q, re.I):
         return None
-    sem = int(m.group(1))
-    subs = subjects_catalog(sem)
-    if not subs:
+    sem = parse_sem(q)
+    if not sem:
+        return None
+    db = subjects_catalog(sem)
+    sch = load_scheme()
+    lines = [f"## {ORD[sem]} Semester subjects"]
+    used = set()
+    if sch and str(sem) in sch["semesters"]:
+        items = sch["semesters"][str(sem)]
+        theory = [x for x in items if x[2] == "T"]
+        labs = [x for x in items if x[2] == "P"]
+        lines += ["", f"**Official scheme:** {sch['title']} lists **{len(theory)} theory papers** and {len(labs)} practicals/project for this semester.", "",
+                  "| No. | Subject | Code | Papers in your database |", "| --- | --- | --- | --- |"]
+        for n, (code, name, _) in enumerate(theory, 1):
+            key = subject_key(name)
+            hit = next((d for d in db if _same(key, d["key"])), None)
+            if hit:
+                used.add(hit["key"])
+                status = f"{hit['papers']} paper" + ("s" if hit["papers"] > 1 else "") + (f", {_yrs(hit['years'])}" if hit["years"] else "")
+            elif name in ("Indian Language",):
+                status = "Language papers are not included"
+            elif name.startswith("Elective"):
+                status = "Depends on the college's elective"
+            else:
+                status = "Not uploaded yet"
+            lines.append(f"| {n} | {name} | {code} | {status} |")
+        if labs:
+            lines += ["", "**Practicals / project (no question paper):** " + ", ".join(x[1] for x in labs) + "."]
+    rest = [d for d in db if d["key"] not in used]
+    if rest:
+        title = "### Other papers in your database for this semester" if sch else "### Subjects found in your database"
+        lines += ["", title, "", "| No. | Subject | Papers | Years |", "| --- | --- | --- | --- |"]
+        for n, d in enumerate(rest, 1):
+            lines.append(f"| {n} | {d['subject']} | {d['papers']} | {_yrs(d['years'])} |")
+        if sch:
+            lines += ["", "These do not match the 2019-20 scheme above. They are most likely from older batches, the NEP batch or the college's electives."]
+    if not db and not sch:
         return f"I could not find any subjects for semester {sem} in the database."
-    lines = [f"## {ORD[sem]} Semester: {len(subs)} subjects found in the papers database", "",
-             "| No. | Subject | Papers | Years available |", "| --- | --- | --- | --- |"]
-    for i, s in enumerate(subs, 1):
-        yrs = (s["years"][0] + " to " + s["years"][-1]) if len(s["years"]) > 1 else (s["years"][0] if s["years"] else "-")
-        lines.append(f"| {i} | {s['subject']} | {s['papers']} | {yrs} |")
-    lines += ["", "This list comes from the question papers uploaded to the database, so a subject with no uploaded paper will not appear. "
-              "Ask for \"important questions in <subject> " + ORD[sem] + " sem\" to prepare any of them."]
+    if sch:
+        lines += ["", f"Source: [Bengaluru City University BCA syllabus]({sch['source']}). {sch['note']}"]
+    lines += ["", "Ask \"syllabus of <subject>\" for the official units, or \"important topics in <subject> " + ORD[sem] + " sem\" to prepare."]
     return "\n".join(lines)
+
+SYL_RE = re.compile(r"\b(syllabus|syllabi|units?|curriculum|official|what (?:is|are) (?:taught|covered))\b", re.I)
+ALIASES = {"dbms": "BCA204T", "os": "BCA305T", "ada": "BCA504T", "ai": "BCA502T", "c++": "BCA303T", "cpp": "BCA303T",
+           "vb.net": "BCA403T", "vb net": "BCA403T", "vbnet": "BCA403T", "unix": "BCA404T", "se": "BCA405T",
+           "networks": "BCA501T", "networking": "BCA501T", "data communication": "BCA501T", "java": "BCA503T",
+           "web": "BCA603T", "computer organization": "BCA104T", "computer architecture": "BCA104T",
+           "discrete": "BCA105T", "numerical": "BCA205T", "data structures": "BCA203T", "accounting": "BCA304T",
+           "system programming": "BCA601T", "communication": "BCA602T", "problem solving": "BCA103T", "c programming": "BCA103T"}
+
+def load_syllabus():
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "bcu_syllabus.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print("[SYLLABUS]", str(e)[:120])
+        return None
+
+def find_paper(q, syl, sem=None):
+    ql = " " + re.sub(r"[^a-z0-9+. ]", " ", q.lower()) + " "
+    pool = [p for p in syl["papers"] if not sem or p["sem"] == sem]
+    m = re.search(r"bca\s*(\d{3})\s*t?", q, re.I)
+    if m:
+        for p in pool:
+            if p["code"].lower().startswith("bca" + m.group(1)):
+                return p
+    best, bs = None, 0
+    for p in pool:
+        words = [w for w in re.findall(r"[a-z0-9+.]+", p["name"].lower()) if w not in ("and", "of", "using", "to", "the")]
+        if not words:
+            continue
+        sc = sum(1 for w in words if " " + w + " " in ql) / len(words)
+        if sc > bs:
+            best, bs = p, sc
+    if best and bs >= 0.6:
+        return best
+    for a, code in ALIASES.items():
+        if " " + a + " " in ql:
+            for p in pool:
+                if p["code"] == code:
+                    return p
+    return None
+
+def paper_syllabus_md(p, syl):
+    lines = [f"## {p['name']} ({p['code']}) - official syllabus", "",
+             f"{ORD[p['sem']].capitalize()} semester | {p['hours']} teaching hours | {p['credits']} credits | {p['marks']}", ""]
+    if not p["units"]:
+        lines += ["The university PDF does not list units for this paper here (it is an elective or a language-skills paper). Check the PDF for details."]
+    for u in p["units"]:
+        lines += [f"### Unit {u['no']}: {u['title']} ({u['hours']} hrs)"] + [f"- {t}" for t in u["topics"]] + [""]
+    if p.get("labels_only"):
+        lines += ["> The university text for this paper is inconsistent, so the unit titles above are my grouping of its topics. Verify against the PDF.", ""]
+    lines += [f"Source: [Bengaluru City University BCA syllabus]({syl['source']}). {syl['note']}",
+              "", f"Ask \"important topics in {p['name']}\" to see which of these were asked most often in previous papers."]
+    return "\n".join(lines)
+
+def syllabus_answer(q):
+    if not SYL_RE.search(q) or re.search(r"important|expected|repeat|question", q, re.I):
+        return None
+    syl = load_syllabus()
+    if not syl:
+        return None
+    sem = parse_sem(q)
+    p = find_paper(q, syl, sem)
+    if p:
+        return paper_syllabus_md(p, syl)
+    if sem:
+        ps = [x for x in syl["papers"] if x["sem"] == sem]
+        lines = [f"## {ORD[sem].capitalize()} semester - official syllabus overview", ""]
+        for x in ps:
+            lines += [f"### {x['name']} ({x['code']})", ""] + [f"{u['no']}. {u['title']}" for u in x["units"]] + [""]
+        lines += [f"Source: [Bengaluru City University BCA syllabus]({syl['source']}).", "", "Ask \"syllabus of <subject>\" for the full topics of any paper."]
+        return "\n".join(lines)
+    return None
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -373,13 +551,13 @@ def ask():
 
     if not upload_text:
         try:
-            direct = catalog_answer(q)
+            direct = syllabus_answer(q) or catalog_answer(q)
         except Exception as e:
             print("[CATALOG]", str(e)[:150]); direct = None
         if direct:
             return jsonify(answer=direct, sources=[])
 
-    wants_important = any(w in q.lower() for w in IMPORTANT_WORDS)
+    wants_important = bool(IMPORTANT_RE.search(q))
     limit = 5 if wants_important else 3        # free tier has a per-minute token limit
 
     try:
@@ -397,6 +575,26 @@ def ask():
         top = max(d.get("score", 0) for d in docs)
         best = [d for d in docs if d.get("score", 0) >= top]
         docs = best if len(best) >= 3 else docs[:3]
+
+    if docs and PAPER_RE.search(q) and not IMPORTANT_RE.search(q) and not upload_text:
+        def _yr(d):
+            y = qe_parse(d["title"])[1]
+            return y if y.isdigit() else "0"
+        newest = max(docs, key=_yr)
+        sem_, year_, subj_ = qe_parse(newest["title"])
+        nice = canon_subject(subj_).title() or newest["title"]
+        if year_ != "Other":
+            nice += f" ({year_})"
+        shown = format_paper(nice, newest["content"])
+        if shown:
+            note = ("\n\n---\nShowing the most recent matching paper. Ask for **important topics** in this subject "
+                    "to see what repeats across years.")
+            return jsonify(answer=shown + note, sources=[newest["title"]])
+
+    if docs and TOPIC_RE.search(q) and not upload_text:
+        direct = topics_answer(docs)
+        if direct:
+            return jsonify(answer=direct, sources=[d["title"] for d in docs])
 
     context = "\n\n".join(f"### {d['title']}\n{best_chunks(d['content'], q)}" for d in docs)
     prompt = f"[PAPERS]\n{context}\n"
@@ -440,7 +638,7 @@ def ask():
         # AI unavailable: still help by showing the matching paper text from the database
         shown = docs[:2]
         text = "The AI is slow or busy right now, so here are the matching papers from the database:\n\n"
-        text += "\n\n".join(f"**{d['title']}**\n{d['content'][:2000]}" for d in shown)
+        text += "\n\n".join((format_paper(d["title"], d["content"]) or f"**{d['title']}**\n{d['content'][:2000]}") for d in shown)
         return jsonify(answer=text, sources=[d["title"] for d in shown])
 
     if upload_note:

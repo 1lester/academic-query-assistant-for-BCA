@@ -199,3 +199,131 @@ def extract_topics(items, min_years=2, top=40):
                 break
         out.append({"topic": disp, "years": sorted(s["years"]), "n": s["n"], "examples": examples})
     return out
+
+
+# ---------- Clean display of an OCR'd paper ----------
+_MARKS = re.compile(r"\(?\s*(\d+)\s*[xX×*]\s*(\d+)\s*=\s*(\d+)\s*\)?")
+_PART = re.compile(r"^\W*(?:part|section)\s*[-–:]?\s*([A-Ea-e])\b[\W]*(.*)$", re.I)
+_ROMAN = re.compile(r"^\W*(I{1,3}|IV|V|I[Ll1])\s*[.):\-]?\s+(.*)$")
+_ACTION = re.compile(r"\b(answer|attempt|write|choose|fill|any|all|each|marks)\b", re.I)
+_CODE = re.compile(r"\b([A-Z]{3,5}\s?\d{2,4}[A-Z]?)\b")
+_META = re.compile(r"university|bca|b\.c\.a|semester|examination|exam|time\s*:|max|maximum|duration|date|reg", re.I)
+
+
+def _clean_line(s):
+    s = s.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    s = re.sub(r"(?<=\s)\|(?=\s)", "1", s)           # OCR often reads a "1" as "|"
+    s = re.sub(r"^[\s_|~=\-—]+", "", s)          # stray bullets / underscores at the start
+    s = re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+[-\u2013\u2014_]+$", "", s)       # trailing dash
+    return s
+
+
+def _is_junk(s):
+    letters = sum(c.isalpha() for c in s)
+    if letters < 3:
+        return True
+    return letters / max(len(s), 1) < 0.45 and len(s) < 20
+
+
+def _ends(s):
+    """True when a question text looks finished (ends with . ? or a marks note)."""
+    return bool(re.search(r"[.?]\s*$|\(\s*\d+\s*(?:marks?|m)?\s*\)\s*$", s.strip()))
+
+
+def format_paper(title, text):
+    """Turn messy OCR text into tidy markdown: header, sections, numbered questions."""
+    lines = [_clean_line(l) for l in (text or "").splitlines()]
+    meta, code = [], ""
+    sections = []          # {"title","note","qs":[{"text","subs":[]}]}
+    cur = None
+    sec_i = 0
+
+    def new_section(name, note=""):
+        nonlocal cur
+        cur = {"title": name, "note": note, "qs": []}
+        sections.append(cur)
+
+    for ln in lines:
+        if not ln:
+            continue
+        mcode = _CODE.search(ln)
+        if mcode and not code:
+            code = re.sub(r"\s+", "", mcode.group(1))
+        if _is_junk(ln):
+            continue
+        pm = _PART.match(ln)
+        rm = _ROMAN.match(ln)
+        if pm and len(ln) < 120:
+            new_section("Part " + pm.group(1).upper(), pm.group(2).strip(" -:"))
+            sec_i += 1
+            continue
+        if rm and _ACTION.search(rm.group(2)) and len(ln) < 140:
+            sec_i += 1
+            new_section("Part " + "ABCDE"[min(sec_i - 1, 4)], rm.group(2).strip())
+            continue
+        if cur is not None and not cur["qs"] and not cur["note"] and _ACTION.search(ln) and len(ln) < 120 and not re.match(r"^\d{1,2}[.)]\s", ln):
+            cur["note"] = ln
+            continue
+        if cur is None and _META.search(ln) and len(meta) < 6 and len(ln) < 100:
+            meta.append(ln)
+            continue
+        if cur is None:
+            if re.match(r"^\d{1,2}[.)]\s+\S", ln):
+                new_section("Questions")
+            else:
+                continue
+        mnum = re.match(r"^(\d{1,2})\s*[.)]\s*(.*)$", ln)
+        msub = re.match(r"^\(?([a-eA-E])\s*[.)]\s+(.*)$", ln)
+        if mnum and mnum.group(2):
+            cur["qs"].append({"text": mnum.group(2), "subs": []})
+        elif msub and cur["qs"]:
+            cur["qs"][-1]["subs"].append(msub.group(2))
+        elif cur["qs"] and not _ends(cur["qs"][-1]["subs"][-1] if cur["qs"][-1]["subs"] else cur["qs"][-1]["text"]):
+            tgt = cur["qs"][-1]
+            if tgt["subs"]:
+                tgt["subs"][-1] += " " + ln
+            else:
+                tgt["text"] += " " + ln
+        else:
+            if len(ln) >= 12:
+                cur["qs"].append({"text": ln, "subs": []})
+
+    out = [f"## {title}"]
+    info = []
+    if code:
+        info.append(f"**Paper code:** {code}")
+    for m in meta:
+        mk = _MARKS.search(m)
+        info.append(m)
+    if info:
+        out.append("\n".join("> " + i for i in info))
+    n = 0
+    for s in sections:
+        if not s["qs"]:
+            continue
+        head = "### " + s["title"]
+        note = s["note"]
+        mk = _MARKS.search(note)
+        if mk:
+            note = _MARKS.sub("", note).strip(" :-")
+            note = f"{note} ({mk.group(1)} × {mk.group(2)} = {mk.group(3)} marks)".strip()
+        if note:
+            head += f"\n*{note}*"
+        out.append(head)
+        lines_q = []
+        seen = set()
+        for i, q in enumerate(s["qs"], 1):
+            t = q["text"].strip()
+            if not t or t.lower() in seen:
+                continue
+            seen.add(t.lower())
+            n += 1
+            t = t[0].upper() + t[1:]
+            lines_q.append(f"{len(seen)}. {t}")
+            for j, sub in enumerate(q["subs"]):
+                lines_q.append(f"    - ({'abcde'[min(j, 4)]}) {sub}")
+        out.append("\n".join(lines_q))
+    if n == 0:
+        return None
+    return "\n\n".join(out)

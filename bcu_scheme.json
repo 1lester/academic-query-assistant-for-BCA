@@ -1,0 +1,229 @@
+{
+ "source": "https://www.bcu.ac.in/documents/Syllabus-all/UG/Science/BCA-Syllabus.pdf",
+ "title": "Bengaluru City University BCA scheme (revised w.e.f. 2019-20)",
+ "note": "Read from the university's BCA syllabus PDF. Check the PDF for your own batch, because older batches and the NEP batch use different subjects.",
+ "semesters": {
+  "1": [
+   [
+    "BCA101T",
+    "Indian Language",
+    "T"
+   ],
+   [
+    "BCA102T",
+    "English",
+    "T"
+   ],
+   [
+    "BCA103T",
+    "Problem Solving Techniques using C",
+    "T"
+   ],
+   [
+    "BCA104T",
+    "Computer Organizations",
+    "T"
+   ],
+   [
+    "BCA105T",
+    "Discrete Mathematics",
+    "T"
+   ],
+   [
+    "BCA103P",
+    "C Programming Lab",
+    "P"
+   ],
+   [
+    "BCA104P",
+    "Office Automation",
+    "P"
+   ]
+  ],
+  "2": [
+   [
+    "BCA201T",
+    "Indian Language",
+    "T"
+   ],
+   [
+    "BCA202T",
+    "English",
+    "T"
+   ],
+   [
+    "BCA203T",
+    "Data Structures",
+    "T"
+   ],
+   [
+    "BCA204T",
+    "Database Management System",
+    "T"
+   ],
+   [
+    "BCA205T",
+    "Numerical and Statistical Methods",
+    "T"
+   ],
+   [
+    "BCA203P",
+    "Data Structures using C Lab",
+    "P"
+   ],
+   [
+    "BCA204P",
+    "DBMS Lab using Oracle",
+    "P"
+   ]
+  ],
+  "3": [
+   [
+    "BCA301T",
+    "Indian Language",
+    "T"
+   ],
+   [
+    "BCA302T",
+    "English",
+    "T"
+   ],
+   [
+    "BCA303T",
+    "Object Oriented Programming using C++",
+    "T"
+   ],
+   [
+    "BCA304T",
+    "Financial Accounting and Management",
+    "T"
+   ],
+   [
+    "BCA305T",
+    "Operating System",
+    "T"
+   ],
+   [
+    "BCA303P",
+    "OOPS using C++ Lab",
+    "P"
+   ],
+   [
+    "BCA304P",
+    "Tally Lab",
+    "P"
+   ]
+  ],
+  "4": [
+   [
+    "BCA401T",
+    "Indian Language",
+    "T"
+   ],
+   [
+    "BCA402T",
+    "English",
+    "T"
+   ],
+   [
+    "BCA403T",
+    "VB.NET Programming",
+    "T"
+   ],
+   [
+    "BCA404T",
+    "Unix and Shell Programming",
+    "T"
+   ],
+   [
+    "BCA405T",
+    "Software Engineering",
+    "T"
+   ],
+   [
+    "BCA403P",
+    "VB.NET Lab",
+    "P"
+   ],
+   [
+    "BCA404P",
+    "Unix Lab",
+    "P"
+   ]
+  ],
+  "5": [
+   [
+    "BCA501T",
+    "Data Communication and Networks",
+    "T"
+   ],
+   [
+    "BCA502T",
+    "Artificial Intelligence",
+    "T"
+   ],
+   [
+    "BCA503T",
+    "Java Programming",
+    "T"
+   ],
+   [
+    "BCA504T",
+    "Analysis and Design of Algorithm",
+    "T"
+   ],
+   [
+    "BCA505T",
+    "Elective 1 (chosen by the college)",
+    "T"
+   ],
+   [
+    "BCA503P",
+    "Java Programming Lab",
+    "P"
+   ],
+   [
+    "BCA504P",
+    "Analysis and Design of Algorithm Lab",
+    "P"
+   ],
+   [
+    "BCA506P",
+    "Project",
+    "P"
+   ]
+  ],
+  "6": [
+   [
+    "BCA601T",
+    "System Programming",
+    "T"
+   ],
+   [
+    "BCA602T",
+    "Professional and Business Communication",
+    "T"
+   ],
+   [
+    "BCA603T",
+    "Web Programming",
+    "T"
+   ],
+   [
+    "BCA604T",
+    "Elective 2 (chosen by the college)",
+    "T"
+   ],
+   [
+    "BCA605P",
+    "Web Programming Lab",
+    "P"
+   ],
+   [
+    "BCA606P",
+    "Project Work",
+    "P"
+   ]
+  ]
+ }
+}
