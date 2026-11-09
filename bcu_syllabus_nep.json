@@ -1,0 +1,1953 @@
+{
+ "title": "Bengaluru City University BCA (current NEP / SEP scheme)",
+ "sources": {
+  "1-2": "https://bcu.ac.in/uploads/syllabus/ug_sep/I_and_II_Sem_SEP_Syllabus/Science%20Faculty/BCA.pdf",
+  "3-4": "https://bcu.ac.in/uploads/syllabus/ug_sep/III_and_IV_Sem_SEP_Syllabus/Science%20Faculty/BCA%20UG%20SEP%20-%20III%20&%20IV%20Sem.pdf",
+  "5-6": "https://bca.klesnc.edu.in/wp-content/uploads/2024/02/NEP-BCA-Syllabus-V-VI-Semester.pdf"
+ },
+ "note": "Sem 1-2 follow the 2024-25 SEP scheme, sem 3-4 the 2025-26 SEP scheme, and sem 5-6 the NEP 2023-24 scheme (the newest I could find). Summarised from the PDFs, so check them for exact wording.",
+ "scheme": {
+  "1": [
+   [
+    "24BCA11",
+    "Discrete Structure",
+    "T"
+   ],
+   [
+    "24BCA12",
+    "Problem Solving Technique",
+    "T"
+   ],
+   [
+    "24BCA13",
+    "Computer Architecture",
+    "T"
+   ],
+   [
+    "24BCAL11",
+    "Language L1",
+    "L"
+   ],
+   [
+    "24BCAL12",
+    "Language L2",
+    "L"
+   ],
+   [
+    "24BCACC1",
+    "The Constitution of India",
+    "C"
+   ],
+   [
+    "24BCA12P",
+    "Problem Solving Technique Lab",
+    "P"
+   ],
+   [
+    "24BCA13P",
+    "Computer Architecture Lab",
+    "P"
+   ],
+   [
+    "24BCA1P",
+    "Office Automation Tools",
+    "P"
+   ]
+  ],
+  "2": [
+   [
+    "24BCA21",
+    "Data Structure",
+    "T"
+   ],
+   [
+    "24BCA22",
+    "Object Oriented Programming Using Java",
+    "T"
+   ],
+   [
+    "24BCA23",
+    "Operating Systems",
+    "T"
+   ],
+   [
+    "24BCAL21",
+    "Language L1",
+    "L"
+   ],
+   [
+    "24BCAL22",
+    "Language L2",
+    "L"
+   ],
+   [
+    "24BCACC2",
+    "Environmental Studies",
+    "C"
+   ],
+   [
+    "24BCA21P",
+    "Data Structure Lab",
+    "P"
+   ],
+   [
+    "24BCA22P",
+    "Operating Systems Lab",
+    "P"
+   ],
+   [
+    "24BCA21P",
+    "Linux and Shell Programming Lab",
+    "P"
+   ]
+  ],
+  "3": [
+   [
+    "24BCA31",
+    "Database Management System",
+    "T"
+   ],
+   [
+    "24BCA32",
+    "Python Programming",
+    "T"
+   ],
+   [
+    "24BCA33",
+    "Computer Networks",
+    "T"
+   ],
+   [
+    "24BCA34",
+    "Cyber Security",
+    "T"
+   ],
+   [
+    "24BCAL31",
+    "Language 1",
+    "L"
+   ],
+   [
+    "24BCAL32",
+    "Language 2",
+    "L"
+   ],
+   [
+    "24BCA31P",
+    "Database Management System Lab",
+    "P"
+   ],
+   [
+    "24BCA32P",
+    "Python Programming Lab",
+    "P"
+   ],
+   [
+    "24BCA33P",
+    "Computer Networks Lab",
+    "P"
+   ]
+  ],
+  "4": [
+   [
+    "24BCA41",
+    "Artificial Intelligence",
+    "T"
+   ],
+   [
+    "24BCA42",
+    "Design and Analysis of Algorithms",
+    "T"
+   ],
+   [
+    "24BCA43",
+    "Internet Technologies",
+    "T"
+   ],
+   [
+    "24BCA44",
+    "Ethical Hacking",
+    "T"
+   ],
+   [
+    "24BCASE1",
+    "Probability and Statistics",
+    "T"
+   ],
+   [
+    "24BCAL41",
+    "Language 1",
+    "L"
+   ],
+   [
+    "24BCAL42",
+    "Language 2",
+    "L"
+   ],
+   [
+    "24BCA41P",
+    "Artificial Intelligence Lab",
+    "P"
+   ],
+   [
+    "24BCA42P",
+    "Design and Analysis of Algorithms Lab",
+    "P"
+   ],
+   [
+    "24BCA43P",
+    "Internet Technologies Lab",
+    "P"
+   ]
+  ],
+  "5": [
+   [
+    "CA-C21T",
+    "Artificial Intelligence",
+    "T"
+   ],
+   [
+    "CA-C22T",
+    "Data Analytics",
+    "T"
+   ],
+   [
+    "CA-C23T",
+    "Web Programming",
+    "T"
+   ],
+   [
+    "CA-V1",
+    "Quantitative Techniques",
+    "T"
+   ],
+   [
+    "CA-E1",
+    "Elective I: Data Mining or Computer Graphics",
+    "T"
+   ],
+   [
+    "SEC III",
+    "Cyber Crimes, Cyber Laws and IPR",
+    "C"
+   ],
+   [
+    "CA-C24L",
+    "Data Analytics Lab",
+    "P"
+   ],
+   [
+    "CA-C25L",
+    "Web Programming Lab",
+    "P"
+   ]
+  ],
+  "6": [
+   [
+    "CA-C27T",
+    "Machine Learning",
+    "T"
+   ],
+   [
+    "CA-C28T",
+    "Mobile Application Development",
+    "T"
+   ],
+   [
+    "CA-V2",
+    "Electronic Content Design",
+    "T"
+   ],
+   [
+    "CA-E2",
+    "Elective II: Operations Research or Software Testing",
+    "T"
+   ],
+   [
+    "CA-C29L",
+    "Machine Learning Lab",
+    "P"
+   ],
+   [
+    "CA-C30L",
+    "Mobile Application Development Lab",
+    "P"
+   ],
+   [
+    "CA-C26P",
+    "Project Work",
+    "P"
+   ],
+   [
+    "Internship",
+    "Internship",
+    "P"
+   ]
+  ]
+ },
+ "papers": [
+  {
+   "code": "24BCA11",
+   "sem": 1,
+   "name": "Discrete Structure",
+   "hours": "3 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Set Theory",
+     "hours": 11,
+     "topics": [
+      "Set operations and laws",
+      "Venn diagrams",
+      "Cartesian product",
+      "relations",
+      "functions (types, composition, inverses)",
+      "mathematical induction"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Logic and Counting",
+     "hours": 11,
+     "topics": [
+      "Propositional logic",
+      "connectives and truth tables",
+      "logical equivalence",
+      "tautologies and contradictions",
+      "counting principles",
+      "pigeonhole principle",
+      "permutations",
+      "combinations"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Matrices",
+     "hours": 11,
+     "topics": [
+      "Matrix types and operations",
+      "inverses",
+      "solving linear systems",
+      "determinants",
+      "Cramer's rule",
+      "eigenvalues and eigenvectors"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Graph Theory and Trees",
+     "hours": 12,
+     "topics": [
+      "Graph representation and operations",
+      "directed graphs",
+      "isomorphism",
+      "paths",
+      "cycles",
+      "Euler and Hamilton graphs",
+      "planar graphs",
+      "spanning and minimum spanning trees",
+      "Prim's and Kruskal's algorithms"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA12",
+   "sem": 1,
+   "name": "Problem Solving Technique",
+   "hours": "3 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction",
+     "hours": 12,
+     "topics": [
+      "Role of algorithms",
+      "algorithm analysis and design",
+      "growth of functions",
+      "asymptotic notation",
+      "fundamental algorithms (swapping, counting, summation, factorial, Fibonacci, digit reversal)"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "C Programming",
+     "hours": 11,
+     "topics": [
+      "Variables",
+      "operators",
+      "input/output",
+      "selection statements",
+      "loops",
+      "jump statements",
+      "pointers",
+      "arrays",
+      "command-line arguments"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Factoring and Array Techniques",
+     "hours": 11,
+     "topics": [
+      "Square roots",
+      "divisors",
+      "GCD",
+      "prime factors",
+      "large powers",
+      "array reversal",
+      "counting",
+      "maximum finding",
+      "duplicate removal",
+      "partitioning",
+      "kth smallest element",
+      "matrix multiplication"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Sorting, Searching and Text Processing",
+     "hours": 11,
+     "topics": [
+      "Selection",
+      "exchange",
+      "insertion",
+      "diminishing-increment and partition sorts",
+      "linear",
+      "binary and hash search",
+      "text line adjustment",
+      "text search and editing",
+      "pattern searching"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA13",
+   "sem": 1,
+   "name": "Computer Architecture",
+   "hours": "3 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Number Systems and Digital Logic",
+     "hours": 12,
+     "topics": [
+      "Base conversions",
+      "binary/octal/hex arithmetic",
+      "complements",
+      "BCD arithmetic",
+      "binary and character codes (ASCII, EBCDIC, Unicode)",
+      "error detection and correction",
+      "logic gates",
+      "Boolean algebra",
+      "map simplification"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Combinational and Sequential Circuits",
+     "hours": 11,
+     "topics": [
+      "Half and full adders",
+      "flip-flops (SR, D, JK, T)",
+      "state tables and diagrams",
+      "decoders",
+      "encoders",
+      "multiplexers",
+      "registers",
+      "shift registers",
+      "counters"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Basic Computer Organization and CPU",
+     "hours": 11,
+     "topics": [
+      "Instruction codes",
+      "registers",
+      "instruction cycle",
+      "timing and control",
+      "interrupts",
+      "basic computer design",
+      "register organization",
+      "stacks",
+      "instruction formats",
+      "addressing modes",
+      "RISC vs CISC"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "8085 Assembly Language",
+     "hours": 11,
+     "topics": [
+      "8085 architecture and pin configuration",
+      "programming model",
+      "instruction classification",
+      "data formats",
+      "instruction set (data transfer, arithmetic, logic, branch)",
+      "addressing modes",
+      "writing programs"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA21",
+   "sem": 2,
+   "name": "Data Structure",
+   "hours": "3 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Preliminaries",
+     "hours": 11,
+     "topics": [
+      "Data organization",
+      "ADTs",
+      "algorithm complexity",
+      "time-space trade-off",
+      "notations",
+      "asymptotic analysis",
+      "strings and pattern matching introduction"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Arrays and Linked Lists",
+     "hours": 11,
+     "topics": [
+      "Linear and multidimensional arrays",
+      "memory representation",
+      "traversal",
+      "insertion and deletion",
+      "matrices and sparse matrices",
+      "array searching and sorting",
+      "singly",
+      "doubly",
+      "header and circular linked lists",
+      "memory allocation",
+      "garbage collection"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Stacks and Queues",
+     "hours": 11,
+     "topics": [
+      "Array and linked stacks",
+      "infix-to-postfix conversion and evaluation",
+      "recursion and Tower of Hanoi",
+      "simple",
+      "circular",
+      "double-ended and priority queues and their applications"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Trees, Graphs and Hashing",
+     "hours": 12,
+     "topics": [
+      "Binary trees",
+      "traversals",
+      "binary search trees",
+      "AVL trees",
+      "heaps",
+      "red-black trees",
+      "B-trees",
+      "graph representation and traversal",
+      "hash functions",
+      "hashing techniques",
+      "collisions and resolution"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA22",
+   "sem": 2,
+   "name": "Object Oriented Programming Using Java",
+   "hours": "3 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Java Fundamentals",
+     "hours": 12,
+     "topics": [
+      "OOP paradigms",
+      "C vs Java",
+      "Java features",
+      "classes and objects",
+      "data types",
+      "operators",
+      "control structures",
+      "methods",
+      "constructors",
+      "JDK",
+      "built-in and wrapper classes",
+      "abstract/static/final classes",
+      "casting",
+      "arrays"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Inheritance, Polymorphism, Packages and I/O",
+     "hours": 11,
+     "topics": [
+      "Single",
+      "multiple",
+      "hierarchical and hybrid inheritance",
+      "interfaces",
+      "compile-time and run-time polymorphism",
+      "util",
+      "awt and swing packages",
+      "user-defined packages",
+      "I/O streams"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Event Handling, GUI and Strings",
+     "hours": 11,
+     "topics": [
+      "Event classes and listeners",
+      "mouse and keyboard events",
+      "frames",
+      "panels",
+      "layout managers",
+      "GUI components",
+      "applets and their life cycle",
+      "string handling and string buffers"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Exceptions, Threads and Advanced Topics",
+     "hours": 11,
+     "topics": [
+      "Checked and unchecked exceptions",
+      "try-catch-finally",
+      "thread life cycle and creation",
+      "thread synchronization",
+      "collections",
+      "JavaBeans",
+      "Java security manager",
+      "generics"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA23",
+   "sem": 2,
+   "name": "Operating Systems",
+   "hours": "5 hrs/week",
+   "credits": 5,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2024-25",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Processes",
+     "hours": 11,
+     "topics": [
+      "System organization and operations",
+      "OS structures",
+      "services",
+      "system calls",
+      "boot process",
+      "process concept and scheduling",
+      "inter-process communication",
+      "multithreading models"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Synchronization, Scheduling and Deadlocks",
+     "hours": 12,
+     "topics": [
+      "Critical-section problem",
+      "Peterson's solution",
+      "mutex locks",
+      "semaphores",
+      "monitors",
+      "classic synchronization problems",
+      "CPU scheduling algorithms",
+      "multiprocessor and real-time scheduling",
+      "deadlock characterization",
+      "prevention",
+      "avoidance",
+      "detection and recovery"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Memory, File and Storage Management",
+     "hours": 11,
+     "topics": [
+      "Swapping",
+      "contiguous allocation",
+      "segmentation",
+      "paging",
+      "page tables",
+      "demand paging",
+      "copy-on-write",
+      "page replacement",
+      "frame allocation",
+      "file concepts",
+      "access methods",
+      "directories",
+      "protection",
+      "file-system implementation",
+      "disk scheduling and management"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Linux Programming",
+     "hours": 11,
+     "topics": [
+      "Linux architecture",
+      "command format",
+      "internal and external commands",
+      "directory",
+      "file and disk commands",
+      "general utilities"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA31",
+   "sem": 3,
+   "name": "Database Management System",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of Database Systems and Architecture",
+     "hours": null,
+     "topics": [
+      "DB concepts and history",
+      "DBMS advantages",
+      "schemas and instances",
+      "data models",
+      "data independence",
+      "three-schema architecture",
+      "database languages",
+      "centralized and client-server architectures",
+      "DBMS classification"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Database Design and Storage Structures",
+     "hours": null,
+     "topics": [
+      "ER modelling (entities, relationships, weak entities, extended ER)",
+      "ER-to-relational mapping",
+      "file organization",
+      "secondary storage",
+      "single- and multi-level indexes",
+      "multi-key indexes"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Relational Model, Normalization and SQL",
+     "hours": null,
+     "topics": [
+      "Relational constraints",
+      "anomalies",
+      "functional dependencies",
+      "Armstrong's axioms",
+      "lossless join",
+      "normal forms (1NF to BCNF)",
+      "SQL DDL and DML",
+      "constraints",
+      "views",
+      "assertions",
+      "triggers"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Query Processing, Transactions and PL/SQL",
+     "hours": null,
+     "topics": [
+      "Relational algebra (SELECT, PROJECT, JOIN, DIVISION)",
+      "query evaluation and optimization",
+      "transaction states",
+      "ACID properties",
+      "two-phase locking",
+      "backup and recovery",
+      "PL/SQL basics"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA32",
+   "sem": 3,
+   "name": "Python Programming",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Foundations of Python Programming",
+     "hours": null,
+     "topics": [
+      "Syntax",
+      "data types",
+      "operators",
+      "type conversion",
+      "control flow (conditionals and loops)",
+      "functions",
+      "scope",
+      "command-line arguments",
+      "strings"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Data Structures and File Handling",
+     "hours": null,
+     "topics": [
+      "Lists",
+      "dictionaries",
+      "tuples",
+      "sets and frozensets",
+      "iterators and iterables",
+      "text",
+      "binary and CSV file handling",
+      "pickle"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Object-Oriented Programming and Data Handling Libraries",
+     "hours": null,
+     "topics": [
+      "Classes and objects",
+      "constructors",
+      "attributes",
+      "encapsulation",
+      "inheritance",
+      "polymorphism",
+      "NumPy arrays",
+      "Pandas Series and DataFrames",
+      "missing values",
+      "aggregation"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Data Analysis and Visualization",
+     "hours": null,
+     "topics": [
+      "CSV and JSON import/export",
+      "data formatting",
+      "Matplotlib and Plotly charts",
+      "random walks",
+      "dice simulation",
+      "working with APIs",
+      "mapping global datasets"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA33",
+   "sem": 3,
+   "name": "Computer Networks",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction to Networking and Communication Principles",
+     "hours": null,
+     "topics": [
+      "Network types",
+      "protocol layering",
+      "OSI and TCP/IP models",
+      "transmission media",
+      "impairments",
+      "data rate limits",
+      "performance"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Data Link Layer and MAC Techniques",
+     "hours": null,
+     "topics": [
+      "Link-layer addressing",
+      "error detection and correction",
+      "HDLC and PPP",
+      "random access protocols (ALOHA, CSMA variants)",
+      "scheduling approaches",
+      "channelization (FDMA, TDMA, CDMA)"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Network Layer Fundamentals and Routing Protocols",
+     "hours": null,
+     "topics": [
+      "Network-layer services",
+      "packet switching",
+      "IPv4 addressing",
+      "IP",
+      "ICMPv4",
+      "Mobile IP",
+      "unicast routing algorithms and protocols",
+      "IPv6 addressing"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Transport and Application Layer Protocols with QoS",
+     "hours": null,
+     "topics": [
+      "UDP",
+      "TCP services and features",
+      "TCP connection",
+      "congestion",
+      "flow and error control",
+      "WWW",
+      "e-mail",
+      "DNS",
+      "QoS and integrated services"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA34",
+   "sem": 3,
+   "name": "Cyber Security",
+   "hours": "2 hrs/week",
+   "credits": 2,
+   "marks": "40 exam + 10 internal = 50",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of Cyber Security and Secure Communication",
+     "hours": null,
+     "topics": [
+      "Common threats",
+      "CIA triad",
+      "threats vs vulnerabilities vs risks",
+      "safe internet practices",
+      "email safety",
+      "public Wi-Fi risks",
+      "encryption basics",
+      "HTTPS/SSL",
+      "two-factor authentication"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "System, Personal and Device Security Practices",
+     "hours": null,
+     "topics": [
+      "OS security",
+      "authentication and access control",
+      "password policies",
+      "antivirus",
+      "web vulnerabilities (SQL injection, XSS, CSRF overview)",
+      "mobile app security",
+      "patch management",
+      "firewalls and VPNs",
+      "online tracking"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA41",
+   "sem": 4,
+   "name": "Artificial Intelligence",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of AI and Search Techniques",
+     "hours": null,
+     "topics": [
+      "Intelligent agents and environments",
+      "rationality",
+      "knowledge-based agents (Wumpus World)",
+      "problem formulation",
+      "uninformed search (DFS, BFS, iterative deepening)",
+      "informed search (best-first, A*, AO*, means-ends analysis)",
+      "adversarial search (minimax, alpha-beta pruning)"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Knowledge Representation, Reasoning and Learning",
+     "hours": null,
+     "topics": [
+      "Propositional and first-order logic",
+      "unification",
+      "forward and backward chaining",
+      "resolution",
+      "truth maintenance",
+      "constraint satisfaction and backtracking",
+      "rote learning",
+      "learning from advice and examples",
+      "decision trees"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Planning, Reasoning and Perception",
+     "hours": null,
+     "topics": [
+      "Planning problems",
+      "state-space search",
+      "blocks world",
+      "STRIPS",
+      "non-monotonic and probabilistic reasoning",
+      "fuzzy logic",
+      "computer vision (classification, object detection)",
+      "NLP (syntactic, semantic, discourse processing)"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Machine Learning, Neural Networks and AI Ethics",
+     "hours": null,
+     "topics": [
+      "Supervised",
+      "unsupervised and reinforcement learning",
+      "ANNs",
+      "deep learning",
+      "CNN",
+      "RNN",
+      "LSTM",
+      "expert systems",
+      "legal and ethical issues (bias, privacy, accountability)"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA42",
+   "sem": 4,
+   "name": "Design and Analysis of Algorithms",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of Algorithm Design and Efficiency",
+     "hours": null,
+     "topics": [
+      "Algorithmic problem solving",
+      "problem types",
+      "fundamental data structures",
+      "analysis framework",
+      "asymptotic notations",
+      "efficiency classes",
+      "analysis of recursive and non-recursive algorithms",
+      "empirical analysis"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Algorithm Design Techniques",
+     "hours": null,
+     "topics": [
+      "Brute force (selection and bubble sort, sequential search, string matching, DFS and BFS)",
+      "decrease and conquer (insertion sort, topological sorting, combinatorial objects)",
+      "divide and conquer (merge sort, quick sort, binary tree traversals)"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Optimization Techniques",
+     "hours": null,
+     "topics": [
+      "Space and time trade-offs (counting sort, input enhancement, hashing)",
+      "dynamic programming (binomial coefficient, optimal BST, knapsack, Warshall's and Floyd's algorithms)",
+      "greedy technique (Prim's, Kruskal's, Dijkstra's, Huffman trees)"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Algorithmic Complexity and Problem-Solving Methods",
+     "hours": null,
+     "topics": [
+      "Lower-bound arguments",
+      "decision trees",
+      "P",
+      "NP and NP-complete problems",
+      "backtracking (4-queens, Hamiltonian circuit, subset sum)",
+      "branch-and-bound (assignment, knapsack, TSP)"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA43",
+   "sem": 4,
+   "name": "Internet Technologies",
+   "hours": "4 hrs/week",
+   "credits": 3,
+   "marks": "80 exam + 20 internal = 100",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Internet Fundamentals, Services and Cyber Ethics",
+     "hours": null,
+     "topics": [
+      "Structure of the Internet",
+      "internet organisations",
+      "cyber ethics",
+      "e-mail",
+      "file transfer",
+      "real-time communication",
+      "remote login",
+      "Usenet",
+      "WWW architecture and terminology"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Web Technologies and Evolution",
+     "hours": null,
+     "topics": [
+      "HTTP and HTTPS",
+      "cookies and state retention",
+      "HTTP caching",
+      "generations of the Web (1.0, 2.0, 3.0)",
+      "web information retrieval",
+      "search engine architecture",
+      "IR metrics and models"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Web Development Technologies and Architectures",
+     "hours": null,
+     "topics": [
+      "Client-side and server-side scripting",
+      "MVC architecture",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Bootstrap",
+      "AngularJS",
+      "Node.js"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Frameworks and Databases for Web Applications",
+     "hours": null,
+     "topics": [
+      "Django",
+      "Ruby on Rails",
+      "SQL and relational databases",
+      "NoSQL and distributed data",
+      "popular databases",
+      "research trends (contextual IR, web mining)"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCA44",
+   "sem": 4,
+   "name": "Ethical Hacking",
+   "hours": "2 hrs/week",
+   "credits": 2,
+   "marks": "40 exam + 10 internal = 50",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Foundations of Ethical Hacking and Cyber Attacks",
+     "hours": null,
+     "topics": [
+      "Scope of ethical hacking",
+      "hacker types (white, black, grey hat)",
+      "ethical hacking phases",
+      "attack types (phishing, malware, password cracking, social engineering)",
+      "trojans",
+      "worms",
+      "viruses",
+      "ransomware",
+      "keyloggers",
+      "spyware",
+      "backdoors",
+      "rootkits",
+      "sniffing",
+      "prevention and user awareness"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Footprinting, Scanning, Enumeration and Exploitation",
+     "hours": null,
+     "topics": [
+      "Footprinting (search engines, WHOIS, DNS, email tracking)",
+      "IP",
+      "port and vulnerability scanning (Nmap, Angry IP Scanner)",
+      "enumeration of Windows and Linux systems",
+      "password cracking",
+      "privilege escalation"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "24BCASE1",
+   "sem": 4,
+   "name": "Probability and Statistics",
+   "hours": "2 hrs/week",
+   "credits": 2,
+   "marks": "40 exam + 10 internal = 50",
+   "scheme": "SEP 2025-26",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals of Probability and Theorems",
+     "hours": null,
+     "topics": [
+      "Random experiments",
+      "sample spaces",
+      "events",
+      "classical and axiomatic probability",
+      "conditional probability",
+      "independence",
+      "addition and multiplication theorems",
+      "Bayes' theorem"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Random Variables and Probability Distributions",
+     "hours": null,
+     "topics": [
+      "Discrete and continuous random variables",
+      "PMF",
+      "PDF",
+      "distribution function",
+      "mean and variance",
+      "mathematical expectation"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-C21T",
+   "sem": 5,
+   "name": "Artificial Intelligence",
+   "hours": "4 hrs/week (60 hrs)",
+   "credits": 4,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Search and Problem Solving",
+     "hours": 15,
+     "topics": [
+      "Intelligent agents",
+      "uninformed and informed search",
+      "A* and AO*",
+      "means-ends analysis",
+      "minimax and alpha-beta pruning"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Knowledge, Logic and Learning",
+     "hours": 15,
+     "topics": [
+      "Knowledge-based agents",
+      "propositional and first-order logic",
+      "inference (forward/backward chaining, resolution)",
+      "types of learning",
+      "decision trees"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Planning, Uncertainty and Vision",
+     "hours": 15,
+     "topics": [
+      "STRIPS and blocks world",
+      "non-monotonic",
+      "probabilistic and fuzzy reasoning",
+      "robotics fundamentals",
+      "image processing and object detection"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "NLP, Expert Systems and Neural Networks",
+     "hours": 15,
+     "topics": [
+      "Syntactic and semantic NLP",
+      "expert system architecture and case studies",
+      "supervised/unsupervised/reinforcement learning",
+      "ANNs",
+      "CNN",
+      "RNN",
+      "LSTM"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-C22T",
+   "sem": 5,
+   "name": "Data Analytics",
+   "hours": "4 hrs/week (60 hrs)",
+   "credits": 4,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction to Data Analytics",
+     "hours": 15,
+     "topics": [
+      "Evolution",
+      "types (descriptive, diagnostic, predictive, prescriptive)",
+      "business applications",
+      "text and web analytics"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Probability and Statistical Methods",
+     "hours": 15,
+     "topics": [
+      "Probability rules",
+      "Bayes' theorem",
+      "binomial/Poisson/normal distributions",
+      "t-test",
+      "ANOVA",
+      "chi-square",
+      "correlation",
+      "simple/multiple/polynomial/logistic regression"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Data Visualization",
+     "hours": 15,
+     "topics": [
+      "Visualization foundations",
+      "Power BI (architecture, data access, Power Query and M)",
+      "visualizing spatial",
+      "time-oriented",
+      "multivariate and network data",
+      "text visualization"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Case Study",
+     "hours": 15,
+     "topics": [
+      "Analytics case studies of Amazon",
+      "Twitter",
+      "Netflix",
+      "Uber and COVID-19",
+      "covering decision-making",
+      "cost reduction and logistics"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-C23T",
+   "sem": 5,
+   "name": "Web Programming",
+   "hours": "4 hrs/week (60 hrs)",
+   "credits": 4,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Web Fundamentals and JavaScript",
+     "hours": 15,
+     "topics": [
+      "Internet and web basics",
+      "MIME",
+      "security",
+      "the DOM",
+      "event handling",
+      "DOM traversal and modification"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Dynamic Documents and XML",
+     "hours": 15,
+     "topics": [
+      "Positioning",
+      "moving and styling elements with JavaScript",
+      "drag and drop",
+      "XML syntax",
+      "schemas",
+      "XSLT",
+      "web services"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Introduction to PHP",
+     "hours": 15,
+     "topics": [
+      "Syntax",
+      "variables",
+      "constants",
+      "functions",
+      "operators",
+      "conditionals and loops"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "PHP Functions, Arrays and Files",
+     "hours": 15,
+     "topics": [
+      "Functions",
+      "arrays",
+      "date/time functions",
+      "file handling and uploads",
+      "exception handling",
+      "cookies",
+      "database connectivity"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-V1",
+   "sem": 5,
+   "name": "Quantitative Techniques",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Quantitative Aptitude",
+     "hours": 12,
+     "topics": [
+      "Number properties",
+      "HCF/LCM",
+      "roots",
+      "logarithms",
+      "permutations",
+      "probability",
+      "series",
+      "coding",
+      "classification"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Applied Quantitative Problems and Data Interpretation",
+     "hours": 12,
+     "topics": [
+      "Time and work",
+      "ages",
+      "calendars",
+      "clocks",
+      "distance",
+      "mensuration",
+      "tables",
+      "bar",
+      "pie and line graphs"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Financial Maths and Reasoning",
+     "hours": 12,
+     "topics": [
+      "Interest",
+      "stocks",
+      "discounts",
+      "averages",
+      "percentages",
+      "profit and loss",
+      "ratios",
+      "partnerships",
+      "mixtures",
+      "analogies",
+      "logical diagrams"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Teaching, Research and Communication",
+     "hours": 12,
+     "topics": [
+      "Teaching methods and evaluation",
+      "research aptitude and ethics",
+      "thesis writing",
+      "reading comprehension",
+      "communication"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-E1a",
+   "sem": 5,
+   "name": "Data Mining (Elective I)",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction",
+     "hours": 12,
+     "topics": [
+      "Data mining tasks",
+      "DM vs KDD",
+      "similarity measures",
+      "decision trees"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Classification",
+     "hours": 12,
+     "topics": [
+      "Regression and Bayesian methods",
+      "k-nearest neighbors",
+      "ID3",
+      "C4.5",
+      "CART"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Clustering",
+     "hours": 12,
+     "topics": [
+      "Distance measures",
+      "outliers",
+      "hierarchical and partitional algorithms",
+      "k-means"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Association Rules",
+     "hours": 12,
+     "topics": [
+      "Apriori",
+      "sampling",
+      "partitioning",
+      "parallel and distributed algorithms",
+      "incremental rules"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-E1b",
+   "sem": 5,
+   "name": "Computer Graphics (Elective I)",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Graphics Systems and Output Primitives",
+     "hours": 12,
+     "topics": [
+      "Display devices",
+      "line",
+      "circle and ellipse drawing",
+      "area filling",
+      "character attributes"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "2D Transformations, Windowing and Clipping",
+     "hours": 12,
+     "topics": [
+      "Geometric and composite transformations",
+      "window-to-viewport mapping",
+      "line and polygon clipping"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "3D Graphics",
+     "hours": 12,
+     "topics": [
+      "3D coordinate systems",
+      "projections",
+      "3D transformations",
+      "hidden surface removal",
+      "segments"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Graphical Input Devices and Techniques",
+     "hours": 12,
+     "topics": [
+      "Input devices",
+      "positioning and dragging techniques",
+      "menus",
+      "selection",
+      "digitizers"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-C27T",
+   "sem": 6,
+   "name": "Machine Learning",
+   "hours": "4 hrs/week (60 hrs)",
+   "credits": 4,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Fundamentals",
+     "hours": 12,
+     "topics": [
+      "Types of ML systems",
+      "challenges",
+      "applications",
+      "Python and scikit-learn tools"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Data Preparation",
+     "hours": 12,
+     "topics": [
+      "Working with real data",
+      "exploration and visualization",
+      "data preparation",
+      "model selection and training"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Supervised Learning",
+     "hours": 12,
+     "topics": [
+      "Classification and regression",
+      "k-NN",
+      "linear models",
+      "naive Bayes",
+      "decision trees"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Unsupervised Learning",
+     "hours": 12,
+     "topics": [
+      "Clustering",
+      "k-means and its limits",
+      "DBSCAN",
+      "clustering for segmentation and preprocessing"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-C28T",
+   "sem": 6,
+   "name": "Mobile Application Development",
+   "hours": "4 hrs/week (60 hrs)",
+   "credits": 4,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Android Basics",
+     "hours": 15,
+     "topics": [
+      "Mobile technology history",
+      "Android components",
+      "development environment",
+      "activities",
+      "fragments",
+      "intents"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "User Interface and Data",
+     "hours": 15,
+     "topics": [
+      "Views",
+      "screen orientation",
+      "action bar",
+      "list and picker views",
+      "WebView",
+      "preferences",
+      "files",
+      "SQLite"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "UI Design and Debugging",
+     "hours": 15,
+     "topics": [
+      "Declarative UI",
+      "opening screen",
+      "themes",
+      "menus",
+      "settings",
+      "logging and debugging"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Advanced Android Features",
+     "hours": 15,
+     "topics": [
+      "Content providers",
+      "SMS and email",
+      "maps and location",
+      "SQLite",
+      "file storage",
+      "publishing",
+      "HTTP and JSON services",
+      "services",
+      "threading"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-V2",
+   "sem": 6,
+   "name": "Electronic Content Design",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "E-learning Introduction",
+     "hours": 12,
+     "topics": [
+      "E-learning history and trends",
+      "LMS overview",
+      "online course tools",
+      "21st-century skills"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "E-content Development",
+     "hours": 12,
+     "topics": [
+      "Design and development phases",
+      "standards",
+      "learning objects",
+      "ADDIE and ASSURE models",
+      "authoring tools"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Visual Design",
+     "hours": 12,
+     "topics": [
+      "Visual hierarchy",
+      "typography",
+      "color theory",
+      "UX principles",
+      "wireframing",
+      "prototyping",
+      "image formats"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Digital Content Creation",
+     "hours": 12,
+     "topics": [
+      "HTML/CSS basics",
+      "responsive design",
+      "multimedia",
+      "social media planning",
+      "CMS",
+      "SEO",
+      "copyright and ethics",
+      "usability testing"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-E2a",
+   "sem": 6,
+   "name": "Operations Research (Elective II)",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Introduction and Linear Programming",
+     "hours": 12,
+     "topics": [
+      "OR methodology",
+      "LP formulation",
+      "graphical method",
+      "simplex",
+      "Big-M"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Transportation and Assignment",
+     "hours": 12,
+     "topics": [
+      "Transportation methods (NWCR, LCM, VAM)",
+      "degeneracy",
+      "Hungarian method"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Sequencing and Game Theory",
+     "hours": 12,
+     "topics": [
+      "Two- and three-machine sequencing",
+      "pure and mixed strategies",
+      "dominance",
+      "graphical solutions"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Network Problems and Project Management",
+     "hours": 12,
+     "topics": [
+      "Shortest path",
+      "minimum spanning tree",
+      "CPM and PERT",
+      "floats",
+      "completion probability"
+     ]
+    }
+   ]
+  },
+  {
+   "code": "CA-E2b",
+   "sem": 6,
+   "name": "Software Testing (Elective II)",
+   "hours": "3 hrs/week (48 hrs)",
+   "credits": 3,
+   "marks": "Not stated in source",
+   "scheme": "NEP 2023-24",
+   "units": [
+    {
+     "no": 1,
+     "title": "Testing Basics and Boundary Value Testing",
+     "hours": 12,
+     "topics": [
+      "Test life cycle",
+      "test levels",
+      "boundary value and robustness testing"
+     ]
+    },
+    {
+     "no": 2,
+     "title": "Equivalence, Decision Tables and Data Flow",
+     "hours": 12,
+     "topics": [
+      "Equivalence class testing",
+      "decision tables",
+      "definition-use testing",
+      "slice-based testing"
+     ]
+    },
+    {
+     "no": 3,
+     "title": "Integration and System Testing",
+     "hours": 12,
+     "topics": [
+      "Integration strategies (top-down, bottom-up, sandwich, path-based)",
+      "threads",
+      "interaction and client-server testing"
+     ]
+    },
+    {
+     "no": 4,
+     "title": "Advanced Testing Approaches",
+     "hours": 12,
+     "topics": [
+      "Object-oriented and GUI testing",
+      "exploratory testing",
+      "model-based testing",
+      "TDD with JUnit",
+      "best practices"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -6,3 +6,7 @@ pdfplumber
 pytesseract
 pypdfium2
 ddgs
+numpy
+scikit-learn
+# optional, better semantic search (large download):
+# sentence-transformers

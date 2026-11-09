@@ -1,0 +1,29 @@
+{
+  "source": "Seshadripuram First Grade College, V Sem BCA Pre-Final Examination, November 2026 (photo of the paper)",
+  "subject": "Software Engineering", "sem": 5,
+  "questions": [
+    {"n":1,"part":"A","marks":2,"text":"What is Software Development Life Cycle (SDLC)?"},
+    {"n":2,"part":"A","marks":2,"text":"What is a software process framework?"},
+    {"n":3,"part":"A","marks":2,"text":"What is the Spiral Model?"},
+    {"n":4,"part":"A","marks":2,"text":"What is Functional Requirement?"},
+    {"n":5,"part":"A","marks":2,"text":"What is Non-functional Requirement?"},
+    {"n":6,"part":"A","marks":2,"text":"What is a Data Flow Diagram?"},
+    {"n":7,"part":"A","marks":2,"text":"What is integration testing?"},
+    {"n":8,"part":"A","marks":2,"text":"What is software reengineering?"},
+    {"n":9,"part":"A","marks":2,"text":"Define project scheduling."},
+    {"n":10,"part":"A","marks":2,"text":"Define software risk and name its main categories."},
+    {"n":11,"part":"B","marks":6,"text":"Differentiate between the Classical Waterfall Model and the Iterative Waterfall Model."},
+    {"n":12,"part":"B","marks":6,"text":"Explain functional independence with high cohesion and low coupling."},
+    {"n":13,"part":"B","marks":6,"text":"Describe integration testing and explain why it is necessary."},
+    {"n":14,"part":"B","marks":6,"text":"Describe validation testing and explain its importance."},
+    {"n":15,"part":"B","marks":6,"text":"Explain metrics for the Design Model."},
+    {"n":16,"part":"B","marks":6,"text":"Describe the major challenges in software maintenance."},
+    {"n":17,"part":"C","marks":8,"text":"Explain the software process framework and its major framework activities."},
+    {"n":18,"part":"C","marks":8,"text":"Explain the Prototyping Model with its different phases or stages."},
+    {"n":19,"part":"C","marks":8,"text":"Describe the difference between functional and non-functional requirements with examples."},
+    {"n":20,"part":"C","marks":8,"text":"Explain modular design and the need for modular design."},
+    {"n":21,"part":"C","marks":8,"text":"Explain Software Maturity Index with formula and example."},
+    {"n":22,"part":"C","marks":8,"text":"Explain the reverse engineering process in detail."},
+    {"n":23,"part":"C","marks":8,"text":"Explain the software risk management process."}
+  ]
+}

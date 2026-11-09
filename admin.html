@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QueryBuddy – Admin: add a paper</title>
+<style>
+:root{--bg:#f5f4ef;--card:#fff;--ink:#1c1d24;--mute:#676b7a;--line:#e4e2d9;--accent:#4f46e5}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1016;--card:#161922;--ink:#eceef6;--mute:#9aa0b6;--line:#262a38;--accent:#8b8cff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Segoe UI",system-ui,Arial,sans-serif;padding:24px 16px}
+main{max-width:640px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 26px}
+h1{font-size:1.4em;margin:0 0 4px}p{color:var(--mute);margin:0 0 16px;font-size:.9em}
+label{display:block;font-weight:600;margin:12px 0 4px;font-size:.9em}
+input,select{width:100%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:9px 12px;font:inherit}
+button{margin-top:18px;border:0;background:var(--accent);color:#fff;border-radius:999px;padding:10px 24px;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6}#msg{margin-top:16px;padding:10px 14px;border-radius:12px;display:none}
+.ok{background:#16a34a22;border:1px solid #16a34a}.err{background:#dc262622;border:1px solid #dc2626}a{color:var(--accent)}
+</style></head><body><main>
+<h1>Add a new question paper</h1>
+<p>Uploads the PDF, reads it (OCR if it is a scan), and rebuilds the questions, repeated-question and topic tables. Works only on the computer that runs app.py, and needs the <code>ADMIN_KEY</code> you set before starting it. <a href="/">Back to QueryBuddy</a></p>
+<form id="f">
+  <label for="key">Admin key</label><input id="key" type="password" autocomplete="off" required>
+  <label for="sem">Semester</label><select id="sem"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+  <label for="year">Exam year</label><input id="year" type="number" min="2000" max="2100" placeholder="e.g. 2025" required>
+  <label for="subject">Subject name</label><input id="subject" placeholder="e.g. Operating System" required>
+  <label for="file">Paper (PDF)</label><input id="file" type="file" accept="application/pdf,.pdf" required>
+  <button id="go" type="submit">Upload and rebuild</button>
+</form>
+<div id="msg" role="status"></div>
+<script>
+const msg = document.getElementById("msg");
+document.getElementById("f").addEventListener("submit", async e => {
+  e.preventDefault(); const b = document.getElementById("go"); b.disabled = true; msg.style.display = "block"; msg.className = ""; msg.textContent = "Working… scanned PDFs can take a minute.";
+  const fd = new FormData();
+  ["key", "sem", "year", "subject"].forEach(k => fd.append(k, document.getElementById(k).value));
+  fd.append("file", document.getElementById("file").files[0]);
+  try {
+    const r = await fetch("/api/admin/upload", { method: "POST", body: fd }); const d = await r.json();
+    msg.className = r.ok ? "ok" : "err";
+    msg.textContent = r.ok ? d.message + " Papers: " + d.stats.papers + ", questions: " + d.stats.questions + ", topics: " + d.stats.topics + "." : (d.error || "Failed");
+  } catch (err) { msg.className = "err"; msg.textContent = "Could not reach the server."; }
+  b.disabled = false;
+});
+</script></main></body></html>

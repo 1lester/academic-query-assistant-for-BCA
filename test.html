@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Search test</title></head>
+<body style="font-family:sans-serif;max-width:800px;margin:30px auto">
+  <h3>Academic Assistant - search test</h3>
+  <input id="q" placeholder="e.g. machine learning 6th sem" style="width:70%;padding:8px">
+  <button onclick="go()" style="padding:8px">Search</button>
+  <pre id="out" style="white-space:pre-wrap;margin-top:20px"></pre>
+<script>
+async function go() {
+  const body = new URLSearchParams({ query: document.getElementById("q").value });
+  const r = await fetch("search.php", { method: "POST", body });
+  const d = await r.json();
+  document.getElementById("out").textContent =
+    d.results.map(x => "[" + x.category + "] " + x.title).join("\n") || "No results";
+}
+</script>
+</body>
+</html>

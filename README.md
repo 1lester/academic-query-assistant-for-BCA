@@ -12,6 +12,16 @@ question papers and shows which topics and questions repeat most across years.
 - Upload your own PDF/TXT as extra material
 - Accuracy test script (`evaluate.py`)
 
+### Study tools (version 2)
+- **Likely topics**: a small machine-learning model (logistic regression, `predict.py`) rates how likely each topic is to appear in the next paper, with a walk-forward backtest against simple baselines
+- **When asked**: topic x year grid and year chips, so you can see in which years each topic or question appeared
+- **Mock paper**: builds a practice paper (Part A/B/C pattern of the newest paper) from repeated questions and likely topics; print or save as PDF
+- **Practice quiz**: AI-written multiple-choice questions from past questions, with scores saved in the browser
+- **Answer checker**: the AI grades a typed answer 0-10 against the syllabus and lists missing points
+- **Study plan**: day-by-day plan up to the exam date, most likely topics first
+- **Semantic search**: finds questions by meaning (`semantic.py`); rescues searches where keywords find nothing
+- **Admin page** (`/admin`): upload a new paper PDF, OCR it and rebuild the analytics
+
 ## Tech
 Python (Flask), PHP, MySQL/MariaDB (XAMPP), Tesseract OCR, Groq API, HTML/CSS/JS.
 
@@ -25,8 +35,16 @@ Python (Flask), PHP, MySQL/MariaDB (XAMPP), Tesseract OCR, Groq API, HTML/CSS/JS
 7. `set GROQ_API_KEY=your-key` (get a free key at console.groq.com), then `py app.py`
 8. Open http://localhost:5000
 
-## Accuracy test
-`py evaluate.py` runs 60 search tests and prints top-1/top-3/top-5 accuracy and MRR.
+## Accuracy tests
+- `py evaluate.py` : 60 search tests, top-1/top-3/top-5 accuracy and MRR
+- `py evaluate_hybrid.py` : keyword vs semantic vs hybrid search on the same tests
+- `py evaluate_predict.py` : backtest of the topic-prediction model against baselines
+- `py evaluate_rag.py` : checks that the AI's listed questions and years really exist in the database (app.py must be running)
+
+## Admin page
+Set `ADMIN_KEY` (`set ADMIN_KEY=choose-a-password`) before `py app.py`, then open http://localhost:5000/admin on the same computer.
+Optional: `set SEM_BACKEND=tfidf` forces the light semantic search; install `sentence-transformers` for real embeddings.
+`set HYBRID_ALWAYS=1` makes every search use keyword + semantic together (turn on only if `evaluate_hybrid.py` shows it is better).
 
 ## Notes
 - Never commit your API key. Use the environment variable only.

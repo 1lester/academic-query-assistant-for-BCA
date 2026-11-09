@@ -10,6 +10,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from groq import Groq
 from qengine import parse_title as qe_parse, subject_key, canon_subject, merge_keys, format_paper
 from difflib import get_close_matches
+import features
 
 try:                                   # free web search (no API key)
     from ddgs import DDGS
@@ -34,6 +35,7 @@ You get material in up to two parts:
  [WEB]    = short extracts from web pages (may be unreliable). It is present only sometimes.
  [REPEATED] = ranked list of questions counted by a program across all years (most reliable evidence of repetition)
  [TOPICS] = most frequent topics, ranked by how many different years they were asked (counted by a program)
+ [STYLE]  = optional instruction about answer length or detail. Follow it.
  [UPLOAD] = text from a file the student uploaded (their own notes or a paper). Present only sometimes.
           Answer questions about it directly; for important questions also compare it with [PAPERS].
 Rules:
@@ -168,8 +170,16 @@ def api_stats():
                       " (SELECT COUNT(*) FROM question_groups WHERE freq>=2) repeated,"
                       " (SELECT COUNT(*) FROM topics) topics")[0]
         per_sem = db_rows("SELECT sem, COUNT(*) n FROM topics GROUP BY sem ORDER BY sem")
-        subjects = db_rows("SELECT sem, subject, MAX(freq) top, COUNT(*) n FROM question_groups "
-                           "GROUP BY sem, subject_key, subject ORDER BY sem, subject")
+        raw = db_rows("SELECT sem, subject_key, subject, MAX(freq) top, COUNT(*) n FROM question_groups "
+                      "GROUP BY sem, subject_key, subject")
+        merged = {}                      # one row per subject: the same subject can be spelled 3 ways in the PDFs' titles
+        for r in raw:
+            m = merged.setdefault((r["sem"], r["subject_key"]), {"sem": r["sem"], "names": {}, "top": 0, "n": 0})
+            m["names"][r["subject"]] = m["names"].get(r["subject"], 0) + r["n"]
+            m["top"], m["n"] = max(m["top"], r["top"]), m["n"] + r["n"]
+        subjects = sorted(({"sem": m["sem"], "subject": max(m["names"], key=lambda x: (m["names"][x], " " in x, -len(x))),
+                            "top": m["top"], "n": m["n"]} for m in merged.values()),
+                          key=lambda r: (r["sem"] or 0, r["subject"]))
     except Exception:
         return jsonify(error="Analytics not ready. Run build_questions.py (and keep XAMPP running)."), 502
     return jsonify(totals=tot, per_sem=per_sem, subjects=subjects)
@@ -300,6 +310,11 @@ STOP = {"the","and","for","with","from","what","when","where","which","who","how
 def clean_query(q):
     """Fix common typos, expand short names (ca), drop 1-2 letter words that match everything."""
     q = re.sub(r"\bca\b", "computer applications", q, flags=re.I)
+    try:
+        import qfix
+        q = qfix.expand(q)           # SMS short forms, subject initials (+semester), typos
+    except Exception as e:
+        print("[QFIX]", str(e)[:100])
     t = re.sub(r"\b(\d)\s*(?:sts|nds|rds|ths|st|nd|rd|th)\b", lambda m: m.group(1) + {"1":"st","2":"nd","3":"rd"}.get(m.group(1), "th"), q.lower())
     words = [w for w in re.findall(r"[a-z0-9]+", t) if len(w) > 2 or w.isdigit()]
     return " ".join(words) or q
@@ -419,62 +434,60 @@ def catalog_answer(q):
     sem = parse_sem(q)
     if not sem:
         return None
-    db = subjects_catalog(sem)
-    sch = load_scheme()
-    lines = [f"## {ORD[sem]} Semester subjects"]
-    used = set()
-    if sch and str(sem) in sch["semesters"]:
-        items = sch["semesters"][str(sem)]
-        theory = [x for x in items if x[2] == "T"]
-        labs = [x for x in items if x[2] == "P"]
-        lines += ["", f"**Official scheme:** {sch['title']} lists **{len(theory)} theory papers** and {len(labs)} practicals/project for this semester.", "",
-                  "| No. | Subject | Code | Papers in your database |", "| --- | --- | --- | --- |"]
-        for n, (code, name, _) in enumerate(theory, 1):
-            key = subject_key(name)
-            hit = next((d for d in db if _same(key, d["key"])), None)
-            if hit:
-                used.add(hit["key"])
-                status = f"{hit['papers']} paper" + ("s" if hit["papers"] > 1 else "") + (f", {_yrs(hit['years'])}" if hit["years"] else "")
-            elif name in ("Indian Language",):
-                status = "Language papers are not included"
-            elif name.startswith("Elective"):
-                status = "Depends on the college's elective"
-            else:
-                status = "Not uploaded yet"
-            lines.append(f"| {n} | {name} | {code} | {status} |")
-        if labs:
-            lines += ["", "**Practicals / project (no question paper):** " + ", ".join(x[1] for x in labs) + "."]
-    rest = [d for d in db if d["key"] not in used]
-    if rest:
-        title = "### Other papers in your database for this semester" if sch else "### Subjects found in your database"
-        lines += ["", title, "", "| No. | Subject | Papers | Years |", "| --- | --- | --- | --- |"]
-        for n, d in enumerate(rest, 1):
-            lines.append(f"| {n} | {d['subject']} | {d['papers']} | {_yrs(d['years'])} |")
-        if sch:
-            lines += ["", "These do not match the 2019-20 scheme above. They are most likely from older batches, the NEP batch or the college's electives."]
-    if not db and not sch:
+    db = [d for d in subjects_catalog(sem) if not re.search(r"b\s*com|bba", d["subject"], re.I)]
+    yrs = sorted({y for d in db for y in d["years"] if y.isdigit()})
+    if not yrs:
         return f"I could not find any subjects for semester {sem} in the database."
-    if sch:
-        lines += ["", f"Source: [Bengaluru City University BCA syllabus]({sch['source']}). {sch['note']}"]
+    latest = yrs[-1]
+    cur = [d for d in db if latest in d["years"]]
+    old = [d for d in db if latest not in d["years"]]
+    lines = [f"## {ORD[sem].capitalize()} Semester subjects (latest: {latest})", "",
+             f"These **{len(cur)} subjects** are from the newest question papers in your database ({latest}), so they follow the current scheme.", "",
+             "| No. | Subject | Papers | Years available |", "| --- | --- | --- | --- |"]
+    for n, d in enumerate(cur, 1):
+        lines.append(f"| {n} | {d['subject']} | {d['papers']} | {_yrs(d['years'])} |")
+    if old:
+        lines += ["", f"**Older scheme (not in {latest}):** " + ", ".join(d["subject"] for d in old) + "."]
+    syl = load_syllabus()
+    if syl and str(sem) in syl["scheme"]:
+        items = syl["scheme"][str(sem)]
+        th = [f"{x[1]} ({x[0]})" for x in items if x[2] == "T"]
+        other = [x[1] for x in items if x[2] != "T"]
+        lines += ["", "**Official current scheme (Bengaluru City University):** " + ", ".join(th) + ".",
+                  "", "Also in the scheme (no theory units): " + ", ".join(other) + "."]
     lines += ["", "Ask \"syllabus of <subject>\" for the official units, or \"important topics in <subject> " + ORD[sem] + " sem\" to prepare."]
     return "\n".join(lines)
 
 SYL_RE = re.compile(r"\b(syllabus|syllabi|units?|curriculum|official|what (?:is|are) (?:taught|covered))\b", re.I)
-ALIASES = {"dbms": "BCA204T", "os": "BCA305T", "ada": "BCA504T", "ai": "BCA502T", "c++": "BCA303T", "cpp": "BCA303T",
-           "vb.net": "BCA403T", "vb net": "BCA403T", "vbnet": "BCA403T", "unix": "BCA404T", "se": "BCA405T",
-           "networks": "BCA501T", "networking": "BCA501T", "data communication": "BCA501T", "java": "BCA503T",
-           "web": "BCA603T", "computer organization": "BCA104T", "computer architecture": "BCA104T",
-           "discrete": "BCA105T", "numerical": "BCA205T", "data structures": "BCA203T", "accounting": "BCA304T",
-           "system programming": "BCA601T", "communication": "BCA602T", "problem solving": "BCA103T", "c programming": "BCA103T"}
+ALIASES = {"dbms": "database management", "os": "operating system", "ada": "algorithm", "daa": "algorithm", "ai": "artificial intelligence",
+           "c++": "c++", "vb.net": "vb.net", "vb net": "vb.net", "unix": "unix", "se": "software engineering",
+           "networks": "networks", "networking": "networks", "java": "java", "web": "web programming",
+           "computer organization": "computer architecture", "discrete": "discrete", "numerical": "numerical",
+           "ds": "data structure", "python": "python", "ml": "machine learning", "c programming": "problem solving", "c": "problem solving"}
 
 def load_syllabus():
     import json, os
-    try:
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "bcu_syllabus.json"), encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        print("[SYLLABUS]", str(e)[:120])
-        return None
+    base = os.path.dirname(os.path.abspath(__file__))
+    out = {"papers": [], "scheme": {}, "sources": {}, "note": ""}
+    for fn, legacy in (("bcu_syllabus_nep.json", False), ("bcu_syllabus.json", True)):
+        try:
+            with open(os.path.join(base, fn), encoding="utf-8") as f:
+                d = json.load(f)
+        except Exception as e:
+            print("[SYLLABUS]", fn, str(e)[:100]); continue
+        for p in d["papers"]:
+            p["legacy"] = legacy
+            out["papers"].append(p)
+        if not legacy:
+            out["scheme"], out["sources"], out["note"] = d["scheme"], d["sources"], d["note"]
+        else:
+            out["legacy_source"] = d["source"]
+    return out if out["papers"] else None
+
+def syl_source(p, syl):
+    if p.get("legacy"):
+        return syl.get("legacy_source", "")
+    return syl["sources"]["1-2" if p["sem"] <= 2 else "3-4" if p["sem"] <= 4 else "5-6"]
 
 def find_paper(q, syl, sem=None):
     ql = " " + re.sub(r"[^a-z0-9+. ]", " ", q.lower()) + " "
@@ -494,23 +507,25 @@ def find_paper(q, syl, sem=None):
             best, bs = p, sc
     if best and bs >= 0.6:
         return best
-    for a, code in ALIASES.items():
+    for a, frag in ALIASES.items():
         if " " + a + " " in ql:
             for p in pool:
-                if p["code"] == code:
+                if frag in p["name"].lower():
                     return p
     return None
 
 def paper_syllabus_md(p, syl):
+    tag = "older 2019-20 scheme" if p.get("legacy") else p.get("scheme", "")
     lines = [f"## {p['name']} ({p['code']}) - official syllabus", "",
-             f"{ORD[p['sem']].capitalize()} semester | {p['hours']} teaching hours | {p['credits']} credits | {p['marks']}", ""]
+             f"{ORD[p['sem']].capitalize()} semester | {str(p['hours']) + ' teaching hours' if isinstance(p['hours'], int) else p['hours']} | {p['credits']} credits | {p['marks']} | Scheme: {tag}", ""]
     if not p["units"]:
-        lines += ["The university PDF does not list units for this paper here (it is an elective or a language-skills paper). Check the PDF for details."]
+        lines += ["The university PDF does not list units for this paper."]
     for u in p["units"]:
-        lines += [f"### Unit {u['no']}: {u['title']} ({u['hours']} hrs)"] + [f"- {t}" for t in u["topics"]] + [""]
+        h = f" ({u['hours']} hrs)" if u.get("hours") else ""
+        lines += [f"### Unit {u['no']}: {u['title']}{h}"] + [f"- {t}" for t in u["topics"]] + [""]
     if p.get("labels_only"):
         lines += ["> The university text for this paper is inconsistent, so the unit titles above are my grouping of its topics. Verify against the PDF.", ""]
-    lines += [f"Source: [Bengaluru City University BCA syllabus]({syl['source']}). {syl['note']}",
+    lines += [f"Source: [Bengaluru City University syllabus PDF]({syl_source(p, syl)}). Summarised, so check the PDF for exact wording.",
               "", f"Ask \"important topics in {p['name']}\" to see which of these were asked most often in previous papers."]
     return "\n".join(lines)
 
@@ -526,10 +541,12 @@ def syllabus_answer(q):
         return paper_syllabus_md(p, syl)
     if sem:
         ps = [x for x in syl["papers"] if x["sem"] == sem]
+        if any(not x["legacy"] for x in ps):
+            ps = [x for x in ps if not x["legacy"]]
         lines = [f"## {ORD[sem].capitalize()} semester - official syllabus overview", ""]
         for x in ps:
             lines += [f"### {x['name']} ({x['code']})", ""] + [f"{u['no']}. {u['title']}" for u in x["units"]] + [""]
-        lines += [f"Source: [Bengaluru City University BCA syllabus]({syl['source']}).", "", "Ask \"syllabus of <subject>\" for the full topics of any paper."]
+        lines += [f"Source: [Bengaluru City University syllabus PDF]({syl_source(ps[0], syl)}). " + (syl["note"] if not ps[0]["legacy"] else ""), "", "Ask \"syllabus of <subject>\" for the full topics of any paper."]
         return "\n".join(lines)
     return None
 
@@ -539,10 +556,12 @@ def ask():
         body = request.get_json(silent=True) or {}
         q = (body.get("question") or "").strip()
         use_web = bool(body.get("web", False))
+        style = str(body.get("style", ""))
         upload_text, upload_note = "", ""
     else:
         q = (request.form.get("question") or "").strip()
         use_web = request.form.get("web", "0") == "1"
+        style = request.form.get("style", "")
         upload_text, upload_note = read_upload(request.files.get("file"))
     if not q:
         q = "Give the important questions from this file" if upload_text else ""
@@ -550,6 +569,15 @@ def ask():
         return jsonify(error="Please type a question"), 400
 
     if not upload_text:
+        try:                                # "ds" could be two subjects: ask instead of guessing
+            import qfix
+            amb = qfix.ambiguous(q)
+        except Exception:
+            amb = None
+        if amb:
+            lines = "\n".join(f"- {n}" + (f" ({ORD[s]} sem)" if s else "") for n, s in amb[:5])
+            return jsonify(answer="**Which subject do you mean?**\n\nThat short form fits more than one subject:\n\n" + lines +
+                           "\n\nAsk again with the full name, for example: *important questions in " + amb[0][0] + "*.", sources=[])
         try:
             direct = syllabus_answer(q) or catalog_answer(q)
         except Exception as e:
@@ -561,10 +589,19 @@ def ask():
     limit = 5 if wants_important else 3        # free tier has a per-minute token limit
 
     try:
-        r = requests.post(SEARCH_URL, data={"query": clean_query(q), "limit": limit}, timeout=10)
+        r = requests.post(SEARCH_URL, data={"query": clean_query(q), "limit": 10}, timeout=10)
         docs = r.json().get("results", [])
+        try:
+            import qfix
+            docs = qfix.rerank(q, docs, limit)      # papers whose title best matches the question first
+        except Exception as e:
+            print("[RERANK]", str(e)[:100]); docs = docs[:limit]
     except Exception:
         return jsonify(error="Cannot reach the database search. Is XAMPP running?"), 502
+    try:                                    # semantic search rescues searches with no/few keyword hits
+        docs = features.hybrid_merge(clean_query(q), docs, limit)
+    except Exception as e:
+        print("[HYBRID]", str(e)[:150])
 
     if not docs and not upload_text:
         return jsonify(answer=(upload_note + " " if upload_note else "") +
@@ -616,6 +653,10 @@ def ask():
         web = web_search(q)
         if web:
             prompt += "\n[WEB]\n" + "\n\n".join(f"### {w['title']} ({w['url']})\n{w['text'][:1500]}" for w in web)
+    hint = {"short": "Keep the answer short: no more than about 8 lines.",
+            "detailed": "Explain in more detail, with one short example for each point."}.get(style)
+    if hint:
+        prompt += f"\n\n[STYLE] {hint}"
     prompt += f"\n\nStudent question: {q}"
 
     answer = None
@@ -645,6 +686,13 @@ def ask():
         answer = upload_note + "\n\n" + answer
     return jsonify(answer=answer, sources=[d["title"] for d in docs],
                    web=[{"title": w["title"], "url": w["url"]} for w in web])
+
+# extra features: prediction, trend grid, semantic search, mock paper, quiz, answer checker, planner, admin
+features.register(app, db_rows=db_rows, client=client, models=MODELS, load_syllabus=load_syllabus,
+                  find_paper=find_paper, paper_syllabus_md=paper_syllabus_md, DB=DB)
+# add-on tools: flashcards, viva, misconceptions, code, coverage, evolution, anomalies, trace, concept map, visual, debate
+import addons
+addons.register(app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)   # 0.0.0.0 = reachable from other devices; debug stays off when sharing

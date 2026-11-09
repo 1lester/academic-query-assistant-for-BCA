@@ -4,17 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QueryBuddy – BCA Question Paper Assistant</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%231f4fd8'/%3E%3Cpath d='M9 17l5 5 11-11' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='8' y='26' width='18' height='3.2' rx='1.6' fill='%23ffe14d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f5f4ef; --card:#ffffff; --ink:#1c1d24; --mute:#676b7a; --line:#e4e2d9; --soft:#faf9f5;
-  --accent:#4f46e5; --accent-2:#eef0ff; --accent-ink:#ffffff; --warm:#f59e0b;
-  --bot:#ffffff; --me:#4f46e5; --me-ink:#fff; --shadow:0 4px 18px rgba(30,30,60,.07); --shadow-lg:0 14px 40px rgba(30,30,60,.16);
-  --fs:18px;
+  --bg:#f1f4f9; --card:#ffffff; --ink:#111a2e; --mute:#5a6578; --line:#dbe1ea; --soft:#f6f8fc;
+  --accent:#1f4fd8; --accent-2:#e6edff; --accent-ink:#ffffff; --hl:#ffe14d; --red:#d93a2e; --stamp:#111a2e;
+  --warm:#ffe14d; --bot:#ffffff; --me:#1f4fd8; --me-ink:#fff; --shadow:none; --shadow-lg:0 18px 50px rgba(17,26,46,.25);
+  --fs:clamp(20px,.6vw + 14px,30px);--wrap:min(2200px,98vw);
 }
 [data-theme="dark"]{
-  --bg:#0e1016; --card:#161922; --ink:#eceef6; --mute:#9aa0b6; --line:#262a38; --soft:#12151d;
-  --accent:#8b8cff; --accent-2:#1d2040; --accent-ink:#0e1016; --bot:#161922; --me:#6366f1; --me-ink:#fff;
-  --shadow:0 4px 18px rgba(0,0,0,.35); --shadow-lg:0 14px 40px rgba(0,0,0,.55);
+  --bg:#0c121b; --card:#131b27; --ink:#e8edf5; --mute:#93a0b5; --line:#233044; --soft:#0f1621;
+  --accent:#7ba3ff; --accent-2:#1a2a4a; --accent-ink:#0b1220; --hl:#e8c93f; --red:#ff7f73; --stamp:#3a4d70;
+  --warm:#e8c93f; --bot:#131b27; --me:#2d5bdc; --me-ink:#fff; --shadow:none; --shadow-lg:0 18px 50px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -41,14 +44,14 @@ header{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var
 main{flex:1;min-height:0;display:flex;flex-direction:column}
 .page{display:none;flex:1;min-height:0}
 .page.on{display:flex;flex-direction:column}
-.wrap{max-width:880px;margin:0 auto;width:100%}
+.wrap{max-width:var(--wrap);margin:0 auto;width:100%}
 
 /* ---------- chat ---------- */
-#log{flex:1;overflow-y:auto;padding:24px 16px 12px;scroll-behavior:smooth}
+#log{flex:1;overflow-y:auto;padding:24px 10px 12px;scroll-behavior:smooth}
 .hero{text-align:center;padding:26px 0 6px}
 .hero h1{font-size:2.05em;letter-spacing:-.9px;line-height:1.18}
 .hero h1 span{color:var(--accent)}
-.hero p{color:var(--mute);margin:12px auto 0;max-width:580px;font-size:.95em}
+.hero p{color:var(--mute);margin:12px auto 0;max-width:min(820px,90%);font-size:.95em}
 .semrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0 4px;align-items:center}
 .semrow small{color:var(--mute);font-weight:600;margin-right:2px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:18px 0 8px}
@@ -106,7 +109,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 
 /* ---------- composer ---------- */
 .composer{padding:8px 16px 14px;background:linear-gradient(to top,var(--bg) 72%,transparent)}
-.cbox{max-width:880px;margin:0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:10px 12px}
+.cbox{max-width:var(--wrap);margin:0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:10px 12px}
 .cbox:focus-within{border-color:var(--accent)}
 .cbox textarea{width:100%;border:0;outline:0;resize:none;background:none;max-height:140px;padding:6px 8px}
 .crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -117,7 +120,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 .send{margin-left:auto;border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:8px 22px;font-weight:700}
 .send:hover{filter:brightness(1.08)}
 .send:disabled{opacity:.5;cursor:wait}
-.hint{max-width:880px;margin:6px auto 0;text-align:center;font-size:.72em;color:var(--mute)}
+.hint{max-width:var(--wrap);margin:6px auto 0;text-align:center;font-size:.72em;color:var(--mute)}
 
 /* ---------- browse + analytics ---------- */
 #browse,#stats{overflow-y:auto;padding:24px 16px 40px;flex:1}
@@ -157,7 +160,7 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 
 /* ---------- paper viewer ---------- */
 #modal{position:fixed;inset:0;background:rgba(8,9,16,.6);backdrop-filter:blur(3px);display:none;z-index:20;padding:20px}
-.mbox{max-width:860px;height:100%;max-height:92vh;margin:0 auto;background:var(--card);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg)}
+.mbox{max-width:min(1800px,97vw);height:100%;max-height:92vh;margin:0 auto;background:var(--card);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg)}
 .mtop{display:flex;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
 .mtop h3{flex:1;font-size:1em;line-height:1.3}
 .mtabs{display:flex;gap:6px;padding:10px 20px 0}
@@ -172,30 +175,458 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 #toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:999px;font-size:.84em;opacity:0;pointer-events:none;transition:.25s;z-index:30}
 #toast.on{opacity:1;transform:translateX(-50%)}
 
+/* ---------- study tools + year timeline ---------- */
+#tools{overflow-y:auto;padding:24px 16px 40px;flex:1}
+.chips2{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.yc{font-style:normal;font-size:.72em;font-weight:700;border-radius:999px;padding:1px 9px;background:var(--accent-2);color:var(--accent);border:1px solid var(--line)}
+.hm{border-collapse:separate;border-spacing:3px;font-size:.82em;width:100%}
+.hm th{font-weight:700;color:var(--mute);font-size:.85em;padding:2px 0}
+.hm td.l{padding:2px 10px 2px 0;font-weight:600;white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis}
+.hm td.c{min-width:30px;height:26px;border-radius:6px}
+.c1{background:var(--accent)}.c0{background:var(--accent-2)}
+.cn{background:repeating-linear-gradient(45deg,transparent 0 4px,var(--mute) 4px 5px);opacity:.45}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8em;color:var(--mute);margin:10px 0}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.tcommon,.trow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.tcommon input,.trow input,.trow select,.tbox textarea{border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:8px 14px;outline:0;min-width:0}
+.tcommon input{flex:1;min-width:220px;border-radius:999px}
+.trow input[type=number]{width:88px;border-radius:999px;padding:6px 10px}
+.tbox textarea{width:100%;min-height:90px;resize:vertical;margin-bottom:10px;display:block}
+.card2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:12px 0;box-shadow:var(--shadow)}
+.card2 h4{margin-bottom:6px}
+.note{color:var(--mute);font-size:.84em;margin-top:8px}
+.paperbox{background:#fff;color:#111;border:1px solid var(--line);border-radius:12px;padding:22px 28px;box-shadow:var(--shadow)}
+.paperbox h3{font-size:1.05em;margin:16px 0 6px;border-left:4px solid #444;padding-left:10px;background:#f0f0f0}
+.paperbox ol{padding-left:26px}.paperbox li{margin:8px 0}
+.paperbox .meta{color:#777;font-size:.78em}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:8px 14px;margin:6px 0}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.ok{border-color:#16a34a;background:color-mix(in srgb,#16a34a 16%,var(--card))}
+.opt.bad{border-color:#dc2626;background:color-mix(in srgb,#dc2626 14%,var(--card))}
+.score{font-size:2.4em;font-weight:800;color:var(--accent);line-height:1}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 16px;margin-bottom:10px}
+.day b{color:var(--accent)}.day small{color:var(--mute);margin-left:8px}
+.day ul{margin:6px 0 0 20px}.day li{margin:2px 0}
+
+/* ---------- settings drawer, saved answers, options ---------- */
+#dback{position:fixed;inset:0;background:rgba(8,9,16,.45);display:none;z-index:24}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--card);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);z-index:25;transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column}
+#drawer.on{transform:none}
+.dtop{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.dbody{overflow-y:auto;padding:8px 18px 28px;flex:1}
+.dbody h4{margin:18px 0 8px;font-size:.82em;text-transform:uppercase;letter-spacing:.7px;color:var(--mute)}
+.dbody .pills{margin-bottom:6px}
+.srow{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:.92em}
+.swatches{display:flex;gap:10px}
+.swatches button{width:34px;height:34px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1.5px var(--line)}
+.swatches button.on{box-shadow:0 0 0 3px var(--ink)}
+.sv{border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:10px 0;background:var(--soft)}
+.sv b{display:block;margin-bottom:4px}.sv small{color:var(--mute)}
+.sv .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.mini.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+html[data-font="serif"] body{font-family:Georgia,"Times New Roman",serif}
+html[data-font="easy"] body{font-family:Verdana,Tahoma,sans-serif;letter-spacing:.2px;word-spacing:.08em}
+html[data-density="compact"] body{line-height:1.45}
+html[data-density="compact"] .msg{margin:12px 0}
+html[data-density="compact"] .rt p,html[data-density="compact"] .rt li{margin-top:3px;margin-bottom:3px}
+html[data-chips="off"] .chips2{display:none}
+#mic.rec{background:#dc2626;color:#fff;border-color:#dc2626}
+
+/* question paper: compact, two columns on wide screens so the whole paper fits in about two screens */
+.rt.paper{font-size:.9em;line-height:1.4}
+.rt.paper h2{margin:0 0 6px;font-size:1.1em;column-span:all}
+.rt.paper blockquote{margin:4px 0 8px;padding:6px 12px;column-span:all}
+.rt.paper .sec{break-inside:avoid;margin:0 0 14px}
+.rt.paper h3{margin:0 0 4px;padding:4px 10px;font-size:.98em}
+.rt.paper em{display:block;font-size:.88em;margin:0 0 4px;break-after:avoid}
+.rt.paper ol,.rt.paper ul{margin:4px 0;padding-left:22px}
+.rt.paper li{margin:3px 0;padding-left:2px;break-inside:avoid}
+.rt.paper li li{margin:1px 0;font-size:.95em}
+.rt.paper .src,.rt.paper hr,.rt.paper>p,.rt.paper .acts{column-span:all}
+@media(min-width:1000px){.rt.paper{column-count:2;column-gap:36px;column-rule:1px solid var(--line)}}
+@media(min-width:1900px){.rt.paper{column-count:3}}
 @media(max-width:720px){
-  header{padding:8px 12px;gap:8px}.logo{font-size:1em}.logo i{width:30px;height:30px}.tabs{margin-left:0;order:3;width:100%;justify-content:space-between}.tab{padding:7px 10px;font-size:.84em;flex:1}
+  header{padding:8px 12px;gap:8px}.logo{font-size:1em}.logo i{width:30px;height:30px}.tabs{margin-left:0;order:3;width:100%;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{padding:7px 12px;font-size:.84em;flex:0 0 auto}
   .ic{padding:5px 9px}.tools{gap:4px}
   .hero h1{font-size:1.55em}.bub{padding:14px 15px}#modal{padding:0}.mbox{max-height:100vh;border-radius:0}
   #mb{padding:12px 16px 20px}.ic .lbl{display:none}
 }
 @media print{header,.composer,.acts,#toast{display:none!important}body{display:block}}
+
+/* ================= v3: answer-booklet design ================= */
+html{--sw:244px}
+body{font-family:"Schibsted Grotesk","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;letter-spacing:-.005em}
+.i{width:1.2em;height:1.2em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+#app{flex:1;min-height:0;display:grid;grid-template-columns:var(--sw) minmax(0,1fr)}
+#content{display:flex;flex-direction:column;min-height:0;min-width:0}
+#side{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;padding:14px 12px;min-height:0;overflow:hidden}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 6px 12px;font-weight:800;font-size:1.1em;letter-spacing:-.02em;white-space:nowrap}
+.brand svg{width:34px;height:34px;flex:none}
+.newbtn{display:flex;align-items:center;gap:10px;width:100%;border:0;background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:10px 12px;font-weight:700;white-space:nowrap}
+.newbtn:hover{filter:brightness(1.08)}
+#side .tabs{display:flex;flex-direction:column;margin:10px 0 0;padding:0;background:none;border:0;border-radius:0;gap:2px}
+#side .tab{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:10px 12px;border-radius:10px;color:var(--mute);font-weight:600;font-size:.95em;background:none}
+#side .tab:hover{background:var(--soft);color:var(--ink)}
+#side .tab.on{background:var(--accent-2);color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+#recentbox{margin-top:14px;flex:1;min-height:0;overflow-y:auto;border-top:1px solid var(--line);padding-top:12px}
+.rtitle{font-weight:700;font-size:.8em;color:var(--mute);padding:0 6px 6px}
+#recent button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:7px 8px;color:var(--ink);font-size:.86em;white-space:nowrap;overflow:hidden}
+#recent button span{overflow:hidden;text-overflow:ellipsis}
+#recent button:hover{background:var(--soft)}
+#recent .none{color:var(--mute);font-size:.82em;padding:4px 8px;white-space:normal}
+header.top{display:flex;align-items:center;gap:12px;padding:10px 22px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:5}
+#ptitle{font-weight:800;font-size:1.05em;letter-spacing:-.02em;min-width:0;white-space:nowrap}
+.palbtn{flex:1;max-width:460px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;color:var(--mute);text-align:left;font-size:.9em;margin-left:8px}
+.palbtn:hover{border-color:var(--accent)}
+.palbtn span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+kbd{font:inherit;font-size:.78em;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;color:var(--mute);background:var(--soft)}
+.ic{border-radius:10px;padding:6px 11px}
+.btn{border-radius:10px}
+.tools{gap:6px}
+
+/* welcome: a booklet cover */
+#wrapmsgs{max-width:1180px;padding:0 6px}
+.hero{text-align:left;padding:34px 4px 6px;max-width:980px;margin:0}
+.hero h1{font-size:clamp(1.9em,2.2vw + 1.1em,3em);font-weight:800;letter-spacing:-.035em;line-height:1.08}
+.hero p{margin:12px 0 0;max-width:56ch;color:var(--mute);font-size:1em}
+.cover{position:relative;margin-top:26px;background:var(--card);border:1.5px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--stamp);padding:8px 26px 24px 78px}
+.cover::before{content:"";position:absolute;left:52px;top:0;bottom:0;width:1.5px;background:color-mix(in srgb,var(--red) 60%,transparent)}
+.field{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.field>label,.field>span.lab{color:var(--mute);font-weight:600;font-size:.92em}
+.field input{width:100%;border:0;background:none;outline:0;font-size:1.25em;font-weight:600;padding:4px 0;color:var(--ink)}
+.field input::placeholder{color:color-mix(in srgb,var(--mute) 65%,transparent);font-weight:500}
+.field:focus-within{border-bottom-color:var(--accent)}
+.semrow{display:flex;gap:8px;flex-wrap:wrap;margin:0;justify-content:flex-start}
+.acts2{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.act{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--card);border-radius:8px;padding:10px 16px;font-weight:600;font-size:.92em}
+.act:hover{border-color:var(--accent);color:var(--accent)}
+.act.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.act.pri:hover{filter:brightness(1.08);color:var(--accent-ink)}
+.heronote{margin:18px 2px 0;color:var(--mute);font-size:.88em}
+.hero .chips{justify-content:flex-start;margin:12px 0 0}
+.hero .linkbtn{border:0;background:none;color:var(--accent);font-weight:600;padding:0;text-decoration:underline;text-underline-offset:3px}
+
+/* conversation: questions in ink, answers as marked scripts */
+.av{display:none}
+.msg{margin:20px 0}
+.msg.me{justify-content:flex-start}
+.msg.me .bub{max-width:min(72ch,82%);border-radius:14px 14px 4px 14px;padding:11px 18px;font-weight:500}
+.msg:not(.me) .bub{background:var(--card);border:1px solid var(--line);border-left:3px solid color-mix(in srgb,var(--red) 70%,transparent);border-radius:4px 14px 14px 14px;padding:18px 22px;max-width:min(88ch,100%)}
+.msg:not(.me) .bub.paper{max-width:100%}
+.rt h2{border:0;width:fit-content;max-width:100%;padding:0 4px;margin:0 0 10px -4px;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--hl) 75%,transparent) 58%);font-size:1.22em;font-weight:800;letter-spacing:-.02em}
+.rt h3{background:none;color:var(--ink);border-left:0;border-radius:0;border-bottom:1.5px solid var(--ink);padding:0 0 4px;font-weight:800}
+.rt li::marker{color:var(--red);font-weight:800}
+.rt th{background:var(--soft);color:var(--ink)}
+.tag{border-radius:6px;background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:2px 9px}
+.mini{border-radius:8px;padding:4px 12px}
+.follow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);align-items:center}
+.follow small{color:var(--mute);font-weight:600;margin-right:2px}
+.follow button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 14px;font-size:.82em;font-weight:600;color:var(--ink)}
+.follow button:hover{border-color:var(--accent);color:var(--accent)}
+.rt.paper .src,.rt.paper .follow{column-span:all}
+@media(min-width:1000px){.rt.paper{column-count:1}}
+@media(min-width:1300px){.rt.paper{column-count:2}}
+@media(min-width:1900px){.rt.paper{column-count:2}}
+
+/* composer */
+.composer{padding:8px 22px 16px}
+.cbox{max-width:1180px;border:1.5px solid var(--line);border-radius:14px}
+.cbox:focus-within{border-color:var(--accent)}
+.crow select,.attach{border-radius:8px}
+.send{border-radius:10px;display:inline-flex;align-items:center;gap:8px;padding:9px 20px}
+.hint{max-width:1180px}
+
+/* study tools, analytics, saved: paper-like surfaces, ink and highlighter */
+#tmode{border-bottom:1px solid var(--line);gap:2px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+#tmode .pill{border:0;border-radius:8px 8px 0 0;background:none;padding:10px 14px;border-bottom:2.5px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+#tmode .pill.on{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-2)}
+.qrow,.card2,.day,.sv{border-radius:8px;box-shadow:none}
+.qrow .n{color:var(--red);font-weight:800}
+.qrow .bar{height:10px;background:transparent;border-bottom:1px dashed var(--line);border-radius:0;margin:8px 0 8px}
+.qrow .bar i{background:color-mix(in srgb,var(--hl) 85%,transparent);border-radius:2px;transform-origin:left;animation:sweep .7s ease both}
+@keyframes sweep{from{transform:scaleX(0)}}
+.yc{border-radius:5px;background:var(--soft);color:var(--ink)}
+.score{color:var(--red);display:inline-block;padding:4px 18px;border:3px solid var(--red);border-radius:50%/60%;transform:rotate(-3deg)}
+.paperbox{border-radius:6px;position:relative;padding-left:56px;background-image:repeating-linear-gradient(transparent 0 31px,rgba(31,79,216,.10) 31px 32px)}
+.paperbox::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:1.5px;background:rgba(217,58,46,.55)}
+.paperbox li{line-height:32px;margin:0}
+.paperbox .meta{line-height:1.3;margin-bottom:6px}
+.paperbox h3{background:none;border-left:0;border-bottom:1.5px solid #111;padding-left:0;line-height:32px;margin:14px 0 0}
+.tryrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:-4px 0 14px}
+.tryrow small{color:var(--mute);font-weight:600}
+.skel{display:grid;gap:10px;margin:6px 0}
+.skel i{display:block;height:58px;border-radius:8px;background:linear-gradient(90deg,var(--soft) 20%,var(--accent-2) 50%,var(--soft) 80%);background-size:220% 100%;animation:shim 1.3s linear infinite}
+@keyframes shim{from{background-position:120% 0}to{background-position:-120% 0}}
+.skelnote{color:var(--mute);font-size:.88em}
+.dbody h4{text-transform:none;letter-spacing:0;font-size:.92em;color:var(--ink);font-weight:700}
+#drawer{border-radius:0}
+.swatches button{border-radius:8px}
+
+/* command palette */
+#pal{position:fixed;inset:0;background:rgba(8,12,20,.55);display:none;z-index:40;align-items:flex-start;justify-content:center;padding-top:12vh}
+#pal.on{display:flex}
+.pbox{width:min(640px,94vw);background:var(--card);border:1.5px solid var(--ink);border-radius:8px;box-shadow:6px 6px 0 var(--stamp);overflow:hidden}
+.pbox input{width:100%;border:0;border-bottom:1px solid var(--line);padding:16px 18px;background:none;outline:0;font-size:1.05em;color:var(--ink)}
+#plist{max-height:52vh;overflow:auto;padding:6px}
+.pit{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:8px;color:var(--ink)}
+.pit.sel,.pit:hover{background:var(--accent-2);color:var(--accent)}
+.pit small{margin-left:auto;color:var(--mute)}
+.pfoot{padding:8px 14px;border-top:1px solid var(--line);color:var(--mute);font-size:.78em;display:flex;gap:14px}
+
+@media(max-width:1100px){
+  html{--sw:68px}
+  .brand span,.newbtn span,#side .tab span,#recentbox{display:none}
+  .brand{padding:2px 0 12px;justify-content:center}
+  .newbtn,#side .tab{justify-content:center;padding:11px 0}
+  #side .tab.on{box-shadow:none}
+}
+@media(max-width:720px){
+  #app{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
+  #content{order:1}
+  #side{order:2;flex-direction:row;border-right:0;border-top:1px solid var(--line);padding:4px 6px calc(4px + env(safe-area-inset-bottom));gap:0;overflow:visible}
+  .brand,.newbtn{display:none}
+  #side .tabs{flex-direction:row;margin:0;width:100%;gap:0}
+  #side .tab{flex:1;flex-direction:column;gap:2px;font-size:.68em;padding:7px 2px;justify-content:center;align-items:center;text-align:center}
+  #side .tab span{display:block}
+  #side .tab.on{box-shadow:none}
+  header.top{padding:8px 12px;gap:6px}
+  .palbtn{margin-left:0}.palbtn span,.palbtn kbd{display:none}.palbtn{flex:0 0 auto;padding:8px 10px}
+  #ptitle{flex:1}
+  .tools .ic .lbl{display:none}
+  .cover{padding:4px 14px 18px 40px;box-shadow:4px 4px 0 var(--stamp)}
+  .cover::before{left:26px}
+  .field{grid-template-columns:1fr;gap:4px}
+  .hero h1{font-size:1.7em}
+  .composer{padding:6px 10px 10px}
+  #wrapmsgs{padding:0 2px}
+  .msg:not(.me) .bub{padding:14px 15px}
+  .paperbox{padding-left:40px}.paperbox::before{left:24px}
+  #toast{bottom:150px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ================= v4: depth, live brief, charts ================= */
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--mute) 45%,transparent) transparent}
+::selection{background:color-mix(in srgb,var(--hl) 75%,transparent);color:inherit}
+body{background-color:var(--bg);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .07 0 0 0 0 .1 0 0 0 0 .18 0 0 0 .045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");font-variant-numeric:tabular-nums}
+button:active:not(:disabled){transform:translateY(1px)}
+.page.on{animation:pagein .22s ease}
+@keyframes pagein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+#side,header.top{box-shadow:0 1px 0 rgba(17,26,46,.03)}
+.cbox{box-shadow:0 10px 30px -12px rgba(17,26,46,.28)}
+[data-theme="dark"] .cbox{box-shadow:0 10px 30px -12px rgba(0,0,0,.7)}
+.msg:not(.me) .bub{box-shadow:0 1px 0 rgba(17,26,46,.04),0 12px 28px -18px rgba(17,26,46,.35)}
+
+/* answers arrive block by block */
+.bub.reveal>*{animation:blockin .38s ease both}
+.bub.reveal>*:nth-child(2){animation-delay:.05s}.bub.reveal>*:nth-child(3){animation-delay:.1s}.bub.reveal>*:nth-child(4){animation-delay:.15s}
+.bub.reveal>*:nth-child(5){animation-delay:.2s}.bub.reveal>*:nth-child(6){animation-delay:.25s}.bub.reveal>*:nth-child(7){animation-delay:.3s}.bub.reveal>*:nth-child(n+8){animation-delay:.35s}
+@keyframes blockin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* live brief on the cover page */
+.brief{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;animation:pagein .25s ease}
+.brief[hidden]{display:none}
+.bhd{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line)}
+.bhd b{font-size:1.1em;letter-spacing:-.02em;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--hl) 75%,transparent) 58%);padding:0 4px;margin-left:-4px}
+.bhd small{color:var(--mute)}
+.bhd .sp{flex:1}
+.bgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0}
+.bcol{padding:14px 20px 16px;min-width:0}
+.bcol+.bcol{border-left:1px solid var(--line)}
+.bcol h4{font-size:.9em;margin-bottom:10px;color:var(--mute);font-weight:700}
+.bt{display:grid;grid-template-columns:2.6em 1fr;gap:2px 10px;align-items:center;margin:9px 0}
+.bt .pc2{color:var(--red);font-weight:800;text-align:right}
+.bt .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt .bar2{grid-column:2;height:8px;border-bottom:1px dashed var(--line);margin-top:-2px}
+.bt .bar2 i{display:block;height:8px;background:color-mix(in srgb,var(--hl) 85%,transparent);border-radius:2px;transform-origin:left;animation:sweep .7s ease both}
+.mhm{border-collapse:separate;border-spacing:3px;width:100%;font-size:.82em}
+.mhm td.l{max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;font-weight:600}
+.mhm td.c{height:20px;min-width:16px;border-radius:4px}
+.mhm th{font-size:.78em;color:var(--mute);font-weight:700}
+.bft{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 20px;border-top:1px solid var(--line);background:var(--soft)}
+.bft .note{margin:0 0 0 auto;font-size:.78em;max-width:44ch}
+#hsub::-webkit-calendar-picker-indicator{display:none!important}
+.examrow{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.examrow>span.lab{color:var(--mute);font-weight:600;font-size:.92em}
+.examrow .xin{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.examrow input{border:0;background:none;outline:0;font:inherit;font-weight:600;color:var(--ink);padding:4px 0}
+.examrow .left{color:var(--mute);font-size:.9em}
+.examrow .left b{color:var(--red)}
+.exam{margin-top:8px;border:1px dashed var(--line);border-radius:8px;padding:10px 12px;font-size:.86em;text-align:left;background:none;color:var(--ink);width:100%;line-height:1.35}
+.exam:hover{border-color:var(--accent)}
+.exam b{background:linear-gradient(transparent 55%,color-mix(in srgb,var(--hl) 75%,transparent) 55%);padding:0 3px;font-size:1.1em}
+.exam small{display:block;color:var(--mute)}
+
+/* analytics: charts */
+.kpi{border-radius:8px;box-shadow:none;position:relative;padding:16px 18px 14px}
+.kpi b{color:var(--ink);font-size:2.2em;letter-spacing:-.03em}
+.kpi::after{content:"";position:absolute;left:18px;bottom:0;width:34px;height:3px;background:var(--hl);border-radius:3px 3px 0 0}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:18px 0 6px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.cc h4{font-size:.92em;margin-bottom:12px}
+.cc .sub2{color:var(--mute);font-size:.8em;margin-top:8px}
+.donut{display:flex;align-items:center;gap:16px}
+.donut svg{width:112px;height:112px;flex:none}
+.donut .big{font-size:2em;font-weight:800;letter-spacing:-.03em}
+.donut .big small{font-size:.5em;color:var(--mute);font-weight:600}
+.hb{margin:8px 0}
+.hb span{width:auto;min-width:84px;max-width:175px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.88em}
+.hb div{height:12px;border-radius:2px;background:transparent;border-bottom:1px dashed var(--line);overflow:visible}
+.hb i{height:12px;border-radius:2px;background:color-mix(in srgb,var(--hl) 85%,transparent);transform-origin:left;animation:sweep .7s ease both}
+.hb em{width:auto;min-width:28px;text-align:right;color:var(--red)}
+@media(max-width:720px){
+  .bgrid{grid-template-columns:1fr}.bcol+.bcol{border-left:0;border-top:1px solid var(--line)}
+  .examrow{grid-template-columns:1fr;gap:4px}.bft .note{margin-left:0}
+}
+@media(max-width:1100px){.exam{display:none}}
+
+/* ---- add-on tools ---- */
+.pills#tmode{flex-wrap:wrap}
+.fc{perspective:900px;max-width:560px;margin:10px 0}
+.fc .face{min-height:170px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:22px;cursor:pointer;font-size:1.1rem;font-weight:700;box-shadow:var(--shadow)}
+.fc .face small{font-weight:500;color:var(--mute)}
+.fc .face.back{background:color-mix(in srgb,var(--hl) 25%,var(--card));font-weight:500}
+.vrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.pillbar{height:8px;border-radius:99px;background:var(--accent-2);overflow:hidden;margin:6px 0 12px}
+.pillbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;border-radius:99px;padding:2px 10px;margin-right:6px;background:var(--accent-2);color:var(--accent)}
+.tag.ok{background:#d9f3e1;color:#14663a}.tag.no{background:#fde2df;color:#a3261b}
+.codebox{background:#0f172a;color:#e6edf7;border-radius:12px;padding:14px;overflow:auto;font:0.86rem/1.5 Consolas,monospace;white-space:pre;margin:8px 0}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:12px 0}
+.flow .st{flex:1 1 150px;max-width:230px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;position:relative}
+.flow .st b{display:block;margin-bottom:4px}
+.flow .st .no{position:absolute;top:-10px;left:10px;background:var(--accent);color:#fff;border-radius:99px;font-size:.75rem;padding:1px 8px;font-weight:800}
+.flow .ar{align-self:center;font-weight:800;color:var(--accent)}
+.cmap{width:100%;max-width:760px;height:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.cmap .nd rect{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.cmap .nd.k-part rect{stroke:var(--accent)}.cmap .nd.k-process rect{stroke:var(--red)}.cmap .nd.k-example rect{stroke:#14663a}
+.cmap .nd.ctr rect{fill:var(--accent);stroke:var(--accent)}.cmap .nd.ctr text{fill:#fff}
+.cmap text{fill:var(--ink,currentColor);font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+.cmap .el{stroke:var(--mute);stroke-width:1.3;opacity:.7}.cmap .lb{font-size:10.5px;font-weight:500;fill:var(--mute)}
+.evo{border-left:3px solid var(--accent);margin:8px 0 8px 6px;padding-left:14px}
+.evo .y{font-weight:800;color:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+.line-ok{border-left:3px solid #14a05a;padding:4px 10px;margin:6px 0}.line-no{border-left:3px solid var(--mute);padding:4px 10px;margin:6px 0;opacity:.85}
+
+/* ===== Minimal look (default): flat, black or white, one centred prompt ===== */
+html[data-look="min"]{--bg:#ffffff;--card:#ffffff;--ink:#0d0d0d;--mute:#6b6b6b;--line:#e3e3e3;--soft:#f4f4f4;--accent:#0d0d0d;--accent-2:#ececec;--accent-ink:#ffffff;--red:#b5502d;--hl:#ececec;--stamp:transparent;--bot:transparent;--me:#f0f0f0;--me-ink:#0d0d0d;--sidebg:#f9f9f9;--sendbg:#b5502d}
+html[data-look="min"][data-theme="dark"]{--bg:#000000;--card:#000000;--ink:#ececec;--mute:#9b9b9b;--line:#262626;--soft:#1b1b1b;--accent:#ececec;--accent-2:#212121;--accent-ink:#000000;--red:#e08a66;--hl:#2a2a2a;--me:#2f2f2f;--me-ink:#ececec;--sidebg:#000000}
+html[data-look="min"] body{background:var(--bg)}
+html[data-look="min"] #side{background:var(--sidebg);border-right:1px solid var(--line);padding:10px 8px;gap:2px}
+html[data-look="min"] .brand{font-weight:600;padding:8px 10px 10px}
+html[data-look="min"] .brand svg{display:none}
+html[data-look="min"] .newbtn{background:none;color:var(--ink);font-weight:500;padding:9px 10px;border-radius:10px}
+html[data-look="min"] .newbtn:hover,html[data-look="min"] #side .tab:hover{background:var(--soft);filter:none}
+html[data-look="min"] #side .tab{font-weight:500;color:var(--ink);padding:9px 10px}
+html[data-look="min"] #side .tab.on{background:var(--soft);color:var(--ink);box-shadow:none}
+html[data-look="min"] #recentbox{border-top:0}
+html[data-look="min"] header.top{background:transparent;backdrop-filter:none;border-bottom:0}
+html[data-look="min"] #ptitle{font-weight:600;color:var(--mute)}
+html[data-look="min"] .palbtn{display:none}
+html[data-look="min"] .grp{display:none}
+html[data-look="min"] .ic{border:0;background:none;color:var(--mute);border-radius:10px}
+html[data-look="min"] .ic:hover{background:var(--soft);color:var(--ink)}
+html[data-look="min"] .hero{text-align:center;max-width:760px;margin:0 auto;padding:0}
+html[data-look="min"] .hero h1{font-size:1.9em;font-weight:500;letter-spacing:-.01em}
+html[data-look="min"] .hero > p,html[data-look="min"] .hero .cover,html[data-look="min"] .hero .brief,html[data-look="min"] .hero .heronote{display:none}
+html[data-look="min"] .hero .chips{justify-content:center;margin:16px 0 0}
+html[data-look="min"] .sug,html[data-look="min"] .follow button{border:1px solid var(--line);background:none;color:var(--mute)}
+html[data-look="min"] .sug:hover,html[data-look="min"] .follow button:hover{background:var(--soft);color:var(--ink);border-color:var(--line)}
+html[data-look="min"] #p-chat:has(#hero){justify-content:center}
+html[data-look="min"] #p-chat:has(#hero) #log{flex:0 0 auto;overflow:visible;padding:0 10px}
+html[data-look="min"] #p-chat:has(#hero) .composer{background:none;padding-top:18px}
+html[data-look="min"] #p-chat:has(#hero) .hint{display:none}
+html[data-look="min"] .composer{background:none}
+html[data-look="min"] .cbox{max-width:760px;border:1px solid transparent;border-radius:28px;background:var(--soft);box-shadow:none;padding:12px 14px 8px 20px}
+html[data-look="min"] .cbox:focus-within{border-color:var(--line)}
+html[data-look="min"] .cbox textarea{font-size:1.02em;padding:6px 4px}
+html[data-look="min"] .crow select,html[data-look="min"] .attach{background:none;border:0;color:var(--mute);font-size:.8em;padding:4px 8px;border-radius:999px}
+html[data-look="min"] .attach:hover,html[data-look="min"] .crow select:hover{background:var(--line);color:var(--ink)}
+html[data-look="min"] .send{width:38px;height:38px;padding:0;border-radius:50%;font-size:0;display:grid;place-items:center;background:var(--sendbg);color:#fff}
+html[data-look="min"] .send .i{width:18px;height:18px}
+html[data-look="min"] .hint{max-width:760px}
+html[data-look="min"] #wrapmsgs{max-width:760px;margin:0 auto}
+html[data-look="min"] .msg .av{display:none}
+html[data-look="min"] .msg.me{justify-content:flex-end;flex-direction:row}
+html[data-look="min"] .msg.me .bub{background:var(--me);color:var(--me-ink);border:0;border-radius:22px;padding:10px 18px;max-width:75%;font-weight:400}
+html[data-look="min"] .msg:not(.me) .bub{background:none;border:0;border-left:0;border-radius:0;padding:4px 0;max-width:100%;box-shadow:none}
+html[data-look="min"] .rt h2,html[data-look="min"] .rt h3{background:none;box-shadow:none;padding:0;margin-left:0;font-weight:700}
+html[data-look="min"] .qrow,html[data-look="min"] .card2,html[data-look="min"] .day,html[data-look="min"] .sv{border-radius:14px;border-color:var(--line);background:var(--soft)}
+html[data-look="min"] .qrow .n{color:var(--ink)}
+html[data-look="min"] .qrow .bar i{background:var(--ink);border-radius:99px}
+html[data-look="min"] .btn.pri,html[data-look="min"] .pill.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+html[data-look="min"] .pill{border-color:var(--line);background:none;color:var(--mute)}
+html[data-look="min"] .paperbox{background:var(--soft);color:var(--ink);background-image:none;padding-left:28px}
+html[data-look="min"] .paperbox::before{display:none}
+html[data-look="min"] .paperbox li{line-height:1.6;margin:6px 0}
+html[data-look="min"] .exam{background:none;border:1px solid var(--line)}
+
+/* bigger by default */
+html[data-look="min"] .hero h1{font-size:2.3em}
+html[data-look="min"] .cbox{max-width:min(900px,94%)}
+html[data-look="min"] .cbox textarea{min-height:3.4em;font-size:1.05em}
+html[data-look="min"] .hero{max-width:min(900px,94%)}
+html[data-look="min"] #wrapmsgs{max-width:min(1600px,97%)}
+html[data-look="min"] #p-chat:not(:has(#hero)) .cbox,html[data-look="min"] #p-chat:not(:has(#hero)) .hint{max-width:min(1300px,95%)}
+html[data-look="min"] #log{padding-left:6px;padding-right:6px}
+html[data-look="min"] .msg:not(.me) .bub{max-width:100%;width:100%}
+html[data-look="min"] .sug{font-size:.9em;padding:8px 18px}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo"><i>Q</i> QueryBuddy</div>
+<script>try{document.documentElement.dataset.look=localStorage.getItem("qb_look")||"min"}catch(e){document.documentElement.dataset.look="min"}</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h13a1 1 0 0 1 1 1v14H6a2 2 0 0 0-2 2V6a2 2 0 0 1 1-2z"/><path d="M8 8h7M8 12h5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 17-3-7z"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7L9.5 17a1.7 1.7 0 0 1-2.4-2.4L14 7.7"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 3l3 3-3 3M20 6H8a4 4 0 0 0-4 4M7 21l-3-3 3-3M4 18h12a4 4 0 0 0 4-4"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</defs></svg>
+<a href="#p-chat" class="skip" style="position:absolute;left:-999px">Skip to content</a>
+<div id="app">
+<aside id="side" aria-label="Main">
+  <div class="brand"><svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="var(--accent)"/><path d="M9 17l5 5 11-11" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="8" y="26" width="18" height="3.2" rx="1.6" fill="var(--hl)"/></svg><span>QueryBuddy</span></div>
+  <button class="newbtn" onclick="newChat()" title="New chat (Alt+N)"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><span>New chat</span></button>
   <nav class="tabs" aria-label="Sections">
-    <button class="tab on" id="t-chat" onclick="go('chat')">💬 Ask AI</button>
-    <button class="tab" id="t-browse" onclick="go('browse')">📚 Browse papers</button>
-    <button class="tab" id="t-stats" onclick="go('stats')">📊 Analytics</button>
+    <button class="tab on" id="t-chat" onclick="go('chat')"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span>Ask AI</span></button>
+    <button class="tab" id="t-browse" onclick="go('browse')"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Browse papers</span></button>
+    <button class="tab" id="t-stats" onclick="go('stats')"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg><span>Analytics</span></button>
+    <button class="tab" id="t-latest" onclick="go('latest')"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg><span>Latest</span></button>
+    <button class="tab" id="t-tools" onclick="go('tools')"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg><span>Study tools</span></button>
   </nav>
+  <div id="recentbox"><div class="rtitle">Recent questions</div><div id="recent"></div></div>
+  <button class="exam" id="examchip" type="button" onclick="examChipClick()"></button>
+</aside>
+<div id="content">
+<header class="top">
+  <div id="ptitle">Ask AI</div>
+  <button class="palbtn" onclick="openPal()" title="Search or jump to (Ctrl+K)" aria-label="Search or jump to"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><span>Search or jump to…</span><kbd>Ctrl K</kbd></button>
   <div class="tools">
-    <button class="ic" onclick="newChat()" title="Start a new chat">＋ <span class="lbl">New chat</span></button>
+    <button class="ic" onclick="openDrawer('saved')" title="Saved answers"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg> <span class="lbl">Saved</span></button>
+    <button class="ic" onclick="openDrawer('settings')" title="Settings" aria-label="Settings"><svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg></button>
     <div class="grp">
       <button class="ic" onclick="fs(-1)" title="Smaller text" aria-label="Smaller text">A−</button>
       <button class="ic" onclick="fs(1)" title="Bigger text" aria-label="Bigger text">A+</button>
     </div>
-    <button class="ic" id="dm" onclick="theme()" title="Switch light / dark">🌙</button>
+    <button class="ic" id="lk" onclick="toggleLook()" title="Switch between the minimal and classic look">Look</button>
+    <button class="ic" id="dm" onclick="theme()" title="Switch light / dark" aria-label="Switch light or dark theme"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg></button>
   </div>
 </header>
 
@@ -203,22 +634,30 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
   <section class="page on" id="p-chat">
     <div id="log"><div class="wrap" id="wrapmsgs">
       <div class="hero" id="hero">
-        <h1>Find what's <span>important</span> for your exam</h1>
-        <p>Pick your semester, then ask about any BCA subject. I search real previous question papers and show which topics keep coming back.</p>
-        <div class="semrow" id="semrow"><small>Your semester:</small></div>
-        <div class="cards">
-          <button class="card" data-fill="Important topics in "><span class="ico">⭐</span><b>Important topics</b><span>Topics asked in the most different years for a subject</span></button>
-          <button class="card" data-fill="Show the latest paper of "><span class="ico">📄</span><b>Show a question paper</b><span>The latest paper, neatly arranged by part and marks</span></button>
-          <button class="card" data-q="How many subjects in the 1st sem"><span class="ico">🗂️</span><b>Subjects in a semester</b><span>See every subject that has papers in the database</span></button>
+        <h1>Where should we begin?</h1>
+        <p>Choose a semester and subject. I'll show what came up in past papers, what is likely next, and how to practise it.</p>
+        <div class="cover">
+          <div class="field"><span class="lab">Semester</span><div class="semrow" id="semrow"></div></div>
+          <div class="field"><label for="hsub">Subject</label><input id="hsub" list="subs" placeholder="e.g. Operating System" autocomplete="off"></div>
+          <div class="examrow"><span class="lab">Exam date</span><div class="xin"><input type="date" id="xdate" aria-label="Exam date"><span class="left" id="xleft">Optional. Set it to see a countdown.</span></div></div>
+          <div class="acts2">
+            <button class="act pri" data-act="topics"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>Important topics</button>
+            <button class="act" data-act="likely"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Likely in next paper</button>
+            <button class="act" data-act="paper"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Latest paper</button>
+            <button class="act" data-act="repeated"><svg class="i" aria-hidden="true"><use href="#i-repeat"/></svg>Repeated questions</button>
+            <button class="act" data-act="syllabus"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg>Syllabus</button>
+            <button class="act" data-act="mock"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Mock paper</button>
+          </div>
         </div>
+        <div class="brief" id="brief" hidden></div>
+        <p class="heronote" id="heroStat">Not sure which subject? <button class="linkbtn" data-act="subjects">See all subjects in a semester</button></p>
         <div class="chips">
           <button class="sug" data-q="Important questions in Operating System">Important questions in Operating System</button>
           <button class="sug" data-q="Show the latest Data Structures paper">Latest Data Structures paper</button>
           <button class="sug" data-q="Important topics in DBMS 4th sem">Important topics in DBMS</button>
           <button class="sug" data-q="Most repeated questions in Computer Networks">Repeated questions in Computer Networks</button>
         </div>
-      </div>
-    </div></div>
+      </div></div>
     <div class="composer">
       <div class="cbox">
         <textarea id="q" rows="1" placeholder="Ask e.g. Important topics in Java 5th sem…" aria-label="Your question"></textarea>
@@ -228,11 +667,12 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
             <option>1st sem</option><option>2nd sem</option><option>3rd sem</option>
             <option>4th sem</option><option>5th sem</option><option>6th sem</option>
           </select>
-          <button class="attach" type="button" onclick="document.getElementById('file').click()">📎 Attach PDF / TXT</button>
+          <button class="attach" type="button" onclick="document.getElementById('file').click()"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg> Attach PDF / TXT</button>
           <input type="file" id="file" accept=".pdf,.txt" hidden>
           <span class="fname" id="fname"></span>
           <label class="sw"><input type="checkbox" id="web"> Include web</label>
-          <button class="send" id="send" type="button">Send ➤</button>
+          <button class="attach" id="mic" type="button" title="Speak your question" aria-label="Speak your question" style="display:none"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg></button>
+          <button class="send" id="send" type="button">Send <svg class="i" aria-hidden="true"><use href="#i-send"/></svg></button>
         </div>
       </div>
       <div class="hint">Enter to send · Shift+Enter for a new line · Answers come from your college's past papers, so always check your syllabus.</div>
@@ -253,18 +693,181 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
       <div class="bhead"><h2>Question analytics</h2></div>
       <p class="sub">Counted by a program from every previous paper: which topics were asked in the most different years.</p>
       <div class="kpis" id="kpis"></div>
+      <div class="charts">
+        <div class="cc"><h4>How many questions repeat</h4><div id="donut" class="donut"></div></div>
+        <div class="cc"><h4>Important topics per semester</h4><div id="asemchart"></div></div>
+        <div class="cc"><h4>Most repeated, by subject</h4><div id="topsub"></div><div class="sub2">Bar length = the most years the same question was asked.</div></div>
+      </div>
       <div class="bhead" style="margin-top:22px">
         <select id="asem" class="sel" aria-label="Semester"><option value="">All semesters</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select>
         <input id="asub" placeholder="Subject, e.g. operating system" aria-label="Subject">
         <button class="btn pri" id="ago">Show</button>
       </div>
-      <div class="pills" id="amode"><button class="pill on" data-m="topics">Important topics</button><button class="pill" data-m="questions">Repeated questions</button></div>
+      <div class="pills" id="amode"><button class="pill on" data-m="topics">Important topics</button><button class="pill" data-m="questions">Repeated questions</button><button class="pill" data-m="trend">When asked (grid)</button></div>
       <div id="atop"></div>
-      <h3 style="margin:26px 0 10px">Important topics per semester</h3>
-      <div id="asemchart"></div>
+    </div></div>
+  </section>
+
+  <section class="page" id="p-latest">
+    <div class="wrap" style="padding:20px 28px">
+      <div class="bhead"><h2>Latest</h2></div>
+      <p class="sub">What is newest in the papers: recently added papers, and what changed in each subject's newest paper.</p>
+      <div class="trow"><select id="lsem" class="sel" aria-label="Semester"><option value="">Any semester</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select></div>
+      <div id="out-latest"></div>
+    </div>
+  </section>
+
+  <section class="page" id="p-tools">
+    <div id="tools"><div class="wrap">
+      <div class="bhead"><h2>Study tools</h2></div>
+      <p class="sub">Built from the past papers: predictions, a mock paper, quiz, flashcards, viva practice, coverage checks, concept maps and more.</p>
+      <div class="pills" id="tmode">
+        <button class="pill on" data-t="predict"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Likely topics</button>
+        <button class="pill" data-t="mock"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Mock paper</button>
+        <button class="pill" data-t="quiz"><svg class="i" aria-hidden="true"><use href="#i-help"/></svg>Practice quiz</button>
+        <button class="pill" data-t="check"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Check my answer</button>
+        <button class="pill" data-t="plan"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg>Study plan</button>
+        <button class="pill" data-t="similar"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg>Similar questions</button>
+        <button class="pill" data-t="flash"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Flashcards</button>
+        <button class="pill" data-t="viva"><svg class="i" aria-hidden="true"><use href="#i-help"/></svg>Viva simulator</button>
+        <button class="pill" data-t="misc"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Misconceptions</button>
+        <button class="pill" data-t="code"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Question to code</button>
+        <button class="pill" data-t="cover"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Syllabus coverage</button>
+        <button class="pill" data-t="evo"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Question evolution</button>
+        <button class="pill" data-t="anom"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Unusual questions</button>
+        <button class="pill" data-t="trace"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg>Answer traceability</button>
+        <button class="pill" data-t="map"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Concept map</button>
+        <button class="pill" data-t="vis"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg>Visual explainer</button>
+        <button class="pill" data-t="debate"><svg class="i" aria-hidden="true"><use href="#i-help"/></svg>Debate mode</button>
+      </div>
+      <datalist id="subs"></datalist>
+      <div class="tcommon" id="tcommon">
+        <select id="tsem" class="sel" aria-label="Semester"><option value="">Any semester</option><option value="1">1st sem</option><option value="2">2nd sem</option><option value="3">3rd sem</option><option value="4">4th sem</option><option value="5">5th sem</option><option value="6">6th sem</option></select>
+        <input id="tsub" list="subs" placeholder="Subject, e.g. operating system" aria-label="Subject">
+      </div>
+      <div class="tryrow" id="tryrow"><small>Try</small><button class="sug" data-s="Operating System">Operating System</button><button class="sug" data-s="Database Management">Database Management</button><button class="sug" data-s="Java Programming">Java Programming</button><button class="sug" data-s="Data Structures">Data Structures</button></div>
+
+      <div class="tp" id="tp-predict">
+        <button class="btn pri" id="go-predict">Predict likely topics</button>
+        <div id="out-predict" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-mock" style="display:none">
+        <div class="trow">
+          <span class="note" style="margin:0">Questions in</span>
+          Part A <input type="number" id="na" min="0" max="20" placeholder="auto" aria-label="Part A questions"> marks <input type="number" id="ma" min="0" max="50" placeholder="–" aria-label="Part A marks">
+          Part B <input type="number" id="nb" min="0" max="20" placeholder="auto" aria-label="Part B questions"> marks <input type="number" id="mb2" min="0" max="50" placeholder="–" aria-label="Part B marks">
+          Part C <input type="number" id="nc" min="0" max="20" placeholder="auto" aria-label="Part C questions"> marks <input type="number" id="mc" min="0" max="50" placeholder="–" aria-label="Part C marks">
+        </div>
+        <button class="btn pri" id="go-mock">Build mock paper</button>
+        <button class="btn" id="print-mock" style="display:none">Print / Save as PDF</button>
+        <div id="out-mock" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-quiz" style="display:none">
+        <div class="trow"><select id="qn" class="sel" aria-label="Number of questions"><option>5</option><option>10</option></select> questions
+          <button class="btn pri" id="go-quiz">Start quiz</button></div>
+        <div id="out-quiz"></div>
+        <div id="quiz-hist"></div>
+      </div>
+
+      <div class="tp tbox" id="tp-check" style="display:none">
+        <textarea id="cq" placeholder="Type the exam question, e.g. What is deadlock? Explain the conditions for deadlock." aria-label="Exam question"></textarea>
+        <textarea id="ca" style="min-height:150px" placeholder="Write your answer here…" aria-label="Your answer"></textarea>
+        <button class="btn pri" id="go-check">Check my answer</button>
+        <div id="out-check" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-plan" style="display:none">
+        <div class="trow">
+          <input id="psubs" list="subs" style="flex:1;min-width:240px;border-radius:999px" placeholder="Subjects, separated by commas: operating system, java" aria-label="Subjects">
+          <label class="note" style="margin:0">Exam date <input type="date" id="pdate" aria-label="Exam date" style="border-radius:999px"></label>
+          <label class="note" style="margin:0">Hours/day <input type="number" id="phours" value="3" min="1" max="12"></label>
+          <button class="btn pri" id="go-plan">Make plan</button>
+        </div>
+        <div id="out-plan"></div>
+      </div>
+
+      <div class="tp" id="tp-similar" style="display:none">
+        <div class="trow"><input id="simq" style="flex:1;min-width:240px;border-radius:999px" placeholder="Describe a topic or question, e.g. virtual storage and paging" aria-label="Topic or question">
+          <button class="btn pri" id="go-sim">Find similar questions</button></div>
+        <div id="out-similar"></div>
+      </div>
+
+      <div class="tp" id="tp-flash" style="display:none">
+        <div class="trow"><select id="fn" class="sel" aria-label="Number of cards"><option>8</option><option selected>12</option><option>16</option></select> cards
+          <button class="btn pri" id="go-flash">Make flashcards</button></div>
+        <div id="out-flash"></div>
+      </div>
+
+      <div class="tp" id="tp-viva" style="display:none">
+        <p class="note" style="margin-top:0">An examiner asks 5 oral questions, one at a time, and marks each answer. Type the answer as you would say it.</p>
+        <button class="btn pri" id="go-viva">Start viva</button>
+        <div id="out-viva" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp tbox" id="tp-misc" style="display:none">
+        <input id="mt1" placeholder="Topic, e.g. deadlock" aria-label="Topic" style="width:100%;margin-bottom:10px;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:8px 14px">
+        <textarea id="mt2" placeholder="Explain it in your own words. I will point out anything that is wrong or misleading." aria-label="Your explanation"></textarea>
+        <button class="btn pri" id="go-misc">Find misconceptions</button>
+        <div id="out-misc" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp tbox" id="tp-code" style="display:none">
+        <textarea id="cdq" placeholder="Paste a programming or SQL exam question, e.g. Write a program to check whether a number is prime." aria-label="Exam question"></textarea>
+        <div class="trow"><select id="cdl" class="sel" aria-label="Language"><option>Python</option><option>Java</option><option>C</option><option>C++</option><option>SQL</option><option>PHP</option><option>JavaScript</option></select>
+          <button class="btn pri" id="go-code">Write the code</button></div>
+        <div id="out-code"></div>
+      </div>
+
+      <div class="tp" id="tp-cover" style="display:none">
+        <p class="note" style="margin-top:0">Compares the official syllabus with the past papers: which syllabus topics were actually asked, and which never were.</p>
+        <button class="btn pri" id="go-cover">Check coverage</button>
+        <div id="out-cover" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-evo" style="display:none">
+        <p class="note" style="margin-top:0">Follows a topic through the years: how the question was worded, which part it sat in, and what changed.</p>
+        <button class="btn pri" id="go-evo">Track question evolution</button>
+        <div id="out-evo" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-anom" style="display:none">
+        <p class="note" style="margin-top:0">Spots what is different in the newest paper: brand-new questions, topics that disappeared, and topics that are suddenly back.</p>
+        <button class="btn pri" id="go-anom">Find unusual questions</button>
+        <div id="out-anom" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp tbox" id="tp-trace" style="display:none">
+        <textarea id="trans" style="min-height:150px" placeholder="Paste an AI answer here. I will check which sentences can be found in the past papers of the subject above." aria-label="Answer to trace"></textarea>
+        <button class="btn pri" id="go-trace">Trace this answer</button>
+        <div id="out-trace" style="margin-top:14px"></div>
+      </div>
+
+      <div class="tp" id="tp-map" style="display:none">
+        <div class="trow"><input id="mapc" style="flex:1;min-width:240px;border-radius:999px" placeholder="A concept, e.g. deadlock" aria-label="Concept">
+          <button class="btn pri" id="go-map">Draw concept map</button></div>
+        <div id="out-map"></div>
+      </div>
+
+      <div class="tp" id="tp-vis" style="display:none">
+        <div class="trow"><input id="visc" style="flex:1;min-width:240px;border-radius:999px" placeholder="A concept, e.g. paging in operating systems" aria-label="Concept">
+          <button class="btn pri" id="go-vis">Explain visually</button></div>
+        <div id="out-vis"></div>
+      </div>
+
+      <div class="tp tbox" id="tp-debate" style="display:none">
+        <input id="dbt" placeholder="A debate topic, e.g. Is NoSQL better than SQL?" aria-label="Debate topic" style="width:100%;margin-bottom:10px;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:8px 14px">
+        <div class="trow"><button class="btn pri" id="go-debate">Show both sides</button></div>
+        <textarea id="dba" placeholder="Optional: write your own argument and the AI will answer it." aria-label="Your argument"></textarea>
+        <div class="trow"><select id="dbs" class="sel" aria-label="Your side"><option value="for">I argue for</option><option value="against">I argue against</option></select>
+          <button class="btn" id="go-debate2">Debate me</button></div>
+        <div id="out-debate"></div>
+      </div>
     </div></div>
   </section>
 </main>
+</div></div>
 
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mbox">
   <div class="mtop"><h3 id="mt"></h3><button class="btn" onclick="closeM()">✕ Close</button></div>
@@ -279,6 +882,31 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
     <button class="btn" onclick="printPaper()">Print</button>
   </div>
 </div></div>
+<div id="dback" onclick="closeDrawer()"></div>
+<aside id="drawer" aria-label="Settings and saved answers">
+  <div class="dtop"><div class="pills" style="margin:0"><button class="pill on" id="dt-settings" onclick="openDrawer('settings')">Settings</button><button class="pill" id="dt-saved" onclick="openDrawer('saved')">Saved</button></div><button class="btn" onclick="closeDrawer()">✕</button></div>
+  <div id="dv-settings" class="dbody">
+    <h4>Accent colour</h4><div class="swatches" id="sw-accent"></div>
+    <h4>Text style</h4><div class="pills" id="pl-font"><button class="pill" data-v="default">Default</button><button class="pill" data-v="serif">Serif</button><button class="pill" data-v="easy">Easy-read</button></div>
+    <h4>Spacing</h4><div class="pills" id="pl-density"><button class="pill" data-v="comfy">Comfortable</button><button class="pill" data-v="compact">Compact</button></div>
+    <h4>AI answer style</h4><div class="pills" id="pl-style"><button class="pill" data-v="normal">Normal</button><button class="pill" data-v="short">Short</button><button class="pill" data-v="detailed">Detailed</button></div>
+    <h4>Defaults</h4>
+    <label class="srow">My semester <select id="set-sem" class="sel"><option value="">Any</option><option>1st sem</option><option>2nd sem</option><option>3rd sem</option><option>4th sem</option><option>5th sem</option><option>6th sem</option></select></label>
+    <label class="srow"><input type="checkbox" id="set-web"> Include web results by default</label>
+    <label class="srow"><input type="checkbox" id="set-chips" checked> Show the years a topic was asked</label>
+    <h4>Chat</h4>
+    <div class="pills"><button class="btn" onclick="exportChat()">Export this chat (.md)</button><button class="btn" onclick="newChat();closeDrawer()">New chat</button></div>
+    <h4>Keyboard</h4><p class="note"><b>/</b> focus the question box · <b>Ctrl+K</b> search and jump anywhere · <b>Alt+N</b> new chat · <b>Esc</b> close panels · <b>Enter</b> send</p>
+    <h4>Your data</h4><p class="note">Settings, saved answers and quiz scores live only in this browser.</p>
+    <button class="btn" onclick="clearMine()">Clear my saved data</button>
+  </div>
+  <div id="dv-saved" class="dbody" style="display:none"></div>
+</aside>
+<div id="pal" onclick="if(event.target.id==='pal')closePal()"><div class="pbox" role="dialog" aria-modal="true" aria-label="Search or jump to">
+  <input id="pin" placeholder="Type a question to ask, or the name of a page or tool…" autocomplete="off" aria-label="Search or jump to">
+  <div id="plist" role="listbox"></div>
+  <div class="pfoot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+</div></div>
 <div id="toast" role="status"></div>
 
 <script>
@@ -292,10 +920,14 @@ let toastT;
 function toast(msg){ const t = $("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); }
 
 /* ---------- theme + font ---------- */
-let size = parseInt(store.get("qb_fs", "18"), 10) || 18;
-function applyFs(){ document.documentElement.style.setProperty("--fs", size + "px"); }
-function fs(d){ size = Math.max(14, Math.min(28, size + d * 2)); store.set("qb_fs", size); applyFs(); }
-function setTheme(dark){ document.documentElement.dataset.theme = dark ? "dark" : "light"; $("dm").textContent = dark ? "☀️" : "🌙"; }
+// Text size adapts to the screen by itself (see --fs in CSS). A-/A+ only add your own choice on top.
+let size = parseInt(store.get("qb_fs2", "0"), 10) || 0;
+function applyFs(){ if (size) document.documentElement.style.setProperty("--fs", size + "px"); }
+function fs(d){
+  if (!size) size = Math.round(parseFloat(getComputedStyle(document.body).fontSize)) || 18;
+  size = Math.max(14, Math.min(32, size + d * 2)); store.set("qb_fs2", size); applyFs();
+}
+function setTheme(dark){ document.documentElement.dataset.theme = dark ? "dark" : "light"; $("dm").innerHTML = '<svg class="i" aria-hidden="true"><use href="#i-' + (dark ? "sun" : "moon") + '"/></svg>'; if (typeof opt !== "undefined" && opt) applyAccent(); }
 function theme(){ const dark = document.documentElement.dataset.theme !== "dark"; setTheme(dark); store.set("qb_theme", dark ? "dark" : "light"); }
 applyFs();
 (function(){
@@ -306,14 +938,18 @@ applyFs();
 
 /* ---------- tabs ---------- */
 function go(p){
-  ["chat","browse","stats"].forEach(n => { $("p-" + n).classList.toggle("on", n === p); $("t-" + n).classList.toggle("on", n === p); });
+  ["chat","browse","stats","latest","tools"].forEach(n => { $("p-" + n).classList.toggle("on", n === p); $("t-" + n).classList.toggle("on", n === p); });
   if (p === "browse") loadTree();
   if (p === "stats") loadStats();
+  if (p === "tools") loadSubjects();
+  if (p === "latest") loadLatest();
+  $("ptitle").textContent = { chat: "Ask AI", browse: "Question papers", stats: "Analytics", latest: "Latest", tools: "Study tools" }[p];
+  ["chat", "browse", "stats", "latest", "tools"].forEach(n => { if (n === p) $("t-" + n).setAttribute("aria-current", "page"); else $("t-" + n).removeAttribute("aria-current"); });
 }
 
 /* ---------- safe mini-markdown (escape first) ---------- */
 function inline(s){
-  return s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, "$1<em>$2</em>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  return s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, "$1<em>$2</em>").replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 function md(src){
   const lines = esc(src).split("\n"); let out = "", list = null;
@@ -361,6 +997,15 @@ function md(src){
 
 /* ---------- chat ---------- */
 const log = $("log"), wrapm = $("wrapmsgs"), qbox = $("q");
+// Question papers: wrap each "Part" (heading + its questions) in a box so the columns break between parts, not inside them
+function wrapParts(el){
+  const kids = Array.from(el.children); let sec = null;
+  kids.forEach(n => {
+    if (n.tagName === "H3") { sec = document.createElement("div"); sec.className = "sec"; el.insertBefore(sec, n); sec.appendChild(n); return; }
+    const isNote = n.tagName === "P" && n.firstElementChild && n.firstElementChild.tagName === "EM" && n.children.length === 1 && n.textContent.trim() === n.firstElementChild.textContent.trim();
+    if (sec && (n.tagName === "OL" || n.tagName === "UL" || isNote)) sec.appendChild(n); else sec = null;
+  });
+}
 function addMsg(role, content, o){
   o = o || {};
   const hero = $("hero"); if (hero) hero.remove();
@@ -368,7 +1013,8 @@ function addMsg(role, content, o){
   row.addEventListener("animationend", () => row.classList.remove("fresh"), {once: true});
   const av = document.createElement("div"); av.className = "av"; av.textContent = role === "me" ? "You" : "AI";
   const b = document.createElement("div"); b.className = "bub" + (role === "bot" ? " rt" : "");
-  if (o.md) b.innerHTML = md(content); else if (o.html) b.innerHTML = content; else b.textContent = content;
+  if (o.md && role === "bot") { b.classList.add("reveal"); setTimeout(() => b.classList.remove("reveal"), 1500); }
+  if (o.md) { b.innerHTML = md(content); if (/^### Part /m.test(content)) { b.classList.add("paper"); wrapParts(b); } } else if (o.html) b.innerHTML = content; else b.textContent = content;
   const hasS = o.sources && o.sources.length, hasW = o.web && o.web.length;
   if (hasS || hasW) {
     const box = document.createElement("div"); box.className = "src";
@@ -388,13 +1034,18 @@ function addMsg(role, content, o){
     const c = document.createElement("button"); c.className = "mini"; c.textContent = "Copy";
     c.onclick = () => { try { navigator.clipboard.writeText(o.copy); toast("Copied to clipboard"); } catch(e){} };
     const p = document.createElement("button"); p.className = "mini"; p.textContent = "Print"; p.onclick = () => printHtml(b.innerHTML);
-    acts.append(c, p); b.appendChild(acts);
+    const sv = document.createElement("button"); sv.className = "mini"; sv.textContent = "Save"; sv.onclick = () => { saveAnswer(o.q || "Saved answer", o.copy); sv.classList.add("on"); sv.textContent = "Saved"; };
+    const ls = document.createElement("button"); ls.className = "mini"; ls.textContent = "Listen"; ls.onclick = () => speak(b, ls);
+    acts.append(c, p, sv, ls);
+    if (o.q) { const rd = document.createElement("button"); rd.className = "mini"; rd.textContent = "Ask again"; rd.onclick = () => ask(o.q); acts.appendChild(rd); }
+    b.appendChild(acts);
   }
   row.append(av, b); wrapm.appendChild(row); log.scrollTop = log.scrollHeight; return row;
 }
 
 function newChat(){
   if (busy) return;
+  chatLog.length = 0;
   wrapm.innerHTML = $("heroTpl").innerHTML; bindHero(); qbox.value = ""; autosize(); go("chat"); qbox.focus();
 }
 
@@ -406,16 +1057,16 @@ async function ask(text){
   let full = text;
   if (sem && !/\b[1-6]\s*(st|nd|rd|th)?\s*sem/i.test(text)) full += " " + sem;
   busy = true; $("send").disabled = true; qbox.value = ""; autosize();
-  addMsg("me", text);
+  addMsg("me", text); chatLog.push({ role: "You", text }); pushHist(text);
   const typing = addMsg("bot", '<div class="typing"><span class="d"></span><span class="d"></span><span class="d"></span><span id="tmsg">Searching papers…</span></div>', {html: true});
   lastTimers = [setTimeout(() => { const t = $("tmsg"); if (t) t.textContent = "Reading the matching papers…"; }, 2500),
                 setTimeout(() => { const t = $("tmsg"); if (t) t.textContent = "Preparing your answer…"; }, 6000)];
-  const fd = new FormData(); fd.append("question", full); fd.append("web", $("web").checked ? "1" : "0");
+  const fd = new FormData(); fd.append("question", full); fd.append("web", $("web").checked ? "1" : "0"); fd.append("style", opt.style);
   const f = $("file").files[0]; if (f) fd.append("file", f);
   try {
     const r = await fetch("/ask", { method: "POST", body: fd });
     const d = await r.json(); typing.remove();
-    if (d.answer) addMsg("bot", d.answer, { md: true, sources: d.sources, web: d.web, copy: d.answer });
+    if (d.answer) { const row = addMsg("bot", d.answer, { md: true, sources: d.sources, web: d.web, copy: d.answer, q: text }); chatLog.push({ role: "AI", text: d.answer }); addFollow(row.querySelector(".bub"), text); }
     else addMsg("bot", d.error || "Something went wrong.");
   } catch (e) { typing.remove(); addMsg("bot", "Cannot reach the server. Is app.py running?"); }
   lastTimers.forEach(clearTimeout);
@@ -431,19 +1082,37 @@ $("file").onchange = e => { $("fname").textContent = e.target.files[0] ? "📄 "
 const heroTpl = document.createElement("template"); heroTpl.id = "heroTpl"; heroTpl.innerHTML = wrapm.innerHTML; document.body.appendChild(heroTpl);
 function bindHero(){
   const sr = $("semrow");
-  if (sr && sr.children.length === 1) {
+  if (sr) {
+    sr.textContent = "";
     for (let i = 1; i <= 6; i++) {
-      const b = document.createElement("button"); b.className = "pill"; b.textContent = i + " sem"; b.dataset.s = i;
-      b.onclick = () => { const v = ["", "1st sem", "2nd sem", "3rd sem", "4th sem", "5th sem", "6th sem"][i]; const same = $("sem").value === v; $("sem").value = same ? "" : v; paintSem(); };
+      const b = document.createElement("button"); b.className = "pill"; b.textContent = i + (i === 1 ? "st" : i === 2 ? "nd" : i === 3 ? "rd" : "th"); b.dataset.s = i; b.type = "button";
+      b.setAttribute("aria-label", "Semester " + i);
+      b.onclick = () => { const v = ["", "1st sem", "2nd sem", "3rd sem", "4th sem", "5th sem", "6th sem"][i]; const same = $("sem").value === v; $("sem").value = same ? "" : v; paintSem(); schedBrief(); };
       sr.appendChild(b);
     }
   }
-  document.querySelectorAll(".sug").forEach(b => b.onclick = () => ask(b.dataset.q));
-  document.querySelectorAll(".card").forEach(b => b.onclick = () => {
-    if (b.dataset.q) { const s = $("sem").value || "1st sem"; ask(b.dataset.q.replace("1st sem", s)); }
-    else { qbox.value = b.dataset.fill; autosize(); qbox.focus(); qbox.setSelectionRange(qbox.value.length, qbox.value.length); }
-  });
-  paintSem();
+  document.querySelectorAll(".sug[data-q]").forEach(b => b.onclick = () => ask(b.dataset.q));
+  document.querySelectorAll("[data-act]").forEach(b => b.onclick = () => heroAct(b.dataset.act));
+  const hs = $("hsub"); if (hs) { hs.addEventListener("keydown", e => { if (e.key === "Enter") heroAct("topics"); }); hs.addEventListener("input", schedBrief); }
+  const xd = $("xdate"); if (xd) { xd.min = todayISO(); xd.value = getExam(); xd.onchange = () => setExam(xd.value); }
+  paintSem(); fillHeroStat(); showExam(); if (hs && hs.value.trim().length > 2) schedBrief();
+}
+function heroAct(a){
+  const sem = $("sem").value, subj = ($("hsub") || {}).value ? $("hsub").value.trim() : "";
+  if (a === "subjects") return ask("How many subjects in the " + (sem || "1st sem"));
+  if (!subj) { toast("Type a subject first, for example Operating System"); $("hsub").focus(); return; }
+  if (a === "likely" || a === "mock") {
+    $("tsem").value = sem ? String(parseInt(sem, 10)) : ""; $("tsub").value = subj; go("tools"); setTool(a === "likely" ? "predict" : "mock");
+    $(a === "likely" ? "go-predict" : "go-mock").click(); return;
+  }
+  ask({ topics: "Important topics in ", paper: "Show the latest paper of ", repeated: "Most repeated questions in ", syllabus: "Syllabus of " }[a] + subj);
+}
+let heroStatDone = false;
+async function fillHeroStat(){
+  const el = $("heroStat"); if (!el) return;
+  if (!window.__stat) { const d = await api("/api/stats"); if (d.totals) window.__stat = d.totals; }
+  const t = window.__stat; if (!t || !$("heroStat")) return;
+  $("heroStat").firstChild.textContent = "Searching " + t.papers + " papers, " + Number(t.questions).toLocaleString() + " questions and " + Number(t.topics).toLocaleString() + " important topics. Not sure which subject? ";
 }
 function paintSem(){
   const v = $("sem").value, n = v ? parseInt(v, 10) : 0;
@@ -463,7 +1132,7 @@ async function loadStats(){
     const t = d.totals, k = $("kpis"); k.textContent = "";
     [["papers", "Papers analysed"], ["questions", "Questions found"], ["topics", "Important topics"], ["repeated", "Exact repeated questions"]].forEach(([key, lab]) => {
       const box = document.createElement("div"); box.className = "kpi";
-      const b = document.createElement("b"); b.textContent = t[key]; const sp = document.createElement("span"); sp.textContent = lab;
+      const b = document.createElement("b"); countUp(b, t[key]); const sp = document.createElement("span"); sp.textContent = lab;
       box.append(b, sp); k.appendChild(box);
     });
     const ch = $("asemchart"); ch.textContent = ""; const max = Math.max(1, ...d.per_sem.map(x => x.n));
@@ -473,12 +1142,14 @@ async function loadStats(){
       const bar = document.createElement("div"); const f = document.createElement("i"); f.style.width = (100 * x.n / max) + "%"; bar.appendChild(f);
       const n = document.createElement("em"); n.textContent = x.n; row.append(l, bar, n); ch.appendChild(row);
     });
+    drawDonut(t); drawTopSubjects(d.subjects);
     topList();
   } catch (e) { $("kpis").textContent = "Could not reach the server. Is app.py running?"; }
 }
 let amode = "topics";
 async function topList(){
-  const box = $("atop"); box.textContent = "Loading…";
+  const box = $("atop"); loading(box);
+  if (amode === "trend") return trendGrid(box);
   const qs = new URLSearchParams({ sem: $("asem").value, subject: $("asub").value.trim(), limit: amode === "topics" ? 25 : 15 });
   try {
     const r = await fetch("/api/" + (amode === "topics" ? "topics" : "top") + "?" + qs); const d = await r.json(); box.textContent = "";
@@ -494,7 +1165,7 @@ async function topList(){
         const ex = document.createElement("div"); ex.style.display = "none"; ex.style.marginTop = "8px"; ex.style.fontSize = ".88em";
         x.examples.forEach(e => { const p = document.createElement("div"); p.style.margin = "3px 0"; p.textContent = "• " + e; ex.appendChild(p); });
         row.onclick = () => { ex.style.display = ex.style.display === "none" ? "block" : "none"; };
-        row.append(n, t, bar, sm, ex); box.appendChild(row);
+        row.append(n, t, bar, sm, yearChips(x.years), ex); box.appendChild(row);
       });
       const tip = document.createElement("small"); tip.style.color = "var(--mute)"; tip.textContent = "Click a topic to see example questions."; box.appendChild(tip);
       return;
@@ -506,7 +1177,7 @@ async function topList(){
       const t = document.createElement("div"); t.textContent = (i + 1) + ". " + x.text;
       const bar = document.createElement("div"); bar.className = "bar"; const f = document.createElement("i"); f.style.width = (100 * x.freq / max) + "%"; bar.appendChild(f);
       const sm = document.createElement("small"); sm.textContent = (x.sem ? x.sem + " sem · " : "") + x.subject + " · asked in " + x.years;
-      row.append(n, t, bar, sm); box.appendChild(row);
+      row.append(n, t, bar, sm, yearChips(x.years)); box.appendChild(row);
     });
   } catch (e) { box.textContent = "Could not load."; }
 }
@@ -560,7 +1231,7 @@ let paperRaw = "", paperFmt = "", paperView = "clean";
 function setView(v){
   paperView = v; $("mv-clean").classList.toggle("on", v === "clean"); $("mv-raw").classList.toggle("on", v === "raw");
   const mb = $("mb");
-  if (v === "clean" && paperFmt) { mb.className = "rt"; mb.innerHTML = md(paperFmt); }
+  if (v === "clean" && paperFmt) { mb.className = "rt paper"; mb.innerHTML = md(paperFmt); wrapParts(mb); }
   else { mb.className = "rt raw"; mb.textContent = paperRaw || "Nothing to show."; }
   mb.scrollTop = 0;
 }
@@ -590,6 +1261,661 @@ function printHtml(html){
 function printPaper(){
   if (paperView === "clean" && paperFmt) printHtml(md(paperFmt));
   else printHtml("<pre style='white-space:pre-wrap;font:13px Consolas,monospace'>" + esc(paperRaw) + "</pre>");
+}
+
+/* ---------- study tools ---------- */
+const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+function yearChips(v){
+  const list = Array.isArray(v) ? v : String(v || "").split(/[,\s]+/).filter(Boolean);
+  const w = h("div", "chips2"); list.forEach(y => w.appendChild(h("i", "yc", y))); return w;
+}
+async function api(url, body){
+  try {
+    const r = await fetch(url, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : undefined);
+    const d = await r.json(); return r.ok ? d : { error: d.error || "Something went wrong" };
+  } catch (e) { return { error: "Could not reach the server. Is app.py running?" }; }
+}
+const semVal = () => $("tsem").value;
+const subVal = () => $("tsub").value.trim();
+function needSubject(box){ if (!subVal()) { box.textContent = "Type a subject first, for example: operating system"; return true; } return false; }
+let subsLoaded = false;
+async function loadSubjects(){
+  if (subsLoaded) return;
+  const d = await api("/api/stats"); if (!d.subjects) return; subsLoaded = true;
+  const names = [...new Set(d.subjects.map(x => x.subject))].sort();
+  const dl = $("subs"); names.forEach(n => { const o = document.createElement("option"); o.value = n; dl.appendChild(o); });
+}
+function setTool(t){
+  document.querySelectorAll("#tmode .pill").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  document.querySelectorAll(".tp").forEach(p => p.style.display = p.id === "tp-" + t ? "block" : "none");
+  $("tcommon").style.display = ["plan", "similar", "misc", "code", "map", "vis", "debate"].includes(t) ? "none" : "flex";
+}
+document.querySelectorAll("#tmode .pill").forEach(b => b.onclick = () => setTool(b.dataset.t));
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "tsub") $("go-predict").click(); });
+
+/* ---- likely topics ---- */
+$("go-predict").onclick = async () => {
+  const box = $("out-predict"); if (needSubject(box)) return; loading(box);
+  const d = await api("/api/predict?" + new URLSearchParams({ sem: semVal(), subject: subVal(), limit: 10 }));
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  d.results.forEach(s => {
+    box.appendChild(h("h3", null, s.subject + (s.sem ? " (" + s.sem + " sem)" : "") + " · likely in " + s.predicting));
+    s.topics.forEach((t, i) => {
+      const row = h("div", "qrow"); row.appendChild(h("span", "n", t.probability + "%"));
+      row.appendChild(h("div", null, (i + 1) + ". " + t.topic)); row.lastChild.style.fontWeight = "700";
+      const bar = h("div", "bar"), f = h("i"); f.style.width = t.probability + "%"; bar.appendChild(f); row.appendChild(bar);
+      row.appendChild(h("small", null, t.why)); row.appendChild(yearChips(t.years)); box.appendChild(row);
+    });
+  });
+  const bt = d.backtest || {}, c = h("div", "card2"); c.appendChild(h("h4", null, "How reliable is this?"));
+  if (bt.cases) {
+    c.appendChild(h("p", null, "The model was tested on " + bt.cases + " past cases, each time using only the years before the one being predicted. " +
+      "Of its top " + bt.k + " topics, " + bt.model + "% were really asked. For comparison: choosing the most frequent topics scored " + bt.freq_baseline +
+      "%, the most recent topics " + bt.recent_baseline + "%, and picking at random " + bt.random_baseline + "%."));
+  } else c.appendChild(h("p", null, "There are not enough years of data yet to test the model."));
+  c.appendChild(h("p", "note", "Only topics that appeared in 2 or more years are ranked, so every score here is higher than it would be for brand-new topics. " + d.note));
+  box.appendChild(c);
+};
+
+/* ---- mock paper ---- */
+let lastMock = null;
+$("go-mock").onclick = async () => {
+  const box = $("out-mock"); if (needSubject(box)) return; loading(box);
+  const q = { sem: semVal(), subject: subVal(), na: $("na").value, nb: $("nb").value, nc: $("nc").value, ma: $("ma").value, mb: $("mb2").value, mc: $("mc").value };
+  Object.keys(q).forEach(k => { if (q[k] === "") delete q[k]; });
+  const d = await api("/api/mock?" + new URLSearchParams(q));
+  box.textContent = ""; $("print-mock").style.display = "none"; if (d.error) { box.textContent = d.error; return; }
+  lastMock = d; const pb = h("div", "paperbox");
+  pb.appendChild(h("h2", null, "Mock paper · " + d.subject + (d.sem ? " · " + d.sem + " sem" : "")));
+  pb.appendChild(h("div", "meta", "Pattern taken from " + d.structure_from + "."));
+  d.parts.forEach(p => {
+    pb.appendChild(h("h3", null, "Part " + p.part + " — answer " + p.questions.length + " question(s)" + (p.marks ? " · " + p.marks + " marks each" : "")));
+    const ol = h("ol"); p.questions.forEach(q => {
+      const li = h("li", null, q.text); li.appendChild(h("div", "meta", "asked " + q.freq + "× · " + q.years + (q.topic ? " · topic: " + q.topic : ""))); ol.appendChild(li);
+    }); pb.appendChild(ol);
+  });
+  box.appendChild(pb); box.appendChild(h("p", "note", d.note)); $("print-mock").style.display = "inline-block";
+};
+$("print-mock").onclick = () => {
+  if (!lastMock) return; const d = lastMock;
+  let t = "<h2>" + esc(d.subject) + " — Practice paper</h2><p>Time: ____ &nbsp; Max marks: ____</p>";
+  d.parts.forEach(p => { t += "<h3>Part " + esc(p.part) + (p.marks ? " (" + p.questions.length + " × " + p.marks + " marks)" : "") + "</h3><ol>" + p.questions.map(q => "<li>" + esc(q.text) + "</li>").join("") + "</ol>"; });
+  printHtml(t);
+};
+
+/* ---- practice quiz ---- */
+function quizHistory(){
+  const box = $("quiz-hist"); box.textContent = "";
+  let list = []; try { list = JSON.parse(store.get("qb_quiz", "[]")) || []; } catch (e) {}
+  if (!list.length) return;
+  const c = h("div", "card2"); c.appendChild(h("h4", null, "Your recent scores (saved in this browser)"));
+  list.slice(-8).reverse().forEach(x => c.appendChild(h("div", "note", x.date + " · " + x.subject + " · " + x.score + "/" + x.total)));
+  box.appendChild(c);
+}
+$("go-quiz").onclick = async () => {
+  const box = $("out-quiz"); if (needSubject(box)) return; loading(box, "The AI is writing your quiz. This takes about 10 to 20 seconds.");
+  const d = await api("/api/quiz", { subject: subVal(), sem: semVal() ? parseInt(semVal(), 10) : null, n: parseInt($("qn").value, 10) });
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  let done = 0, right = 0; const total = d.questions.length; const fin = h("div", "card2"); fin.style.display = "none";
+  d.questions.forEach((q, qi) => {
+    const c = h("div", "card2"); c.appendChild(h("b", null, (qi + 1) + ". " + q.question));
+    const ex = h("div", "note"); ex.style.display = "none";
+    q.options.forEach((o, oi) => {
+      const b = h("button", "opt", o); b.type = "button";
+      b.onclick = () => {
+        c.querySelectorAll(".opt").forEach((x, xi) => { x.disabled = true; if (xi === q.answer) x.classList.add("ok"); });
+        if (oi === q.answer) right++; else b.classList.add("bad");
+        ex.textContent = (oi === q.answer ? "Correct. " : "Not quite. ") + (q.explanation || ""); ex.style.display = "block";
+        if (++done === total) {
+          fin.style.display = "block"; fin.textContent = ""; fin.appendChild(h("div", "score", right + " / " + total));
+          fin.appendChild(h("div", "note", "Quiz finished. Saved to your recent scores."));
+          let list = []; try { list = JSON.parse(store.get("qb_quiz", "[]")) || []; } catch (e) {}
+          list.push({ date: new Date().toLocaleDateString(), subject: d.subject, score: right, total }); store.set("qb_quiz", JSON.stringify(list.slice(-30))); quizHistory();
+        }
+      };
+      c.appendChild(b);
+    });
+    c.appendChild(ex); box.appendChild(c);
+  });
+  box.appendChild(fin);
+};
+quizHistory();
+
+/* ---- answer checker ---- */
+$("go-check").onclick = async () => {
+  const box = $("out-check"); loading(box, "The AI is reading your answer.");
+  const d = await api("/api/check", { question: $("cq").value, answer: $("ca").value, subject: subVal() });
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  const c = h("div", "card2"); c.appendChild(h("div", "score", d.score + " / 10")); c.appendChild(h("p", null, d.verdict));
+  [["Good points", d.strengths], ["Missing", d.missing], ["How to improve it", d.improved_outline]].forEach(([title, items]) => {
+    if (!items || !items.length) return; c.appendChild(h("h4", null, title));
+    const ul = h("ul"); ul.style.marginLeft = "20px"; items.forEach(x => ul.appendChild(h("li", null, x))); c.appendChild(ul);
+  });
+  c.appendChild(h("p", "note", "Graded by an AI against the syllabus. Treat it as feedback, not as your exam marks."));
+  box.appendChild(c);
+};
+
+/* ---- study plan ---- */
+(function(){ const d = new Date(); d.setDate(d.getDate() + 14); $("pdate").value = store.get("qb_exam", "") || d.toISOString().slice(0, 10); $("pdate").min = new Date().toISOString().slice(0, 10); $("pdate").addEventListener("change", () => setExam($("pdate").value)); })();
+let lastPlan = null;
+$("go-plan").onclick = async () => {
+  const box = $("out-plan"); loading(box);
+  const d = await api("/api/plan?" + new URLSearchParams({ subjects: $("psubs").value, exam_date: $("pdate").value, hours: $("phours").value, sem: semVal() }));
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  lastPlan = d;
+  box.appendChild(h("p", "note", d.days_left + " days left · " + d.study_days + " study days + " + d.revision_days + " revision days · " + d.topics_scheduled + " of " + d.topics_total + " likely topics scheduled" + (d.not_found.length ? " · not found: " + d.not_found.join(", ") : "")));
+  d.plan.forEach(day => {
+    const c = h("div", "day"); const dt = new Date(day.date + "T00:00:00");
+    const hd = h("b", null, day.label); c.appendChild(hd); c.appendChild(h("small", null, dt.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" })));
+    const ul = h("ul"); day.tasks.forEach(t => ul.appendChild(h("li", null, (t.subject && t.type !== "revise" ? t.subject + ": " : "") + t.topic + (t.prob ? " (" + t.prob + "% likely)" : "")))); c.appendChild(ul); box.appendChild(c);
+  });
+  box.appendChild(h("p", "note", d.note));
+  const pb = h("button", "btn", "Print plan"); pb.onclick = () => {
+    let t = "<h2>Study plan</h2>"; lastPlan.plan.forEach(day => { t += "<h3>" + esc(day.label) + " · " + esc(day.date) + "</h3><ul>" + day.tasks.map(x => "<li>" + esc((x.subject && x.type !== "revise" ? x.subject + ": " : "") + x.topic) + "</li>").join("") + "</ul>"; });
+    printHtml(t);
+  }; box.appendChild(pb);
+};
+
+/* ---- similar questions ---- */
+$("go-sim").onclick = async () => {
+  const box = $("out-similar"); loading(box);
+  const d = await api("/api/similar?" + new URLSearchParams({ q: $("simq").value, sem: semVal(), limit: 8 }));
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  if (!d.results.length) { box.textContent = "Nothing similar found."; return; }
+  d.results.forEach((x, i) => {
+    const row = h("div", "qrow"); row.appendChild(h("span", "n", Math.round(x.score * 100) + "% match"));
+    row.appendChild(h("div", null, (i + 1) + ". " + x.text));
+    row.appendChild(h("small", null, (x.sem ? x.sem + " sem · " : "") + x.subject + " · asked " + x.freq + "×")); row.appendChild(yearChips(x.years)); box.appendChild(row);
+  });
+  box.appendChild(h("p", "note", "Matching is by meaning (" + d.backend + "), so different wording of the same idea is found too."));
+};
+$("simq").addEventListener("keydown", e => { if (e.key === "Enter") $("go-sim").click(); });
+
+/* ---- analytics: when was each topic asked (grid) ---- */
+async function trendGrid(box){
+  const d = await api("/api/trend?" + new URLSearchParams({ sem: $("asem").value, subject: $("asub").value.trim(), limit: 20 }));
+  box.textContent = ""; if (d.error || !d.rows || !d.rows.length) { box.textContent = d.error || "Nothing found for that. Try another subject or semester."; return; }
+  const multi = new Set(d.rows.map(r => r.subject)).size > 1;
+  const wrap = h("div", "tw"); wrap.style.overflowX = "auto"; const tb = h("table", "hm");
+  const hr = h("tr"); hr.appendChild(h("th")); d.years.forEach(y => hr.appendChild(h("th", null, String(y).slice(2)))); tb.appendChild(hr);
+  d.rows.forEach(r => {
+    const tr = h("tr"); tr.appendChild(h("td", "l", r.topic + (multi ? " · " + r.subject : "")));
+    r.cells.forEach((v, i) => { const td = h("td", "c " + (v === 1 ? "c1" : v === 0 ? "c0" : "cn")); td.title = r.topic + " · " + d.years[i] + ": " + (v === 1 ? "asked" : v === 0 ? "paper exists, topic not asked" : "no paper in the database"); tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  wrap.appendChild(tb); box.appendChild(wrap);
+  const lg = h("div", "legend");
+  [["c1", "asked that year"], ["c0", "paper exists, not asked"], ["cn", "no paper in database"]].forEach(([c, t]) => { const s = h("span"); const i = h("i", c); s.append(i, t); lg.appendChild(s); });
+  box.appendChild(lg); box.appendChild(h("small", null, "Column heads are years (18 = 2018). Hover a cell for details."));
+}
+
+/* ---------- options: settings, saved answers, export, voice, shortcuts ---------- */
+var chatLog = [];
+var opt = { accent: "indigo", font: "default", density: "comfy", style: "normal", sem: "", web: false, chips: true };
+try { Object.assign(opt, JSON.parse(store.get("qb_opt", "{}")) || {}); } catch (e) {}
+const ACCENTS = { indigo: ["#1f4fd8", "#7ba3ff"], teal: ["#0d9488", "#2dd4bf"], rose: ["#e11d48", "#fb7185"], amber: ["#d97706", "#fbbf24"], green: ["#16a34a", "#4ade80"] };
+function saveOpt(){ store.set("qb_opt", JSON.stringify(opt)); }
+function applyAccent(){
+  const r = document.documentElement, dark = r.dataset.theme === "dark", c = (ACCENTS[opt.accent] || ACCENTS.indigo)[dark ? 1 : 0];
+  if (opt.accent === "indigo") { r.style.removeProperty("--accent"); r.style.removeProperty("--accent-2"); r.style.removeProperty("--me"); return; }
+  r.style.setProperty("--accent", c); r.style.setProperty("--me", ACCENTS[opt.accent][0]);
+  r.style.setProperty("--accent-2", "color-mix(in srgb," + c + " 14%,var(--card))");
+}
+function applyOpt(){
+  const r = document.documentElement;
+  r.dataset.font = opt.font; r.dataset.density = opt.density; r.dataset.chips = opt.chips ? "on" : "off";
+  applyAccent();
+  document.querySelectorAll("#sw-accent button").forEach(b => b.classList.toggle("on", b.dataset.v === opt.accent));
+  [["font", "pl-font"], ["density", "pl-density"], ["style", "pl-style"]].forEach(([k, id]) => document.querySelectorAll("#" + id + " .pill").forEach(b => b.classList.toggle("on", b.dataset.v === opt[k])));
+  $("set-sem").value = opt.sem; $("set-web").checked = opt.web; $("set-chips").checked = opt.chips;
+}
+Object.keys(ACCENTS).forEach(k => { const b = document.createElement("button"); b.type = "button"; b.dataset.v = k; b.title = k; b.style.background = ACCENTS[k][0]; b.onclick = () => { opt.accent = k; saveOpt(); applyOpt(); }; $("sw-accent").appendChild(b); });
+[["font", "pl-font"], ["density", "pl-density"], ["style", "pl-style"]].forEach(([k, id]) => document.querySelectorAll("#" + id + " .pill").forEach(b => b.onclick = () => { opt[k] = b.dataset.v; saveOpt(); applyOpt(); }));
+$("set-sem").onchange = e => { opt.sem = e.target.value; $("sem").value = opt.sem; saveOpt(); if (window.paintSem) paintSem(); };
+$("set-web").onchange = e => { opt.web = e.target.checked; $("web").checked = opt.web; saveOpt(); };
+$("set-chips").onchange = e => { opt.chips = e.target.checked; saveOpt(); applyOpt(); };
+$("sem").value = opt.sem; $("web").checked = opt.web; applyOpt();
+
+/* drawer */
+function openDrawer(view){
+  $("dv-settings").style.display = view === "settings" ? "block" : "none"; $("dv-saved").style.display = view === "saved" ? "block" : "none";
+  $("dt-settings").classList.toggle("on", view === "settings"); $("dt-saved").classList.toggle("on", view === "saved");
+  if (view === "saved") renderSaved();
+  $("drawer").classList.add("on"); $("dback").style.display = "block";
+}
+function closeDrawer(){ $("drawer").classList.remove("on"); $("dback").style.display = "none"; }
+
+/* saved answers */
+function getSaved(){ try { return JSON.parse(store.get("qb_saved", "[]")) || []; } catch (e) { return []; } }
+function saveAnswer(q, a){
+  const list = getSaved().filter(x => x.a !== a); list.unshift({ id: Date.now(), q: String(q).slice(0, 160), a: String(a).slice(0, 12000), date: new Date().toLocaleDateString() });
+  store.set("qb_saved", JSON.stringify(list.slice(0, 40))); toast("Saved. Find it under Saved in the top bar");
+}
+function renderSaved(){
+  const box = $("dv-saved"); box.textContent = ""; const list = getSaved();
+  if (!list.length) { box.appendChild(h("p", "note", "Nothing saved yet. Press Save under any answer to keep it here.")); return; }
+  list.forEach(x => {
+    const c = h("div", "sv"); c.appendChild(h("b", null, x.q)); c.appendChild(h("small", null, x.date));
+    const body = h("div", "rt"); body.style.display = "none"; body.innerHTML = md(x.a);
+    const row = h("div", "row");
+    const v = h("button", "mini", "View"); v.onclick = () => { body.style.display = body.style.display === "none" ? "block" : "none"; v.textContent = body.style.display === "none" ? "View" : "Hide"; };
+    const cp = h("button", "mini", "Copy"); cp.onclick = () => { try { navigator.clipboard.writeText(x.a); toast("Copied to clipboard"); } catch (e) {} };
+    const as = h("button", "mini", "Ask again"); as.onclick = () => { closeDrawer(); ask(x.q); };
+    const dl = h("button", "mini", "Delete"); dl.onclick = () => { store.set("qb_saved", JSON.stringify(getSaved().filter(y => y.id !== x.id))); renderSaved(); };
+    row.append(v, cp, as, dl); c.append(row, body); box.appendChild(c);
+  });
+}
+function clearMine(){
+  if (!confirm("Clear your settings, saved answers and quiz scores from this browser?")) return;
+  ["qb_opt", "qb_saved", "qb_quiz"].forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+  Object.assign(opt, { accent: "indigo", font: "default", density: "comfy", style: "normal", sem: "", web: false, chips: true }); $("sem").value = ""; $("web").checked = false; applyOpt(); quizHistory(); toast("Cleared");
+}
+
+/* export chat */
+function exportChat(){
+  if (!chatLog.length) { toast("Nothing to export yet"); return; }
+  const t = "# QueryBuddy chat\n\n" + chatLog.map(m => (m.role === "You" ? "**You:** " : "**QueryBuddy:**\n\n") + m.text).join("\n\n---\n\n") + "\n";
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t], { type: "text/markdown" }));
+  a.download = "queryBuddy_chat_" + new Date().toISOString().slice(0, 10) + ".md"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* read aloud */
+function speak(bub, btn){
+  if (!("speechSynthesis" in window)) { toast("Reading aloud is not supported in this browser"); return; }
+  if (speechSynthesis.speaking) { speechSynthesis.cancel(); document.querySelectorAll(".mini").forEach(m => { if (m.textContent === "Stop") m.textContent = "Listen"; }); return; }
+  const clone = bub.cloneNode(true); clone.querySelectorAll(".acts,.src").forEach(e => e.remove());
+  const u = new SpeechSynthesisUtterance(clone.textContent.replace(/\s+/g, " ").slice(0, 4000)); u.lang = "en-IN";
+  u.onend = u.onerror = () => { btn.textContent = "Listen"; }; btn.textContent = "Stop"; speechSynthesis.speak(u);
+}
+
+/* voice input */
+(function(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return;
+  const mic = $("mic"); mic.style.display = "inline-block"; let rec = null;
+  mic.onclick = () => {
+    if (rec) { rec.stop(); return; }
+    rec = new SR(); rec.lang = "en-IN"; rec.interimResults = false; mic.classList.add("rec");
+    rec.onresult = e => { qbox.value = (qbox.value + " " + e.results[0][0].transcript).trim(); autosize(); };
+    rec.onend = () => { rec = null; mic.classList.remove("rec"); qbox.focus(); };
+    rec.onerror = () => { toast("Could not hear you. Check microphone permission."); };
+    try { rec.start(); } catch (e) { rec = null; mic.classList.remove("rec"); }
+  };
+})();
+
+/* shortcuts */
+document.addEventListener("keydown", e => {
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName || ""));
+  if (e.key === "Escape") { closeDrawer(); closePal(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPal(); }
+  if (e.altKey && e.key.toLowerCase() === "n") { e.preventDefault(); newChat(); }
+  if (e.key === "/" && !typing && !e.ctrlKey && !e.metaKey) { e.preventDefault(); go("chat"); qbox.focus(); }
+});
+
+/* ---------- v3: loading, history, follow-ups, command palette ---------- */
+function loading(box, note){
+  box.textContent = ""; const w = h("div", "skel"); for (let i = 0; i < 3; i++) w.appendChild(h("i")); box.appendChild(w);
+  if (note) box.appendChild(h("div", "skelnote", note));
+}
+function getHist(){ try { return JSON.parse(store.get("qb_hist", "[]")) || []; } catch (e) { return []; } }
+function pushHist(t){ const l = getHist().filter(x => x !== t); l.unshift(t.slice(0, 120)); store.set("qb_hist", JSON.stringify(l.slice(0, 12))); renderRecent(); }
+function renderRecent(){
+  const box = $("recent"); box.textContent = ""; const l = getHist();
+  if (!l.length) { box.appendChild(h("div", "none", "Your questions will appear here.")); return; }
+  l.slice(0, 8).forEach(q => {
+    const b = h("button"); b.type = "button"; b.title = q;
+    b.innerHTML = '<svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>'; b.appendChild(h("span", null, q)); b.onclick = () => ask(q); box.appendChild(b);
+  });
+}
+renderRecent();
+function addFollow(bub, q){
+  if (!bub) return;
+  const m = q.match(/\b(?:in|of|for)\s+(.+?)\s*$/i); if (!m) return;
+  const subj = m[1].replace(/\b[1-6](?:st|nd|rd|th)?\s*sem(?:ester)?\b/ig, "").replace(/\b(question\s*papers?|papers?|questions?)\b/ig, "").replace(/\s+/g, " ").replace(/\s+(?:in|of|for)$/i, "").trim();
+  if (subj.length < 3 || subj.split(" ").length > 5) return;
+  const f = h("div", "follow"); f.appendChild(h("small", null, "Next:"));
+  const add = (label, fn) => { const b = h("button", null, label); b.type = "button"; b.onclick = fn; f.appendChild(b); };
+  if (!/repeated/i.test(q)) add("Repeated questions", () => ask("Most repeated questions in " + subj));
+  if (!/syllabus/i.test(q)) add("Syllabus", () => ask("Syllabus of " + subj));
+  add("Likely in next paper", () => { $("tsub").value = subj; go("tools"); setTool("predict"); $("go-predict").click(); });
+  add("Mock paper", () => { $("tsub").value = subj; go("tools"); setTool("mock"); $("go-mock").click(); });
+  bub.appendChild(f);
+  if (/latest|recent|paper|question/i.test(q)) loadRecent(bub, subj, q);
+}
+/* "what happened recently" block under paper answers */
+async function loadRecent(bub, subj, q){
+  const sm = q.match(/\b([1-6])(?:st|nd|rd|th)?\s*sem/i), sem = sm ? sm[1] : "";
+  const [a, t] = await Promise.all([
+    api("/api/anomalies?" + new URLSearchParams({ sem, subject: subj })),
+    api("/api/trend?" + new URLSearchParams({ sem, subject: subj, limit: 6 }))]);
+  if (t.error || !t.years || !t.years.length) return;
+  const c = h("div", "card2 recent"); c.appendChild(h("h4", null, "What happened recently in " + subj));
+  c.appendChild(h("p", null, "Papers on file: " + t.years.join(", ") + ". Newest: " + t.years[t.years.length - 1] + "."));
+  if (!a.error && a.latest) {
+    if (a.new_questions.length) c.appendChild(h("p", null, "New in " + a.latest + ": " + a.new_questions.slice(0, 3).map(x => x.text.replace(/\s+/g, " ").slice(0, 70)).join(" · ")));
+    if (a.surging.length) c.appendChild(h("p", null, "Back in the last two papers: " + a.surging.slice(0, 4).map(x => x.topic).join(", ")));
+    if (a.dropped.length) c.appendChild(h("p", null, "Stopped appearing: " + a.dropped.slice(0, 4).map(x => x.topic + " (last " + x.last_asked + ")").join(", ")));
+  }
+  const top = (t.rows || []).slice(0, 5);
+  if (top.length) { c.appendChild(h("small", null, "Most repeated topics and when they were asked")); top.forEach(r => { const d = h("div", "vrow"); d.appendChild(h("b", null, r.topic)); d.appendChild(yearChips(r.asked)); c.appendChild(d); }); }
+  bub.appendChild(c);
+}
+document.querySelectorAll("#tryrow .sug").forEach(b => b.onclick = () => { $("tsub").value = b.dataset.s; $("tsub").focus(); });
+loadSubjects();
+
+/* command palette */
+let palSel = 0, palList = [];
+function palItems(q){
+  const tool = t => () => { go("tools"); setTool(t); };
+  const base = [
+    ["Ask AI", "chat", () => go("chat")], ["Browse papers", "book", () => go("browse")], ["Analytics", "chart", () => go("stats")], ["Study tools", "cap", () => go("tools")],
+    ["Likely topics", "spark", tool("predict")], ["Mock paper", "file", tool("mock")], ["Practice quiz", "help", tool("quiz")],
+    ["Check my answer", "check", tool("check")], ["Study plan", "cal", tool("plan")], ["Similar questions", "search", tool("similar")],
+    ["New chat", "plus", newChat, "Alt N"], ["Saved answers", "star", () => openDrawer("saved")], ["Settings", "sliders", () => openDrawer("settings")],
+    ["Switch light or dark theme", "moon", theme], ["Export this chat", "file", exportChat]
+  ].map(([t, i, f, k]) => ({ t, i, f, k }));
+  const rec = getHist().slice(0, 5).map(x => ({ t: "Ask again: " + x, i: "clock", f: () => ask(x) }));
+  const all = base.concat(rec), ql = q.trim().toLowerCase();
+  const hit = ql ? all.filter(x => x.t.toLowerCase().includes(ql)) : all;
+  const askIt = q.trim().length > 2 ? [{ t: "Ask: " + q.trim(), i: "chat", f: () => ask(q.trim()), k: hit.length ? "" : "Enter" }] : [];
+  return (hit.length ? hit.concat(askIt) : askIt).slice(0, 12);
+}
+function palRender(){
+  const box = $("plist"); box.textContent = "";
+  palList.forEach((x, n) => {
+    const b = h("button", "pit" + (n === palSel ? " sel" : "")); b.type = "button"; b.setAttribute("role", "option");
+    b.innerHTML = '<svg class="i" aria-hidden="true"><use href="#i-' + x.i + '"/></svg>'; b.appendChild(h("span", null, x.t)); if (x.k) b.appendChild(h("small", null, x.k));
+    b.onclick = () => palRun(n); box.appendChild(b);
+  });
+  if (!palList.length) box.appendChild(h("div", "note", "Nothing matches. Press Enter to ask it as a question."));
+}
+function palRun(n){ const x = palList[n]; closePal(); if (x) x.f(); }
+function openPal(){ $("pal").classList.add("on"); $("pin").value = ""; palSel = 0; palList = palItems(""); palRender(); $("pin").focus(); }
+function closePal(){ $("pal").classList.remove("on"); }
+$("pin").addEventListener("input", e => { palSel = 0; palList = palItems(e.target.value); palRender(); });
+$("pin").addEventListener("keydown", e => {
+  if (e.key === "ArrowDown") { e.preventDefault(); palSel = Math.min(palSel + 1, palList.length - 1); palRender(); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); palSel = Math.max(palSel - 1, 0); palRender(); }
+  else if (e.key === "Enter") { e.preventDefault(); if (palList.length) palRun(palSel); else { const q = $("pin").value.trim(); closePal(); if (q) ask(q); } }
+});
+
+/* ---------- v4: exam countdown, live brief, count-up, donut ---------- */
+function todayISO(){ const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+function getExam(){ const v = store.get("qb_exam", ""); return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : ""; }
+function daysLeft(iso){ if (!iso) return null; return Math.round((new Date(iso + "T00:00:00") - new Date(todayISO() + "T00:00:00")) / 86400000); }
+function setExam(iso){
+  store.set("qb_exam", iso || ""); if ($("pdate") && iso) $("pdate").value = iso; if ($("xdate")) $("xdate").value = iso || ""; showExam();
+}
+function showExam(){
+  const iso = getExam(), n = daysLeft(iso), chip = $("examchip"), left = $("xleft");
+  const txt = n === null ? "" : n > 1 ? n + " days left" : n === 1 ? "Tomorrow" : n === 0 ? "Today" : "Date has passed";
+  if (left) { left.textContent = ""; if (n === null) left.textContent = "Optional. Set it to see a countdown."; else if (n >= 0) { const b = document.createElement("b"); b.textContent = txt; left.append(b, n > 1 ? ". Type a subject, then press Make a study plan." : "."); } else left.textContent = "That date has passed. Pick the next one."; }
+  if (chip) {
+    chip.textContent = "";
+    if (n === null || n < 0) { chip.append("Set your exam date", Object.assign(document.createElement("small"), { textContent: "to get a day-by-day plan" })); }
+    else { const b = document.createElement("b"); b.textContent = n; chip.append(n === 0 ? "Exam " : "Exam in ", n === 0 ? "today" : b, n === 0 ? "" : (n === 1 ? " day" : " days"), Object.assign(document.createElement("small"), { textContent: "Open my study plan" })); }
+  }
+}
+function examChipClick(){ go("tools"); setTool("plan"); if (!getExam()) $("pdate").focus(); else if ($("psubs").value.trim()) $("go-plan").click(); else $("psubs").focus(); }
+showExam();
+
+let briefT = 0, briefSeq = 0;
+function schedBrief(){ clearTimeout(briefT); briefT = setTimeout(loadBrief, 380); }
+async function loadBrief(){
+  const box = $("brief"); const hs = $("hsub"); if (!box || !hs) return;
+  const subj = hs.value.trim(); if (subj.length < 3) { box.hidden = true; box.textContent = ""; return; }
+  const my = ++briefSeq, sem = $("sem").value ? String(parseInt($("sem").value, 10)) : "";
+  box.hidden = false; if (!box.firstChild) loading(box);
+  const fetchBoth = sm => Promise.all([api("/api/predict?" + new URLSearchParams({ sem: sm, subject: subj, limit: 5 })), api("/api/trend?" + new URLSearchParams({ sem: sm, subject: subj, limit: 6 }))]);
+  let [p, t] = await fetchBoth(sem);
+  if (p.error && sem) [p, t] = await fetchBoth("");          // not in that semester: look in every semester
+  if (my !== briefSeq || !$("brief")) return;
+  box.textContent = "";
+  if (p.error || !p.results || !p.results.length) { box.appendChild(h("p", "note", (p.error || "No subject like that yet.") + " Try Operating System or Java.")); box.firstChild.style.padding = "14px 20px"; return; }
+  const r = p.results[0];
+  const hd = h("div", "bhd"); hd.appendChild(h("b", null, r.subject)); hd.appendChild(h("small", null, (r.sem ? ORDN[r.sem] + " semester, " : "") + "likely in " + r.predicting)); box.appendChild(hd);
+  const g = h("div", "bgrid"), c1 = h("div", "bcol"), c2 = h("div", "bcol");
+  c1.appendChild(h("h4", null, "Most likely topics"));
+  r.topics.forEach(x => { const row = h("div", "bt"); row.appendChild(h("span", "pc2", x.probability + "%")); row.appendChild(h("span", "nm", x.topic)); const bar = h("div", "bar2"), f = h("i"); f.style.width = x.probability + "%"; bar.appendChild(f); row.appendChild(bar); c1.appendChild(row); });
+  c2.appendChild(h("h4", null, "When they were asked"));
+  const rows = (t.rows || []).filter(x => x.subject === r.subject).slice(0, 5), yrs = (t.years || []).slice(-8), off = (t.years || []).length - yrs.length;
+  if (rows.length) {
+    const tb = h("table", "mhm"), hr = h("tr"); hr.appendChild(h("th")); yrs.forEach(y => hr.appendChild(h("th", null, String(y).slice(2)))); tb.appendChild(hr);
+    rows.forEach(x => { const tr = h("tr"); tr.appendChild(h("td", "l", x.topic)); x.cells.slice(off).forEach((v, i) => { const td = h("td", "c " + (v === 1 ? "c1" : v === 0 ? "c0" : "cn")); td.title = x.topic + " " + yrs[i] + (v === 1 ? ": asked" : v === 0 ? ": not asked" : ": no paper"); tr.appendChild(td); }); tb.appendChild(tr); });
+    c2.appendChild(tb);
+  } else c2.appendChild(h("p", "note", "No year data yet."));
+  g.append(c1, c2); box.appendChild(g);
+  const ft = h("div", "bft");
+  const mk = (label, cls, fn) => { const b = h("button", "btn" + (cls ? " " + cls : ""), label); b.type = "button"; b.onclick = fn; ft.appendChild(b); };
+  mk("Open full prediction", "pri", () => heroAct("likely")); mk("Build a mock paper", "", () => heroAct("mock"));
+  mk("Make a study plan", "", () => { $("psubs").value = r.subject; $("tsem").value = sem; if (getExam()) $("pdate").value = getExam(); go("tools"); setTool("plan"); $("go-plan").click(); });
+  const bt = p.backtest || {}; if (bt.cases) ft.appendChild(h("span", "note", "Tested on past years: " + bt.model + "% of its top " + bt.k + " were really asked (picking at random: " + bt.random_baseline + "%)."));
+  box.appendChild(ft);
+}
+const ORDN = { 1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th", 6: "6th" };
+
+function countUp(el, n){
+  n = Number(n) || 0;
+  if (n < 30 || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = n.toLocaleString(); return; }
+  const t0 = performance.now(), dur = 700; el.textContent = "0";
+  (function f(t){ const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(n * e).toLocaleString(); if (k < 1) requestAnimationFrame(f); })(t0);
+}
+function drawDonut(t){
+  const box = $("donut"); box.textContent = ""; const uniq = Number(t.unique_q) || 0, rep = Number(t.repeated) || 0, pct = uniq ? Math.round(100 * rep / uniq) : 0;
+  const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 112 112"); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", pct + " percent of unique questions repeat");
+  const C = 2 * Math.PI * 44;
+  [["var(--accent-2)", C], ["var(--red)", C * pct / 100]].forEach(([col, len]) => {
+    const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", 56); c.setAttribute("cy", 56); c.setAttribute("r", 44); c.setAttribute("fill", "none"); c.setAttribute("stroke", col); c.setAttribute("stroke-width", 12);
+    c.setAttribute("stroke-dasharray", len + " " + C); c.setAttribute("transform", "rotate(-90 56 56)"); svg.appendChild(c);
+  });
+  const txt = h("div"); const big = h("div", "big"); big.textContent = pct; big.appendChild(h("small", null, "%")); txt.appendChild(big);
+  txt.appendChild(h("div", "note", rep.toLocaleString() + " of " + uniq.toLocaleString() + " different questions came back in more than one year.")); txt.lastChild.style.margin = "2px 0 0";
+  box.append(svg, txt);
+}
+function drawTopSubjects(list){
+  const box = $("topsub"); box.textContent = ""; if (!list || !list.length) return;
+  const seen = new Set(), top = list.slice().sort((a, b) => b.top - a.top).filter(x => { const k = x.subject + x.sem; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 7);
+  const max = Math.max(1, ...top.map(x => x.top));
+  top.forEach(x => { const row = h("div", "hb"); row.appendChild(h("span", null, x.subject + (x.sem ? " (" + x.sem + ")" : ""))); const bar = h("div"), f = h("i"); f.style.width = (100 * x.top / max) + "%"; bar.appendChild(f); row.appendChild(bar); row.appendChild(h("em", null, x.top + "×")); box.appendChild(row); });
+}
+
+/* ================= add-on tools ================= */
+const mk2 = (t) => { const c = h("div", "card2"); if (t) c.appendChild(h("h4", null, t)); return c; };
+const needTxt = (box, v, msg) => { if (!v) { box.textContent = msg; return true; } return false; };
+const tpost = async (url, body, box, note) => { loading(box, note); const d = await api(url, body); box.textContent = ""; if (d.error) { box.textContent = d.error; return null; } return d; };
+const subBody = (x) => Object.assign({ subject: subVal(), sem: semVal() ? +semVal() : null }, x || {});
+
+/* flashcards */
+let fcards = [], fci = 0, fcBack = false;
+function showCard(box){
+  box.textContent = ""; const c = fcards[fci];
+  box.appendChild(h("div", "note", "Card " + (fci + 1) + " of " + fcards.length + " · click the card to flip"));
+  const f = h("div", "fc"); const face = h("div", "face" + (fcBack ? " back" : ""));
+  face.appendChild(h("span", null, fcBack ? c.back : c.front)); if (c.topic) face.appendChild(h("small", null, c.topic));
+  face.tabIndex = 0; face.onclick = () => { fcBack = !fcBack; showCard(box); };
+  face.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); face.click(); } };
+  f.appendChild(face); box.appendChild(f);
+  const r = h("div", "vrow");
+  const b1 = h("button", "btn", "Previous"), b2 = h("button", "btn pri", "Next"), b3 = h("button", "btn", "Shuffle");
+  b1.onclick = () => { fci = (fci - 1 + fcards.length) % fcards.length; fcBack = false; showCard(box); };
+  b2.onclick = () => { fci = (fci + 1) % fcards.length; fcBack = false; showCard(box); };
+  b3.onclick = () => { fcards.sort(() => Math.random() - .5); fci = 0; fcBack = false; showCard(box); };
+  r.append(b1, b2, b3); box.appendChild(r);
+}
+$("go-flash").onclick = async () => {
+  const box = $("out-flash"); if (needSubject(box)) return;
+  const d = await tpost("/api/flashcards", subBody({ n: +$("fn").value }), box); if (!d) return;
+  fcards = d.cards; fci = 0; fcBack = false; showCard(box);
+};
+
+/* viva */
+let viva = null;
+function vivaShow(box){
+  box.textContent = ""; const v = viva, N = 5;
+  const bar = h("div", "pillbar"), i = h("i"); i.style.width = (100 * v.done / N) + "%"; bar.appendChild(i); box.appendChild(bar);
+  if (v.done >= N) {
+    const sc = v.scores.filter(x => x != null), avg = sc.length ? (sc.reduce((a, b) => a + b, 0) / sc.length) : 0;
+    const c = mk2("Viva finished"); c.appendChild(h("p", null, "Average mark: " + avg.toFixed(1) + " / 10 across " + sc.length + " answers."));
+    v.log.forEach(l => { const d = h("div", "qrow"); d.appendChild(h("b", null, l.q)); d.appendChild(h("div", "note", "Your answer: " + l.a));
+      d.appendChild(h("div", null, "Mark " + (l.s == null ? "–" : l.s) + " · " + l.f)); if (l.m) d.appendChild(h("small", null, "Ideal: " + l.m)); c.appendChild(d); });
+    box.appendChild(c); return;
+  }
+  const c = mk2("Question " + (v.done + 1) + " of " + N); c.appendChild(h("p", null, v.q)); c.lastChild.style.fontWeight = "700"; box.appendChild(c);
+  if (v.last) { const f = mk2("Last answer: " + (v.last.s == null ? "" : v.last.s + " / 10")); f.appendChild(h("p", null, v.last.f)); if (v.last.m) f.appendChild(h("small", null, "Ideal answer: " + v.last.m)); box.appendChild(f); }
+  const ta = h("textarea"); ta.placeholder = "Type your answer…"; ta.style.cssText = "width:100%;min-height:100px;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:10px 14px";
+  box.appendChild(ta); const r = h("div", "vrow"); const go = h("button", "btn pri", "Submit answer"); r.appendChild(go); box.appendChild(r);
+  const msg = h("div", "note"); box.appendChild(msg);
+  go.onclick = async () => {
+    if (ta.value.trim().length < 3) { msg.textContent = "Type your answer first."; return; }
+    go.disabled = true; msg.textContent = "The examiner is marking your answer…";
+    const d = await api("/api/viva", subBody({ question: v.q, answer: ta.value.trim(), asked: v.asked }));
+    if (d.error) { msg.textContent = d.error; go.disabled = false; return; }
+    v.log.push({ q: v.q, a: ta.value.trim(), s: d.score, f: d.feedback, m: d.model_answer }); v.scores.push(d.score); v.done++;
+    v.last = { s: d.score, f: d.feedback, m: d.model_answer }; v.q = d.next_question; v.asked.push(d.next_question); vivaShow(box);
+  };
+  ta.focus();
+}
+$("go-viva").onclick = async () => {
+  const box = $("out-viva"); if (needSubject(box)) return;
+  const d = await tpost("/api/viva", subBody(), box, "The examiner is thinking of a first question…"); if (!d) return;
+  viva = { q: d.next_question, asked: [d.next_question], done: 0, scores: [], log: [], last: null }; vivaShow(box);
+};
+
+/* misconceptions */
+$("go-misc").onclick = async () => {
+  const box = $("out-misc"), t = $("mt1").value.trim(), x = $("mt2").value.trim();
+  if (needTxt(box, t, "Write the topic first, for example: deadlock.") || needTxt(box, x.length >= 20, "Explain the topic in your own words first (at least a sentence or two).")) return;
+  const d = await tpost("/api/misconception", { topic: t, text: x }, box); if (!d) return;
+  const top = mk2(d.misconceptions.length ? d.misconceptions.length + " thing(s) to fix" : "No misconceptions found"); top.appendChild(h("p", null, d.verdict)); box.appendChild(top);
+  d.misconceptions.forEach(m => { const c = mk2(); const r = h("div", "line-no"); r.appendChild(h("span", "tag no", "You wrote")); r.appendChild(document.createTextNode(m.claim)); c.appendChild(r);
+    c.appendChild(h("p", null, "Why it is wrong: " + m.why_wrong)); const g = h("div", "line-ok"); g.appendChild(h("span", "tag ok", "Correct")); g.appendChild(document.createTextNode(m.correct)); c.appendChild(g); box.appendChild(c); });
+  if (d.correct_points.length) { const c = mk2("What you got right"); const u = h("ul"); d.correct_points.forEach(p => u.appendChild(h("li", null, p))); c.appendChild(u); box.appendChild(c); }
+  if (d.tip) box.appendChild(h("p", "note", "Tip: " + d.tip));
+};
+
+/* question to code */
+$("go-code").onclick = async () => {
+  const box = $("out-code"), q = $("cdq").value.trim();
+  if (needTxt(box, q.length >= 8, "Type the exam question first, for example: Write a program to find the factorial of a number.")) return;
+  const d = await tpost("/api/code", { question: q, language: $("cdl").value }, box); if (!d) return;
+  const c = mk2(d.code ? d.language + " solution" : "No code needed"); c.appendChild(h("p", null, d.explanation));
+  if (d.code) { c.appendChild(h("pre", "codebox", d.code)); const cp = h("button", "btn", "Copy code"); cp.onclick = () => { try { navigator.clipboard.writeText(d.code); cp.textContent = "Copied"; } catch (e) {} }; c.appendChild(cp);
+    if (d.sample_output) { c.appendChild(h("div", "note", "Sample output")); c.appendChild(h("pre", "codebox", d.sample_output)); } c.appendChild(h("p", "note", "Run it yourself before the exam. AI code can contain mistakes.")); }
+  box.appendChild(c);
+};
+
+/* syllabus coverage */
+$("go-cover").onclick = async () => {
+  const box = $("out-cover"); if (needSubject(box)) return;
+  const d = await tpost("/api/coverage?" + new URLSearchParams({ sem: semVal(), subject: subVal() }), null, box); if (!d) return;
+  const top = mk2(d.subject + " (" + d.code + ")"); top.appendChild(h("p", null, d.covered + " of " + d.total + " syllabus topics were asked in past papers (" + d.percent + "%)."));
+  const bar = h("div", "pillbar"), i = h("i"); i.style.width = d.percent + "%"; bar.appendChild(i); top.appendChild(bar); box.appendChild(top);
+  d.units.forEach(u => { const c = mk2("Unit " + u.no + ": " + u.title + "  (" + u.asked + "/" + u.of + ")");
+    u.topics.forEach(t => { const r = h("div", "vrow"); r.appendChild(h("span", "tag " + (t.asked ? "ok" : "no"), t.asked ? "asked " + t.times + "×" : "never asked")); r.appendChild(h("span", null, t.topic));
+      if (t.years.length) r.appendChild(yearChips(t.years)); c.appendChild(r); }); box.appendChild(c); });
+  box.appendChild(h("p", "note", d.note));
+};
+
+/* question evolution */
+$("go-evo").onclick = async () => {
+  const box = $("out-evo"); if (needSubject(box)) return;
+  const d = await tpost("/api/evolution?" + new URLSearchParams({ sem: semVal(), subject: subVal(), limit: 6 }), null, box); if (!d) return;
+  if (!d.topics.length) { box.textContent = "Not enough repeated topics to show how questions changed."; return; }
+  d.topics.forEach(t => { const c = mk2(t.topic); c.appendChild(h("p", "note", t.summary));
+    t.steps.forEach(s => { const e = h("div", "evo"); e.appendChild(h("span", "y", s.year + " · Part " + (s.part || "?"))); e.appendChild(h("div", null, s.text));
+      if (s.added.length) e.appendChild(h("small", null, "New words: " + s.added.join(", "))); if (s.dropped.length) e.appendChild(h("small", null, " · Gone: " + s.dropped.join(", "))); c.appendChild(e); });
+    box.appendChild(c); });
+};
+
+/* unusual questions */
+$("go-anom").onclick = async () => {
+  const box = $("out-anom"); if (needSubject(box)) return;
+  const d = await tpost("/api/anomalies?" + new URLSearchParams({ sem: semVal(), subject: subVal() }), null, box); if (!d) return;
+  if (!d.latest) { box.textContent = d.note; return; }
+  const a = mk2("New in the " + d.latest + " paper"); if (!d.new_questions.length) a.appendChild(h("p", null, "Nothing completely new: every question was seen before."));
+  d.new_questions.forEach(q => { const r = h("div", "qrow"); r.appendChild(h("span", "n", q.novelty + "% new")); r.appendChild(h("div", null, q.text)); r.appendChild(h("small", null, q.note)); a.appendChild(r); }); box.appendChild(a);
+  const g = h("div", "two"); const b = mk2("Topics that disappeared"); if (!d.dropped.length) b.appendChild(h("p", "note", "None."));
+  d.dropped.forEach(x => b.appendChild(h("div", null, x.topic + " · asked " + x.times_before + "× before, last in " + x.last_asked)));
+  const c = mk2("Topics that are back"); if (!d.surging.length) c.appendChild(h("p", "note", "None."));
+  d.surging.forEach(x => { const r = h("div", null, x.topic + " · "); r.appendChild(yearChips(x.years)); c.appendChild(r); }); g.append(b, c); box.appendChild(g); box.appendChild(h("p", "note", d.note));
+};
+
+/* answer traceability */
+$("go-trace").onclick = async () => {
+  const box = $("out-trace"), a = $("trans").value.trim(); if (needSubject(box)) return;
+  if (needTxt(box, a.length >= 40, "Paste the answer you want to trace (at least a few sentences).")) return;
+  const d = await tpost("/api/trace", subBody({ answer: a }), box); if (!d) return;
+  const top = mk2(d.grounded + " of " + d.total + " sentences found in the past papers (" + d.percent + "%)"); const bar = h("div", "pillbar"), i = h("i"); i.style.width = d.percent + "%"; bar.appendChild(i); top.appendChild(bar); box.appendChild(top);
+  d.items.forEach(x => { const r = h("div", x.grounded ? "line-ok" : "line-no"); r.appendChild(h("span", "tag " + (x.grounded ? "ok" : ""), x.grounded ? "found in papers" : "general knowledge")); r.appendChild(document.createTextNode(x.sentence));
+    if (x.grounded) r.appendChild(h("small", null, " ← " + x.source + ": “" + x.line + "”")); box.appendChild(r); });
+  box.appendChild(h("p", "note", d.note));
+};
+
+/* concept map */
+const SVGNS = "http://www.w3.org/2000/svg";
+const sv = (tag, attrs, text) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs || {}) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+$("go-map").onclick = async () => {
+  const box = $("out-map"), c = $("mapc").value.trim(); if (needTxt(box, c.length >= 2, "Type a concept, for example: deadlock.")) return;
+  const d = await tpost("/api/conceptmap", { concept: c, subject: subVal() }, box); if (!d) return;
+  const W = 700, H = 460, svg = sv("svg", { viewBox: "0 0 " + W + " " + H, class: "cmap", role: "img", "aria-label": "Concept map of " + d.concept });
+  const pos = {}, others = d.nodes.filter(n => n.id !== d.center);
+  pos[d.center] = [W / 2, H / 2]; others.forEach((n, i) => { const a = -Math.PI / 2 + 2 * Math.PI * i / others.length; pos[n.id] = [W / 2 + 255 * Math.cos(a), H / 2 + 170 * Math.sin(a)]; });
+  d.edges.forEach(e => { const a = pos[e.from], b = pos[e.to]; if (!a || !b) return; svg.appendChild(sv("line", { class: "el", x1: a[0], y1: a[1], x2: b[0], y2: b[1] }));
+    if (e.label) svg.appendChild(sv("text", { class: "lb", x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 6 }, e.label)); });
+  d.nodes.forEach(n => { const [x, y] = pos[n.id], lab = n.label.length > 24 ? n.label.slice(0, 23) + "…" : n.label, w = Math.max(70, lab.length * 8 + 22);
+    const g = sv("g", { class: "nd k-" + n.kind + (n.id === d.center ? " ctr" : "") }); g.appendChild(sv("rect", { x: x - w / 2, y: y - 17, width: w, height: 34, rx: 10 })); g.appendChild(sv("text", { x: x, y: y }, lab));
+    g.appendChild(sv("title", {}, n.label)); svg.appendChild(g); });
+  box.appendChild(svg); box.appendChild(h("p", "note", "Blue = part, red = process, green = example. Made by AI from general knowledge, so check it against your notes."));
+};
+
+/* visual explainer */
+$("go-vis").onclick = async () => {
+  const box = $("out-vis"), c = $("visc").value.trim(); if (needTxt(box, c.length >= 2, "Type a concept, for example: paging in operating systems.")) return;
+  const d = await tpost("/api/visual", { concept: c }, box); if (!d) return;
+  const a = mk2(d.title); if (d.analogy) a.appendChild(h("p", null, "Think of it like this: " + d.analogy)); box.appendChild(a);
+  const f = h("div", "flow"); d.steps.forEach((s, i) => { if (i) f.appendChild(h("span", "ar", "→")); const st = h("div", "st"); st.appendChild(h("span", "no", String(i + 1))); st.appendChild(h("b", null, s.title)); st.appendChild(h("small", null, s.detail)); f.appendChild(st); }); box.appendChild(f);
+  if (d.key_terms.length) { const k = mk2("Key terms"); d.key_terms.forEach(t => { const r = h("div", null); r.appendChild(h("b", null, t.term + ": ")); r.appendChild(document.createTextNode(t.meaning)); k.appendChild(r); }); box.appendChild(k); }
+  if (d.remember) { const r = mk2("Remember it"); r.appendChild(h("p", null, d.remember)); box.appendChild(r); }
+};
+
+/* debate mode */
+function debateShow(box, d){
+  box.textContent = ""; const g = h("div", "two");
+  [["Arguments for", d["for"]], ["Arguments against", d.against]].forEach(([t, l]) => { const c = mk2(t); l.forEach(p => { const r = h("div", "qrow"); r.appendChild(h("b", null, p.point)); r.appendChild(h("div", "note", p.evidence)); c.appendChild(r); }); g.appendChild(c); });
+  box.appendChild(g); const v = mk2("Verdict"); v.appendChild(h("p", null, d.verdict)); if (d.exam_tip) v.appendChild(h("p", "note", "In the exam: " + d.exam_tip)); box.appendChild(v);
+  if (d.rebuttal) { const r = mk2("The AI answers you" + (d.argument_score != null ? " · your argument: " + d.argument_score + " / 10" : "")); r.appendChild(h("p", null, d.rebuttal)); box.appendChild(r); }
+}
+const runDebate = async (withArg) => {
+  const box = $("out-debate"), t = $("dbt").value.trim(), a = $("dba").value.trim();
+  if (needTxt(box, t.length >= 4, "Type a debate topic, for example: Is NoSQL better than SQL?")) return;
+  if (withArg && needTxt(box, a.length >= 10, "Write your argument first (a sentence or two).")) return;
+  const d = await tpost("/api/debate", { topic: t, side: $("dbs").value, argument: withArg ? a : "" }, box); if (d) debateShow(box, d);
+};
+$("go-debate").onclick = () => runDebate(false);
+$("go-debate2").onclick = () => runDebate(true);
+
+/* ================= Latest page + look switch ================= */
+function toggleLook(){ const d = document.documentElement, v = d.dataset.look === "min" ? "classic" : "min"; d.dataset.look = v; try { localStorage.setItem("qb_look", v); } catch (e) {} }
+$("lsem").onchange = () => loadLatest();
+async function loadLatest(){
+  const box = $("out-latest"); loading(box);
+  const d = await api("/api/latest?" + new URLSearchParams({ sem: $("lsem").value }));
+  box.textContent = ""; if (d.error) { box.textContent = d.error; return; }
+  if (d.recent_papers.length) { const c = h("div", "card2"); c.appendChild(h("h4", null, "Recently added papers")); d.recent_papers.forEach(t => c.appendChild(h("div", null, t))); box.appendChild(c); }
+  if (!d.subjects.length) { box.appendChild(h("p", "note", "No subjects found. Run build_questions.py first.")); return; }
+  const grid = h("div", "two");
+  d.subjects.forEach(x => {
+    const c = h("div", "card2"); c.appendChild(h("h4", null, x.subject + (x.sem ? " · " + x.sem + " sem" : "")));
+    c.appendChild(h("p", null, "Newest paper: " + x.latest + " · " + x.papers + " papers on file"));
+    c.appendChild(h("p", null, x.new_count ? x.new_count + " new question(s) in " + x.latest : "No brand-new questions in " + x.latest));
+    x.new_examples.forEach(t => c.appendChild(h("small", null, "• " + t + " ")));
+    if (x.back.length) c.appendChild(h("p", "note", "Back: " + x.back.join(", ")));
+    if (x.dropped.length) c.appendChild(h("p", "note", "Stopped appearing: " + x.dropped.join(", ")));
+    const r = h("div", "vrow"), b1 = h("button", "btn pri", "Open latest paper"), b2 = h("button", "btn", "See what changed");
+    b1.onclick = () => { go("chat"); ask("Show the latest paper of " + x.subject + (x.sem ? " " + x.sem + " sem" : "")); };
+    b2.onclick = () => { $("tsub").value = x.subject; if (x.sem) $("tsem").value = x.sem; go("tools"); setTool("anom"); $("go-anom").click(); };
+    r.append(b1, b2); c.appendChild(r); grid.appendChild(c);
+  });
+  box.appendChild(grid); box.appendChild(h("p", "note", d.note));
 }
 </script>
 </body>

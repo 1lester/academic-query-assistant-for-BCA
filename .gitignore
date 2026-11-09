@@ -6,3 +6,9 @@ evaluation_results.csv
 reimported.txt
 __pycache__/
 *.pyc
+predict_eval.csv
+hybrid_eval.csv
+QueryBuddy_v2/
+*.zip
+__pycache__/
+QueryBuddy_v2_backend/
